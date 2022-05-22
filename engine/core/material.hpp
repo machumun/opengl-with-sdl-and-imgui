@@ -1,0 +1,6 @@
+namespace hid
+{
+    struct Material
+    {
+    };
+}
