@@ -2,7 +2,7 @@
 [こちらの方](https://marcelbraghetto.github.io/)を参考にベースを作り、
 追加でImGuiを導入してデバッグしています。
 
-レンダリングのパイプラインは後々Vulkanを実装することを想定して抽象化まではしていますが
+レンダリングのパイプラインは後々Vulkanを実装することを想定して抽象化していますが
 Vulkanパイプラインの実装予定はありません。
 
 ![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/Animation2.gif)
