@@ -11,9 +11,13 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 # Feature And Plan
 
-レンダリングのパイプラインは後々Vulkanを実装することを想定して抽象化しています。
-
-直近ではシャドウマップ、Defferdレンダリング、Bloom等ポストプロセスを実装予定です。
+* クロスプラットフォーム化
+  * SDL2とOpenGLの組み合わせでWindows10, macOS, iOS, Android, WebGLをターゲットにビルドできるようにする予定です。
+  * レンダリングのパイプラインは後々Vulkanを実装することを想定して抽象化しています。  
+* 設計
+  * ゲームを作る段階で困らないように、可能な限りカプセル化を行い、明快なAPIになるように作成しています。 
+* 実装予定
+  * 直近ではシャドウマップ、Defferdレンダリング、Bloom等ポストプロセスを実装予定です。
 
 # Requirement
 
@@ -25,7 +29,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 # Installation
 
 ## windows
-```bash
+```powershell
 $ cd ${プロジェクトのルートフォルダ}/engine/build-tools/windows/
 
 $ ./setup.ps1
