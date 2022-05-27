@@ -1,7 +1,6 @@
-# opengl-with-sdl-and-imgui
+# OpenGL With SDL and ImGui
 
-OpenGLとSDL、imguiを使った自作グラフィクスエンジンです。
-Unityを触ってアプリを作る機会があったのですが、レンダリングについてわからないことが多すぎたので勉強も兼ねて自作することにしました。
+OpenGLとSDL、imguiを使った自作グラフィクスエンジンです。  Unityを触ってアプリを作る機会があったのですが、レンダリングについてわからないことが多すぎたので勉強も兼ねて自作することにしました。
 
 # DEMO
 
@@ -19,19 +18,18 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 現在開発をしているツールのバージョンです。
 
-``OpenGL 3.3``
-``VisualStudio 2022``
+``OpenGL 3.3``  ``VisualStudio 2022``
 
 
 # Installation
 
 ## windows
 ```bash
-cd ./engine/build-tools/windows/
+cd ${プロジェクトのルートフォルダ}/engine/build-tools/windows/
 
 $ ./setup.ps1
 
 $ ./cmake-post-build.ps1
 ```
 
-を実行してから、Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build-tools/windows``フォルダを開きます。
+上記を実行してから、Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build-tools/windows``フォルダを開きます。
