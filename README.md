@@ -12,7 +12,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 # Feature And Plan
 
 * クロスプラットフォーム
-  * Windows10, macOS, iOS, Android, WebGLをビルドターゲットとしてSDL2とOpenGLの組み合わせを用いています。
+  * Windows10, macOS, iOS, Android, WebGLをビルドターゲットとして想定しているので、SDL2とOpenGLの組み合わせを用いています。
 * 設計
   * 後々Vulkan(MoltenVK)パイプラインを実装することを想定して抽象化をしています。
   * ゲームを作る段階で困らないように、可能な限りカプセル化を意識しています。
