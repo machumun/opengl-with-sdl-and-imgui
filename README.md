@@ -3,10 +3,9 @@
 OpenGLとSDL、imguiを使ったグラフィクスエンジンです。  
 Unityを触ってアプリを作る機会があったのですが、レンダリングについてわからないことが多すぎたので勉強も兼ねて自作することにしました。
 
-# Requirement
+# Development Environment
 
-現在デバッグをしているツールのバージョンです。
-
+``Windows10 Home``
 ``OpenGL 3.3``  
 ``VisualStudio 2022``
 
