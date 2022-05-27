@@ -26,7 +26,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 ## windows
 ```bash
-cd ${プロジェクトのルートフォルダ}/engine/build-tools/windows/
+$ cd ${プロジェクトのルートフォルダ}/engine/build-tools/windows/
 
 $ ./setup.ps1
 
