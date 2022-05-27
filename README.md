@@ -30,7 +30,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 ## windows
 ```powershell
-$ cd ${プロジェクトのルートフォルダ}/engine/build-tools/windows/
+$ cd ${PROJECT_ROOT}/engine/build-tools/windows/
 
 $ ./setup.ps1
 
