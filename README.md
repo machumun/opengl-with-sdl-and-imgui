@@ -3,6 +3,13 @@
 OpenGLとSDL、imguiを使ったグラフィクスエンジンです。  
 Unityを触ってアプリを作る機会があったのですが、レンダリングについてわからないことが多すぎたので勉強も兼ねて自作することにしました。
 
+# Requirement
+
+現在デバッグをしているツールのバージョンです。
+
+``OpenGL 3.3``  
+``VisualStudio 2022``
+
 # DEMO
 
 ![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/readme2.gif)
@@ -19,13 +26,6 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
   * 明快なAPIであることを心がけています。
 * 今後の予定
   * シャドウマップ、Defferdレンダリング、Bloom等ポストプロセスを予定しています。
-
-# Requirement
-
-現在デバッグをしているツールのバージョンです。
-
-``OpenGL 3.3``  
-``VisualStudio 2022``
 
 # Installation
 
