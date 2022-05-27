@@ -6,7 +6,7 @@ using hid::OpenGLMesh;
 
 namespace
 {
-    GLuint createVertexBuffer(const hid::Mesh &mesh)
+    GLuint createVBO(const hid::Mesh &mesh)
     {
         std::vector<float> bufferData;
 
@@ -36,7 +36,7 @@ namespace
         return bufferId;
     }
 
-    GLuint createIndexBuffer(const hid::Mesh &mesh)
+    GLuint createEBO(const hid::Mesh &mesh)
     {
         GLuint bufferId;
         glGenBuffers(1, &bufferId);
@@ -67,10 +67,10 @@ struct OpenGLMesh::Internal
     const GLuint bufferIdVAO;
 
     // VBO
-    const GLuint bufferIdVertices;
+    const GLuint bufferIdVBO;
 
     // EBO
-    const GLuint bufferIdIndices;
+    const GLuint bufferIdEBO;
     const uint32_t numIndices;
 
     const GLsizei offsetPositionTexCoord;
@@ -79,8 +79,8 @@ struct OpenGLMesh::Internal
     const GLsizei stride;
 
     Internal(const hid::Mesh &mesh)
-        : bufferIdVertices(::createVertexBuffer(mesh)),
-          bufferIdIndices(::createIndexBuffer(mesh)),
+        : bufferIdVBO(::createVBO(mesh)),
+          bufferIdEBO(::createEBO(mesh)),
           numIndices(static_cast<uint32_t>(mesh.getIndices().size())),
           bufferIdVAO(::createVAO()),
           offsetPositionTexCoord(0),
@@ -93,9 +93,10 @@ struct OpenGLMesh::Internal
         glEnableVertexAttribArray(::ATTRIBUTE_LOCATION_NORMALS);
 
         // vbo
-        glBindBuffer(GL_ARRAY_BUFFER, bufferIdVertices);
+        glBindBuffer(GL_ARRAY_BUFFER, bufferIdVBO);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferIdIndices);
+        // ebo
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferIdEBO);
 
         glVertexAttribPointer(
             ::ATTRIBUTE_LOCATION_POSITIONS,
@@ -121,6 +122,7 @@ struct OpenGLMesh::Internal
             stride,
             reinterpret_cast<const GLvoid *>(offsetPositionNormal));
 
+        // unbind
         glBindVertexArray(0);
     }
 
@@ -130,8 +132,8 @@ struct OpenGLMesh::Internal
         glDisableVertexAttribArray(::ATTRIBUTE_LOCATION_TEXTUREUV);
         glDisableVertexAttribArray(::ATTRIBUTE_LOCATION_NORMALS);
 
-        glDeleteBuffers(1, &bufferIdVertices);
-        glDeleteBuffers(1, &bufferIdIndices);
+        glDeleteBuffers(1, &bufferIdVBO);
+        glDeleteBuffers(1, &bufferIdEBO);
     }
 
     // as a mesh renderer
@@ -143,6 +145,7 @@ struct OpenGLMesh::Internal
             numIndices,
             GL_UNSIGNED_INT,
             reinterpret_cast<const GLvoid *>(0));
+        glBindVertexArray(0);
     }
 };
 
@@ -150,12 +153,12 @@ OpenGLMesh::OpenGLMesh(const hid::Mesh &mesh) : internal(hid::make_internal_ptr<
 
 const GLuint &OpenGLMesh::getVertexBufferId() const
 {
-    return internal->bufferIdVertices;
+    return internal->bufferIdVBO;
 }
 
 const GLuint &OpenGLMesh::getIndexBufferId() const
 {
-    return internal->bufferIdIndices;
+    return internal->bufferIdEBO;
 }
 
 const uint32_t &OpenGLMesh::getNumIndices() const

@@ -115,16 +115,15 @@ struct SceneMain::Internal
 
         if (sharedUserData->isActive)
         {
-            staticMeshesLit[0].rotateBy(delta * sharedUserData->rotateSpeed);
-            staticMeshesLit[1].rotateBy(delta * sharedUserData->rotateSpeed);
+            staticMeshesLit.at(0).rotateBy(delta * sharedUserData->rotateSpeed);
+            staticMeshesLit.at(1).rotateBy(delta * sharedUserData->rotateSpeed);
         }
 
-        staticMeshesLit[0].updateModelMatrix();
-        staticMeshesLit[1].updateModelMatrix();
-        // staticMeshesLit[2].updateModelMatrix();
+        staticMeshesLit.at(0).updateModelMatrix();
+        staticMeshesLit.at(1).updateModelMatrix();
 
-        lightInstance[0].setPosition(sharedUserData->pointLightPosition);
-        lightInstance[0].updateModelMatrix();
+        lightInstance.at(0).setPosition(sharedUserData->pointLightPosition);
+        lightInstance.at(0).updateModelMatrix();
 
         // for (auto& staticMesh : staticMeshesUnlit)
         // {

@@ -12,14 +12,11 @@ using hid::OpenGLPipeline;
 
 struct OpenGLPipeline::Internal
 {
-
     const hid::OpenGLShader shader;
-    const hid::OpenGLShader defaultShader;
 
     // texcoordはvectorの0,1,2の後3から始まるため3 * sizeof(float)
     Internal(const std::string &shaderName)
-        : shader(hid::OpenGLShader(shaderName)),
-          defaultShader(hid::OpenGLShader("default"))
+        : shader(hid::OpenGLShader(shaderName))
     {
     }
 
@@ -28,13 +25,12 @@ struct OpenGLPipeline::Internal
         const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
         const hid::PerspectiveCamera &camera) const
     {
-        defaultShader.use();
-
-        defaultShader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
+        shader.use();
+        shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
         for (const auto &staticMeshInstance : staticMeshInstances)
         {
-            defaultShader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
+            shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
             assetManager.getTexture(staticMeshInstance.getTexture()).bind();
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
@@ -61,7 +57,6 @@ struct OpenGLPipeline::Internal
         for (const auto &staticMeshInstance : staticMeshInstances)
         {
             shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
-            // shader.setMat4("u_modelMatrix", &staticMeshInstance.getTransformMatrix()[0][0]);
             assetManager.getTexture(staticMeshInstance.getTexture()).bind();
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
