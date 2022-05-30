@@ -62,7 +62,7 @@ namespace
         GLint shaderProgramLinkResult;
         glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &shaderProgramLinkResult);
 
-        // エラー処理
+
         if (!shaderProgramLinkResult)
         {
             GLint errorMessageLength;

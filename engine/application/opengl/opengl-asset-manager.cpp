@@ -6,7 +6,7 @@ using hid::OpenGLAssetManager;
 
 struct OpenGLAssetManager::Internal
 {
-    // キャッシュのストレージとして機能するunordered_map郡
+
     std::unordered_map<hid::assets::Pipeline, hid::OpenGLPipeline> pipelineCache;
     std::unordered_map<hid::assets::StaticMesh, hid::OpenGLMesh> staticMeshCache;
     std::unordered_map<hid::assets::Texture, hid::OpenGLTexture> textureCache;

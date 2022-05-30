@@ -1,4 +1,3 @@
-// utilsはユーザーの為の便利関数セットとする
 #pragma once
 #include <memory>
 

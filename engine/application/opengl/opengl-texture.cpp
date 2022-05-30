@@ -1,5 +1,7 @@
 #include "opengl-texture.hpp"
 
+#include "../../core/log.hpp"
+
 #include <iostream>
 
 using hid::OpenGLTexture;
@@ -8,6 +10,7 @@ namespace
 {
     GLuint createTexture(const hid::Bitmap &bitmap)
     {
+        static const std::string logTag{"hid::OpenGLApplication::createBitmapTexture"};
         GLuint textureId;
         glGenTextures(1, &textureId);
         glBindTexture(GL_TEXTURE_2D, textureId);
@@ -25,6 +28,8 @@ namespace
             bitmap.getPixelData());
         glGenerateMipmap(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, 0);
+
+        hid::log(logTag, "Created Bitmap Texture Id: " + std::to_string(textureId));
 
         return textureId;
     }

@@ -13,9 +13,6 @@ in vec2 v_texCoord;
 in vec3 v_normal;
 in vec3 v_vertexPosition;
 
-// in vec4 gl_FragCoord;
-// in bool gl_FrontFacing;
-// in vec2 gl_PointCoord;
 
 float near = 0.01f;
 float far = 100.0f;
@@ -50,23 +47,37 @@ void main()
 
     vec4 result = (ambient+diffuse*attenuation)*texture2D(u_sampler, v_texCoord);
 
-    FragColor = result;
+    
     // float depth = logisticDepth(gl_FragCoord.z, 0.5f, 0.5f);
     // FragColor = vec4(vec3(linearlizeDepth(gl_FragCoord.z) / far),1.0f);
     // FragColor = result*(1.0f - depth) + vec4(depth * vec3(0.85f,0.85f,0.90f),1.0f);
     // FragColor = vec4(1.0f,.0f,.0f,1.0f);
 
-    // if(FragColor.r > 0.05f){
-    //     FragColor.r *= 5.0f;
+    
+
+    FragColor = result;
+
+    // if(result.r > 0.05f){
+    //     result.r *= 5.0f;
     // }
+    //  if(result.g > 0.05f){
+    //     result.g *= 5.0f;
+    // }
+    //  if(result.b > 0.05f){
+    //     result.b *= 5.0f;
+    // }
+
+    // BloomColor = result;
 
     // FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
-    float brightness = dot(FragColor.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
-    if(brightness > 0.15f){
-        BloomColor = vec4(FragColor.rgb, 1.0f);
-    }else{
-        BloomColor = vec4(.0f, .0f, .0f, 1.0f);
-    }
+    // float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
+    // if(brightness > 0.5f){
+    //     BloomColor = vec4(result.rgb, 1.0f);
+    // }else{
+    //     BloomColor = vec4(.0f, .0f, .0f, 1.0f);
+    // }
+    // BloomColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    BloomColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 }
 

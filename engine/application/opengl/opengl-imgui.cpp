@@ -27,7 +27,7 @@ struct OpenGLGui::Internal
         setup(window, context);
     }
 
-    //こいつはnull
+
     std::function<void()> userImGui;
     void setup(SDL_Window *window, SDL_GLContext context)
     {
@@ -49,7 +49,7 @@ struct OpenGLGui::Internal
         ImGui_ImplSDL2_NewFrame(window);
         ImGui::NewFrame();
 
-        //ここにユーザーが定義したutilimg構造体をいれればいい
+
         if (!(userImGui == nullptr))
         {
             userImGui();

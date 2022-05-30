@@ -8,20 +8,6 @@
 
 namespace hid
 {
-    struct Vec4
-    {
-        float x, y, z, w;
-        // ImVec4 imVec4;
-        // glm::vec4 glmVec4;
-
-        Vec4() : x(float(1.0f)), y(float(1.0f)), z(float(1.0f)), w(float(1.0f)){};
-    };
-
-    // struct Position
-    // {
-    //     float r, g, b, a;
-    //     Color() : r(float(1.0f)), g(float(1.0f)), b(float(1.0f)), a(float(1.0f)){};
-    // };
 
     struct Dat
     {
@@ -39,13 +25,13 @@ namespace hid
 
         Dat() : isActive(true),
                 show_another_window(false),
-                pointLightStrength(float(1.0f)),
+                pointLightStrength(float(0.714f)),
 
                 pointLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 
                 pointLightPosition(glm::vec3(1.0f, 1.0f, 1.0f)),
 
-                ambientLightStrength(float(.2f)),
+                ambientLightStrength(float(.073f)),
 
                 ambientLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 

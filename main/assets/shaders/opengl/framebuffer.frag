@@ -1,8 +1,9 @@
+uniform sampler2D u_screenTexture; //GL_COLOR_ATTACHMENT0
+uniform sampler2D u_bloomTexture; //GL_COLOR_ATTACHMENT1
+
 out vec4 FragColor;
 in vec2 v_texCoords;
 
-uniform sampler2D u_screenTexture; //color attachment 0
-uniform sampler2D u_bloomTexture; // color attachment 1
 uniform float gamma;
 
 void main()

@@ -83,8 +83,6 @@ hid::Mesh hid::assets::loadOBJFile(const std::string &path)
             // Construct a vertex with the extracted data.
             hid::Vertex vertex{position, normal, texCoord};
 
-            // 重複回避
-            if (uniqueVertices.count(vertex) == 0)
             {
                 uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
                 vertices.push_back(vertex);

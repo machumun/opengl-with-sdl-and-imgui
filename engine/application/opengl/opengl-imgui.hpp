@@ -15,7 +15,7 @@ namespace hid
         void cleanUpImGui();
         void render();
 
-        // この関数ポインタにusrが制作したImGuiをセットをする
+
         void setUserImGui(std::function<void()>);
 
     private:

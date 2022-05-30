@@ -1,6 +1,6 @@
 #include "../../engine/core/engine.hpp"
 #include "../../engine/core/sdl-wrapper.hpp"
-// imguiで共有するようのユーザーデータ
+
 #include "../../engine/core/dat.hpp"
 
 #include <functional>

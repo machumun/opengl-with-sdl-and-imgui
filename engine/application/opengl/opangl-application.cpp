@@ -32,8 +32,8 @@ namespace
         glDepthFunc(GL_LEQUAL);
 
         glEnable(GL_CULL_FACE);
-        // glCullFace(GL_FRONT);
-        // glFrontFace(GL_CCW);
+        glCullFace(GL_FRONT);
+        glFrontFace(GL_CW);
 
         glEnable(GL_MULTISAMPLE);
 
@@ -98,7 +98,6 @@ struct hid::OpenGLApplication::Internal
         getScene().update(delta);
     }
 
-    //  メインループのrunMainLoop()で実行される。
     void render()
     {
         SDL_GL_MakeCurrent(window, context);
@@ -135,7 +134,6 @@ struct hid::OpenGLApplication::Internal
     }
 };
 
-// OpenGLのコンストラクタでインターナル構造体のポインター初期化
 hid::OpenGLApplication::OpenGLApplication() : internal(hid::make_internal_ptr<Internal>()) {}
 
 void hid::OpenGLApplication::render()

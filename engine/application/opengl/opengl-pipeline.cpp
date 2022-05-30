@@ -9,22 +9,28 @@
 #include <stdexcept>
 #include <vector>
 
+// debug
+// #include <typeinfo>
+// #include <iostream>
+
 using hid::OpenGLPipeline;
 
 namespace
 {
     uint32_t viewportWidth = hid::sdl::getDisplaySize().first;
     uint32_t viewportHeight = hid::sdl::getDisplaySize().second;
-    GLuint createFramebufferTexture(GLuint attachment)
+
+    GLuint createFramebufferTexture(GLuint fbo, GLuint internalFormat, GLuint attachment)
     {
 
         static const std::string logTag{"hid::OpenGLApplication::createFramebufferTexture"};
         GLuint textureId;
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         glGenTextures(1, &textureId);
         glBindTexture(GL_TEXTURE_2D, textureId);
         glTexImage2D(GL_TEXTURE_2D,
                      0,
-                     GL_RGB16F,
+                     internalFormat,
                      viewportWidth,
                      viewportHeight,
                      0,
@@ -38,8 +44,12 @@ namespace
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, textureId, 0);
 
-        hid::log(logTag, "Created Framebuffer Texture: " + attachment + std::to_string(viewportWidth) + " x " + std::to_string(viewportHeight));
+        // unbind
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+        hid::log(logTag, "Created Framebuffer Texture Id: " + std::to_string(textureId) + " Size:" + std::to_string(viewportWidth) + " x " + std::to_string(viewportHeight));
+        // std::cout << typeid(GL_RGB16F).name() << std::endl;
         return textureId;
     }
     const float rectangleVertices[] =
@@ -52,6 +62,16 @@ namespace
             -1.0f, 1.0f, 0.0f, 1.0f,
             1.0f, -1.0f, 1.0f, 0.0f,
             1.0f, 1.0f, 1.0f, 1.0f};
+
+    // float rectangleVertices[] =
+    //     {
+    //         1.0f, -1.0f, 1.0f, 0.0f,
+    //         -1.0f, -1.0f, 0.0f, 0.0f,
+    //         -1.0f, 1.0f, 0.0f, 1.0f,
+
+    //         1.0f, 1.0f, 1.0f, 1.0f,
+    //         1.0f, -1.0f, 1.0f, 0.0f,
+    //         -1.0f, 1.0f, 0.0f, 1.0f};
 
     GLuint createFramebufferVAO()
     {
@@ -66,14 +86,29 @@ namespace
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
 
+        // unbind
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
         return rectVAO;
+    }
+
+    GLuint createRenderBuffer(GLuint fbo)
+    {
+        GLuint renderBufferId;
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glGenRenderbuffers(1, &renderBufferId);
+        glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, viewportWidth, viewportHeight);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderBufferId);
+        glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        return renderBufferId;
     }
 
     GLuint createFBO()
     {
         GLuint fbo;
         glGenFramebuffers(1, &fbo);
-        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         return fbo;
     }
 }
@@ -91,22 +126,31 @@ struct OpenGLPipeline::Internal
     const GLuint postProcessingTextureId;
     const GLuint bloomTextureId;
 
+    const GLuint depthRenderBufferId;
+
     const GLuint framebufferVAO;
 
     GLuint pingpongFBO[2];
-    GLuint pingpongBuffer[2];
+    GLuint pingpongBufferTexture[2];
+    GLuint pingpongDepthRenderBufferId[2];
 
-    // texcoordはvectorの0,1,2の後3から始まるため3 * sizeof(float)
+    const int pingpongAmount;
+
     Internal(const std::string &vertShaderName, const std::string &fragShaderName)
         : shader(hid::OpenGLShader(vertShaderName, fragShaderName)),
           blurProgram(hid::OpenGLShader("framebuffer", "blur")),
           framebufferProgram(hid::OpenGLShader("framebuffer", "framebuffer")),
           framebufferVAO(::createFramebufferVAO()),
+
           postProcessingFBO(::createFBO()),
-          bloomTextureId(::createFramebufferTexture(GL_COLOR_ATTACHMENT0)),
-          postProcessingTextureId(::createFramebufferTexture(GL_COLOR_ATTACHMENT1)),
-          gamma(2.2f)
+          postProcessingTextureId(::createFramebufferTexture(postProcessingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)),
+          bloomTextureId(::createFramebufferTexture(postProcessingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)),
+          depthRenderBufferId(::createRenderBuffer(postProcessingFBO)),
+          gamma(2.2f),
+          pingpongAmount(2)
+
     {
+
         framebufferProgram.use();
         framebufferProgram.setInt("u_screenTexture", 0);
         framebufferProgram.setInt("u_bloomTexture", 1);
@@ -118,34 +162,34 @@ struct OpenGLPipeline::Internal
         GLuint attatchments[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
 
         // tell opengl use this attachment
+        glBindFramebuffer(GL_FRAMEBUFFER, postProcessingFBO);
         glDrawBuffers(2, attatchments);
+        // glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // create pingpong framebuffer for repetitive bluring
-        glGenFramebuffers(2, pingpongFBO);
-        glGenTextures(2, pingpongBuffer);
+        // pinpongFBO
+        // glGenFramebuffers(2, pingpongFBO);
+        pingpongFBO[0] = ::createFBO();
+        pingpongFBO[1] = ::createFBO();
+        pingpongBufferTexture[0] = ::createFramebufferTexture(pingpongFBO[0], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
+        pingpongBufferTexture[1] = ::createFramebufferTexture(pingpongFBO[1], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
 
-        for (int i = 0; i < 2; ++i)
+        hid::log("hid::OpenGLApplication::Constructor: ppBT[0]:", std::to_string(pingpongBufferTexture[0]));
+        hid::log("hid::OpenGLApplication::Constructor: ppBT[1]:", std::to_string(pingpongBufferTexture[1]));
+
+        GLenum pingpongAttatchment[1] = {GL_COLOR_ATTACHMENT0};
+
+        glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[0]);
+        glDrawBuffers(1, pingpongAttatchment);
+        glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[1]);
+        glDrawBuffers(1, pingpongAttatchment);
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[i]);
-            glBindTexture(GL_TEXTURE_2D, pingpongBuffer[i]);
-            glTexImage2D(GL_TEXTURE_2D,
-                         0, GL_RGBA16F,
-                         ::viewportWidth,
-                         ::viewportHeight,
-                         0, GL_RGB,
-                         GL_UNSIGNED_BYTE,
-                         NULL);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glFramebufferTexture2D(GL_FRAMEBUFFER,
-                                   GL_COLOR_ATTACHMENT0,
-                                   GL_TEXTURE_2D,
-                                   pingpongBuffer[i],
-                                   0);
+            return;
         }
+
+        // frame buffer bind clear
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     void render(
@@ -173,10 +217,18 @@ struct OpenGLPipeline::Internal
 
         // bind postprocess framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, postProcessingFBO);
-        // glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-        glClearColor(0.0f, .0f, .0f, 1.0f);
+
+        // glBindTexture(GL_TEXTURE_2D, bloomTextureId);
+
+        // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomTextureId, 0);
+
+        // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClearColor(.8f, .8f, .8f, 1.0f);
+        // glClearColor(0.0f, .0f, .0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // glEnable(GL_DEPTH_TEST);
+        glEnable(GL_DEPTH_TEST);
+
+        glDepthFunc(GL_LEQUAL);
 
         // draw the normal models
         shader.use();
@@ -200,48 +252,53 @@ struct OpenGLPipeline::Internal
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
 
+        // glBindVertexArray(framebufferVAO);
+        // glDisable(GL_DEPTH_TEST);
+        // glDrawArrays(GL_TRIANGLES, 0, 6);
+
         // blur pass
 
         bool firstIteration = true;
         bool horizontal = true;
-        int amount = 8;
+
         blurProgram.use();
-        for (int i = 0; i < amount; ++i)
+
+        for (int i = 0; i < pingpongAmount; ++i)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
             blurProgram.setInt("horizontal", horizontal);
+            // blurProgram.setInt("u_screenTexture", 0);
+
             if (firstIteration)
             {
+                // hid::log("hid::OpenGLApplication::render: blur loop:", std::to_string(i));
                 glBindTexture(GL_TEXTURE_2D, bloomTextureId);
                 firstIteration = false;
             }
             else
             {
-                glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!horizontal]);
+                glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
             }
-            // Render the image
+
             glBindVertexArray(framebufferVAO);
             glDisable(GL_DEPTH_TEST);
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
-            // Switch between vertical and horizontal blurring if (horizontal)
+            // glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
             horizontal = !horizontal;
         }
 
         // framebuffer program
-
-        // // Bind the default framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        // // Draw the framebuffer rectangle
-
         framebufferProgram.use();
         glBindVertexArray(framebufferVAO);
         glDisable(GL_DEPTH_TEST);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, postProcessingTextureId);
         glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, pingpongBuffer[!horizontal]);
+        // glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
+        glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[0]);
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 
