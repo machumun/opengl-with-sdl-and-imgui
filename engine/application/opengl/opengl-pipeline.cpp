@@ -45,7 +45,7 @@ namespace
         glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, textureId, 0);
 
         // unbind
-        glBindTexture(GL_TEXTURE_2D, 0);
+        // glBindTexture(GL_TEXTURE_2D, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         hid::log(logTag, "Created Framebuffer Texture Id: " + std::to_string(textureId) + " Size:" + std::to_string(viewportWidth) + " x " + std::to_string(viewportHeight));
@@ -173,8 +173,8 @@ struct OpenGLPipeline::Internal
         pingpongBufferTexture[0] = ::createFramebufferTexture(pingpongFBO[0], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
         pingpongBufferTexture[1] = ::createFramebufferTexture(pingpongFBO[1], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
 
-        hid::log("hid::OpenGLApplication::Constructor: ppBT[0]:", std::to_string(pingpongBufferTexture[0]));
-        hid::log("hid::OpenGLApplication::Constructor: ppBT[1]:", std::to_string(pingpongBufferTexture[1]));
+        // hid::log("hid::OpenGLApplication::Constructor: ppBT[0]:", std::to_string(pingpongBufferTexture[0]));
+        // hid::log("hid::OpenGLApplication::Constructor: ppBT[1]:", std::to_string(pingpongBufferTexture[1]));
 
         GLenum pingpongAttatchment[1] = {GL_COLOR_ATTACHMENT0};
 
