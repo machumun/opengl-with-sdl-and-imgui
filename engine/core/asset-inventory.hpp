@@ -7,8 +7,9 @@ namespace hid::assets
 
     enum class Pipeline
     {
-        Default,
-        Lit
+        DefaultPass,
+        LitPass,
+        BlurPass
     };
 
     enum class StaticMesh
@@ -25,7 +26,7 @@ namespace hid::assets
         Hamster,
     };
 
-    std::string resolvePipelinePath(const hid::assets::Pipeline &pipeline);
+    std::pair<std::string, std::string> resolvePipelinePath(const hid::assets::Pipeline &pipeline);
     std::string resolveStaticMeshPath(const hid::assets::StaticMesh &staticMesh);
     std::string resolveTexturePath(const hid::assets::Texture &texture);
 }

@@ -35,13 +35,13 @@ namespace
         return shaderId;
     }
 
-    GLuint createShaderProgram(const std::string &shaderName)
+    GLuint createShaderProgram(const std::string &vertShaderName, const std::string &fragShaderName)
     {
         const std::string logTag("hid::OpenGLShader::createShaderProgram");
-        hid::log(logTag, "Creating pipeline for '" + shaderName + "'");
+        hid::log(logTag, "Creating pipeline for '" + vertShaderName + "->" + fragShaderName + "'");
 
-        const std::string vertexShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + shaderName + ".vert")};
-        const std::string fragmentShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + shaderName + ".frag")};
+        const std::string vertexShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + vertShaderName + ".vert")};
+        const std::string fragmentShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + fragShaderName + ".frag")};
 
 #ifdef USING_GLES
         std::string vertexShaderSource{"#version 100\n" + vertexShaderCode};
@@ -70,7 +70,7 @@ namespace
             std::vector<char> errorMessage(errorMessageLength + 1);
             glGetProgramInfoLog(shaderProgramId, errorMessageLength, nullptr, &errorMessage[0]);
             hid::log(logTag, &errorMessage[0]);
-            throw std::runtime_error(logTag + shaderName + "Shader program failed to compile.");
+            throw std::runtime_error(logTag + vertShaderName + "Shader program failed to compile.");
         }
 
         glDetachShader(shaderProgramId, vertexShaderId);
@@ -87,8 +87,8 @@ struct OpenGLShader::Internal
 {
     const GLuint shaderProgramId;
 
-    Internal(const std::string &shaderName)
-        : shaderProgramId(::createShaderProgram(shaderName)) {}
+    Internal(const std::string &vertShaderName, const std::string &fragShaderName)
+        : shaderProgramId(::createShaderProgram(vertShaderName, fragShaderName)) {}
 
     void use()
     {
@@ -137,10 +137,10 @@ struct OpenGLShader::Internal
     }
 };
 
-OpenGLShader::OpenGLShader(const std::string &shaderName)
-    : internal(hid::make_internal_ptr<Internal>(shaderName)) {}
+OpenGLShader::OpenGLShader(const std::string &vertShaderName, const std::string &fragShaderName)
+    : internal(hid::make_internal_ptr<Internal>(vertShaderName, fragShaderName)) {}
 
-GLuint OpenGLShader::getShaderProgramId()
+GLuint OpenGLShader::getShaderProgramId() const
 {
     return internal->shaderProgramId;
 }

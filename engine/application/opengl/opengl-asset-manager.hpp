@@ -17,7 +17,7 @@ namespace hid
 
         void loadTextures(const std::vector<hid::assets::Texture> &textures) override;
 
-        const hid::OpenGLPipeline &getPipeline(const hid::assets::Pipeline &pipeline) const;
+        hid::OpenGLPipeline &getPipeline(const hid::assets::Pipeline &pipeline);
 
         const hid::OpenGLMesh &getStaticMesh(const hid::assets::StaticMesh &staticMesh) const;
 

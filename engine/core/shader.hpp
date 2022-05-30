@@ -19,7 +19,5 @@ namespace hid
         virtual void setMat4(const std::string &name, float *value) const = 0;
 
         virtual void release() const = 0;
-
-        virtual unsigned int getShaderProgramId() = 0;
     };
 }

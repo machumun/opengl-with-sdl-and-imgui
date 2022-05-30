@@ -53,8 +53,9 @@ struct SceneMain::Internal
         userData->rotateSpeed = 50.0f;
         sharedUserData = userData;
 
-        assetManager.loadPipelines({hid::assets::Pipeline::Default});
-        assetManager.loadPipelines({hid::assets::Pipeline::Lit});
+        // assetManager.loadPipelines({hid::assets::Pipeline::DefaultPass});
+        assetManager.loadPipelines({hid::assets::Pipeline::LitPass});
+        // assetManager.loadPipelines({hid::assets::Pipeline::BlurPass});
 
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Hamster});
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Plane});
@@ -154,8 +155,8 @@ struct SceneMain::Internal
 
     void render(hid::Renderer& renderer)
     {
-        renderer.render(hid::assets::Pipeline::Lit, staticMeshesLit, camera, lightSettings);
-        renderer.render(hid::assets::Pipeline::Default, lightInstance, camera);
+        renderer.render(hid::assets::Pipeline::LitPass, staticMeshesLit, camera, lightSettings);
+        // renderer.render(hid::assets::Pipeline::DefaultPass, lightInstance, camera);
     }
 
     void input(const float& delta)

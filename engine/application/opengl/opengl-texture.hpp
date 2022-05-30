@@ -2,6 +2,9 @@
 
 #include "../../core/bitmap.hpp"
 #include "../../core/internal-ptr.hpp"
+#include "../../core/graphics-wrapper.hpp"
+
+#include "opengl-shader.hpp"
 
 namespace hid
 {
@@ -9,6 +12,7 @@ namespace hid
     {
         OpenGLTexture(const hid::Bitmap &bitmap);
         void bind() const;
+        GLuint getTextureId() const;
 
     private:
         struct Internal;

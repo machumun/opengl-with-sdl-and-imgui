@@ -1,16 +1,17 @@
 #include "asset-inventory.hpp"
 
-std::string hid::assets::resolvePipelinePath(const hid::assets::Pipeline &pipeline)
+std::pair<std::string, std::string> hid::assets::resolvePipelinePath(const hid::assets::Pipeline &pipeline)
 {
     switch (pipeline)
     {
-    case hid::assets::Pipeline::Default:
-        return "default";
-    case hid::assets::Pipeline::Lit:
-        return "lit";
-
+    case hid::assets::Pipeline::DefaultPass:
+        return {"default", "default"};
+    case hid::assets::Pipeline::LitPass:
+        return {"lit", "lit"};
+    case hid::assets::Pipeline::BlurPass:
+        return {"lit", "blur"};
     default:
-        return "default";
+        return {"default", "default"};
     }
 }
 

@@ -20,9 +20,10 @@ struct OpenGLAssetManager::Internal
 
             if (pipelineCache.count(pipeline) == 0)
             {
+                std::pair<std::string, std::string> pass = hid::assets::resolvePipelinePath(pipeline);
                 pipelineCache.insert(std::make_pair(
                     pipeline,
-                    hid::OpenGLPipeline(hid::assets::resolvePipelinePath(pipeline))));
+                    hid::OpenGLPipeline(pass.first, pass.second)));
             }
         }
     }
@@ -71,7 +72,7 @@ void OpenGLAssetManager::loadTextures(const std::vector<hid::assets::Texture> &t
     internal->loadTextures(textures);
 }
 
-const hid::OpenGLPipeline &OpenGLAssetManager::getPipeline(const hid::assets::Pipeline &pipeline) const
+hid::OpenGLPipeline &OpenGLAssetManager::getPipeline(const hid::assets::Pipeline &pipeline)
 {
     return internal->pipelineCache.at(pipeline);
 }

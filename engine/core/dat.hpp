@@ -37,15 +37,15 @@ namespace hid
         float ambientLightStrength;
         glm::vec4 ambientLightColor;
 
-        Dat() : isActive(false),
+        Dat() : isActive(true),
                 show_another_window(false),
-                pointLightStrength(float(.5f)),
+                pointLightStrength(float(1.0f)),
 
                 pointLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 
                 pointLightPosition(glm::vec3(1.0f, 1.0f, 1.0f)),
 
-                ambientLightStrength(float(.5f)),
+                ambientLightStrength(float(.2f)),
 
                 ambientLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 

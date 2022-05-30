@@ -13,19 +13,19 @@ namespace hid
 
     struct OpenGLPipeline
     {
-        OpenGLPipeline(const std::string &shaderName);
+        OpenGLPipeline(const std::string &vertShaderName, const std::string &fragShaderName);
 
         // unlit
         void render(
             const hid::OpenGLAssetManager &assetManager,
             const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-            const hid::PerspectiveCamera &camera) const;
+            const hid::PerspectiveCamera &camera);
 
         void render(
             const hid::OpenGLAssetManager &assetManager,
             const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
             const hid::PerspectiveCamera &camera,
-            const hid::LightSettings &lightSettings) const;
+            const hid::LightSettings &lightSettings);
 
     private:
         struct Internal;

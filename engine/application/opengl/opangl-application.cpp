@@ -30,7 +30,13 @@ namespace
         glClearDepthf(1.0f);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
+
         glEnable(GL_CULL_FACE);
+        // glCullFace(GL_FRONT);
+        // glFrontFace(GL_CCW);
+
+        glEnable(GL_MULTISAMPLE);
+
         glViewport(0, 0, viewportWidth, viewportHeight);
 
         return context;
@@ -98,9 +104,6 @@ struct hid::OpenGLApplication::Internal
         SDL_GL_MakeCurrent(window, context);
 
         imgui->loopImGui(window);
-
-        glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         getScene().render(renderer);
         imgui->render();

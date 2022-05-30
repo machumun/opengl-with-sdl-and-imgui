@@ -1,5 +1,7 @@
-
 uniform sampler2D u_sampler;
+
+layout (location = 0) out vec4 FragColor;
+layout (location = 1) out vec4 BloomColor;
 
 uniform vec3 u_pointLightPosition;
 uniform vec4 u_pointLightColor;
@@ -14,8 +16,6 @@ in vec3 v_vertexPosition;
 // in vec4 gl_FragCoord;
 // in bool gl_FrontFacing;
 // in vec2 gl_PointCoord;
-
-out vec4 FragColor;
 
 float near = 0.01f;
 float far = 100.0f;
@@ -55,5 +55,18 @@ void main()
     // FragColor = vec4(vec3(linearlizeDepth(gl_FragCoord.z) / far),1.0f);
     // FragColor = result*(1.0f - depth) + vec4(depth * vec3(0.85f,0.85f,0.90f),1.0f);
     // FragColor = vec4(1.0f,.0f,.0f,1.0f);
+
+    // if(FragColor.r > 0.05f){
+    //     FragColor.r *= 5.0f;
+    // }
+
+    // FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+    float brightness = dot(FragColor.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
+    if(brightness > 0.15f){
+        BloomColor = vec4(FragColor.rgb, 1.0f);
+    }else{
+        BloomColor = vec4(.0f, .0f, .0f, 1.0f);
+    }
 }
 

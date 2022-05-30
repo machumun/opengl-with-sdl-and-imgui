@@ -1,5 +1,4 @@
 #include "opengl-texture.hpp"
-#include "../../core/graphics-wrapper.hpp"
 
 #include <iostream>
 
@@ -25,6 +24,7 @@ namespace
             GL_UNSIGNED_BYTE,
             bitmap.getPixelData());
         glGenerateMipmap(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
         return textureId;
     }
@@ -48,4 +48,10 @@ OpenGLTexture::OpenGLTexture(const hid::Bitmap &bitmap)
 void OpenGLTexture::bind() const
 {
     glBindTexture(GL_TEXTURE_2D, internal->textureId);
+    // shader.setInt(uniformName, internal->textureId);
 }
+
+GLuint OpenGLTexture::getTextureId() const
+{
+    return internal->textureId;
+};
