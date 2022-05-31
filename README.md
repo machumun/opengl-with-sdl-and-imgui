@@ -15,7 +15,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 ハムスターのモデルは[こちらから](https://sketchfab.com/3d-models/hamtaro-7d195612e7814905aa1bfefd13b80be1)お借りしました。
 
-## Bloom  
+## ・Bloom  
 
 ![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/bloom.png)
 
@@ -28,7 +28,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
   * 後々Vulkan(MoltenVK)に対応することを想定して抽象化をしています。
   * ゲームを作る段階で困らないように、明快なAPIであることを心がけています。
 * 今後の予定
-  * シャドウマップ、Defferdレンダリング、Bloom等ポストプロセスを予定しています。
+  * シャドウマップ、Defferdレンダリングの実装。
 * 課題
   * モデルをレンダリングするプロセスが最善ではないので、設計を模索しています。
 
