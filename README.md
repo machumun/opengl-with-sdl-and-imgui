@@ -15,6 +15,11 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 ハムスターのモデルは[こちらから](https://sketchfab.com/3d-models/hamtaro-7d195612e7814905aa1bfefd13b80be1)お借りしました。
 
+## Bloom  
+
+![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/bloom.png)
+
+
 # Feature And Plan
 
 * クロスプラットフォーム
