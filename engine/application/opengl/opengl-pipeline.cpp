@@ -118,8 +118,6 @@ struct OpenGLPipeline::Internal
     const hid::OpenGLShader blurProgram;
     const hid::OpenGLShader framebufferProgram;
 
-    const float gamma;
-
     const GLuint postProcessingFBO;
 
     const GLuint postProcessingTextureId;
@@ -147,15 +145,14 @@ struct OpenGLPipeline::Internal
           postProcessingTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)},
           bloomTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)},
           depthRenderBufferId{::createRenderBuffer(postProcessingFBO)},
-          gamma{2.2f},
-          pingpongAmount{100},
+
+          pingpongAmount{10},
           attatchments{GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1}
     {
 
         framebufferProgram.use();
         framebufferProgram.setInt("u_screenTexture", 0);
         framebufferProgram.setInt("u_bloomTexture", 1);
-        framebufferProgram.setFloat("gamma", gamma);
 
         blurProgram.use();
         blurProgram.setInt("u_bloomTexture", 1);
@@ -223,6 +220,7 @@ struct OpenGLPipeline::Internal
         bool firstIteration = true;
         bool horizontal = true;
         blurProgram.use();
+
         for (int i = 0; i < pingpongAmount; ++i)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
@@ -249,7 +247,8 @@ struct OpenGLPipeline::Internal
         // framebuffer program
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         framebufferProgram.use();
-
+        framebufferProgram.setFloat("gamma", lightSettings.gamma);
+        framebufferProgram.setBool("bloom", lightSettings.bloom);
         glBindVertexArray(framebufferVAO);
         glDisable(GL_DEPTH_TEST);
         glActiveTexture(GL_TEXTURE0);

@@ -23,19 +23,26 @@ namespace hid
         float ambientLightStrength;
         glm::vec4 ambientLightColor;
 
-        Dat() : isActive(true),
-                show_another_window(false),
-                pointLightStrength(float(0.714f)),
+        float gamma;
+
+        bool bloom;
+
+        Dat() : isActive{true},
+                show_another_window{false},
+                pointLightStrength{float(0.714f)},
 
                 pointLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 
                 pointLightPosition(glm::vec3(1.0f, 1.0f, 1.0f)),
 
-                ambientLightStrength(float(.073f)),
+                ambientLightStrength{.073f},
 
                 ambientLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 
-                rotateSpeed(float(.0f))
+                rotateSpeed{.0f},
+
+                gamma{2.2f},
+                bloom{true}
         {
         }
 

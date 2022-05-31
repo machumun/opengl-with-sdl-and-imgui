@@ -37,7 +37,7 @@ void main()
     float lightDist = length(lightVec);
     float a = 3.0f;
     float b = 0.7f;
-    float attenuation = 1.0f / (a*lightDist*lightDist + lightDist*b + 1.0f);
+    float attenuation = 1.0f / ((a*lightDist + b)*lightDist + 1.0f);
     // Attenuation coefficient of light
     
 
@@ -57,6 +57,8 @@ void main()
 
     FragColor = result;
 
+    // BloomColor = result;
+
     // if(result.r > 0.05f){
     //     result.r *= 5.0f;
     // }
@@ -66,6 +68,8 @@ void main()
     //  if(result.b > 0.05f){
     //     result.b *= 5.0f;
     // }
+
+    
 
     float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
     if(brightness > 0.5f){

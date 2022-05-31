@@ -83,6 +83,9 @@ struct SceneMain::Internal
         lightSettings.pointLight.setStrength(sharedUserData->pointLightStrength);
         lightSettings.ambientLight.setColor(sharedUserData->ambientLightColor);
         lightSettings.ambientLight.setStrength(sharedUserData->ambientLightStrength);
+
+        lightSettings.gamma = sharedUserData->gamma;
+        lightSettings.bloom = sharedUserData->bloom;
     }
 
     void update(const float& delta)
@@ -110,6 +113,8 @@ struct SceneMain::Internal
         lightSettings.pointLight.setStrength(sharedUserData->pointLightStrength);
         lightSettings.ambientLight.setColor(sharedUserData->ambientLightColor);
         lightSettings.ambientLight.setStrength(sharedUserData->ambientLightStrength);
+        lightSettings.gamma = sharedUserData->gamma;
+        lightSettings.bloom = sharedUserData->bloom;
     }
 
     void render(hid::Renderer& renderer)

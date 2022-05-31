@@ -9,6 +9,7 @@ in vec2 v_texCoord;
 
 void main()
 {
+
    vec2 tex_offset = 1.0f / textureSize(u_bloomTexture, 0);
    vec4 result = texture(u_bloomTexture, v_texCoord) * weight[0];
 

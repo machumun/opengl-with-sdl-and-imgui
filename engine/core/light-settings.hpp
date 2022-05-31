@@ -41,10 +41,14 @@ namespace hid
 
         Light pointLight;
         Light ambientLight;
+        float gamma;
+        bool bloom;
 
         LightSettings(const Light &pointLight, const Light &ambientLight)
-            : pointLight(pointLight),
-              ambientLight(ambientLight)
+            : pointLight{pointLight},
+              ambientLight{ambientLight},
+              gamma{2.2},
+              bloom{false}
         {
         }
 

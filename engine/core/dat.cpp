@@ -38,6 +38,8 @@ void Dat::userImGui()
             ImGui::ColorEdit4("color", (float *)&ambientLightColor);
             ImGui::TreePop();
         }
+        ImGui::Checkbox("Bloom", &bloom);
+        ImGui::SliderFloat("gamma", &gamma, 0.0f, 10.0f);
 
         // ImGui::ColorEdit4("light color", (float *)&pointLightColor); // Edit 3 floats representing a color
 
