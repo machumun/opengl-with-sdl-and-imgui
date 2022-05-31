@@ -23,7 +23,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 # Feature And Plan
 
 * クロスプラットフォーム
-  * Windows10, macOS, iOS, Android, WebGLをビルドターゲットとして想定しているので、SDL2とOpenGLの組み合わせを用いています。
+  * Windows10, macOS, iOS, Android, Webをビルドターゲットとして想定しているので、SDL2とOpenGLの組み合わせを用いています。
 * 設計
   * 後々Vulkan(MoltenVK)に対応することを想定して抽象化をしています。
   * ゲームを作る段階で困らないように、明快なAPIであることを心がけています。
@@ -39,8 +39,10 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 $ cd ${PROJECT_ROOT}/engine/build-tools/windows/
 
 $ ./setup.ps1
-
-$ ./cmake-post-build.ps1
 ```
 
-上記を実行してから、Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build-tools/windows``フォルダを開いてデバッグビルドをします。
+Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build-tools/windows``フォルダを開いてCMakeターゲットビューからデバッグビルドをします。
+
+```powershell
+$ ./cmake-post-build.ps1
+```
