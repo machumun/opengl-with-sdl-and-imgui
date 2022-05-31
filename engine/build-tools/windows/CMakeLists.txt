@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-project(vulkan-with-sdl)
+project(opengl-with-sdl-and-imgui)
 
 set(THIRD_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../third-party")
 set(MAIN_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../main/src")
@@ -46,21 +46,12 @@ file(GLOB_RECURSE APPLICATION_SOURCES ${APPLICATION_SOURCE_DIR}/*.cpp)
 # file(GLOB_RECURSE IMGUI_BACKENDS_HEADERS ${IMGUI_BACKENDS_SOURCE_DIR}/*.h)
 # file(GLOB_RECURSE IMGUI_BACKENDS_SOURCES ${IMGUI_BACKENDS_SOURCE_DIR}/*.cpp)
 
-# If we are generating a release build, then request that we produce a Windows desktop
-# application executable by specifying WIN32 as an executable option. This avoids the
-# console window from appearing when we launch the .exe file. However for debug builds,
-# the console window makes it really easy to view logging output so we'll allow it by
-# NOT specifying the WIN32 executable option.
 if(CMAKE_BUILD_TYPE MATCHES "Release")
 	set(EXECUTABLE_TYPE WIN32)
 endif()
 
-# lib
-
-
-# exe
 add_executable(
-    vulkan-with-sdl ${EXECUTABLE_TYPE}
+    opengl-with-sdl-and-imgui ${EXECUTABLE_TYPE}
     ${MAIN_HEADERS}
     ${MAIN_SOURCES}
     ${CORE_HEADERS}
@@ -76,11 +67,11 @@ add_executable(
 )
 
 
-set_property(TARGET vulkan-with-sdl PROPERTY CXX_STANDARD 17)
-set_property(TARGET vulkan-with-sdl PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET opengl-with-sdl-and-imgui PROPERTY CXX_STANDARD 17)
+set_property(TARGET opengl-with-sdl-and-imgui PROPERTY CXX_STANDARD_REQUIRED ON)
 
 target_link_libraries(
-	vulkan-with-sdl
+	opengl-with-sdl-and-imgui
 	opengl32
 	${LIB_GLEW}
 	${LIB_SDL2}
@@ -90,7 +81,7 @@ target_link_libraries(
 )
 
 add_custom_command(
-    TARGET vulkan-with-sdl
+    TARGET opengl-with-sdl-and-imgui
     POST_BUILD
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMAND PowerShell -File cmake-post-build.ps1

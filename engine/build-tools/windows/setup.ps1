@@ -1,7 +1,6 @@
-# 
 $ErrorActionPreference = "Stop"
 
-# 外部ライブラリはgit外のthird-partyフォルダに保存
+# third-party
 Push-Location -Path "..\..\"
 if (!(Test-Path "third-party")) {
     New-Item -ItemType Directory -Path "third-party"
@@ -97,5 +96,5 @@ if (!(Test-Path "..\..\third-party\imgui")) {
     Pop-Location
 }
 
-# vert,frag->spir-vコンパイラ
+# vert,frag->spir-v compile
 .\compile_shaders.ps1
