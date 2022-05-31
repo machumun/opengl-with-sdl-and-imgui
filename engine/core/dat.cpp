@@ -17,9 +17,9 @@ void Dat::init()
 void Dat::userImGui()
 {
     {
-        ImGui::Begin("SDL with OpenGL"); // Create a window called "Hello, world!" and append into it.
+        ImGui::Begin("DEMO Window"); // Create a window called "Hello, world!" and append into it.
 
-        ImGui::Text("THIS IS MY HAMSTER.");      // Display some text (you can use a format strings too)
+        ImGui::Text("My Hamsters");              // Display some text (you can use a format strings too)
         ImGui::Checkbox("Is Active", &isActive); // Edit bools storing our window open/close state
         // ImGui::Checkbox("Another Window", &show_another_window);
 
