@@ -65,7 +65,7 @@ SDL_Window *hid::sdl::createWindow(const uint32_t &windowFlags)
     std::pair<uint32_t, uint32_t> displaySize{hid::sdl::getDisplaySize()};
 
     SDL_Window *window{SDL_CreateWindow(
-        "vulkan with sdl",
+        "opengl with sdl and imgui",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         displaySize.first, displaySize.second,
         windowFlags)};
