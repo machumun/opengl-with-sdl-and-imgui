@@ -15,7 +15,7 @@ namespace hid::assets
     enum class StaticMesh
     {
         Crate,
-        Monkey,
+        LightSaber,
         Hamster,
         Plane
     };
@@ -24,6 +24,7 @@ namespace hid::assets
     {
         Cube,
         Hamster,
+        Metal,
     };
 
     std::pair<std::string, std::string> resolvePipelinePath(const hid::assets::Pipeline &pipeline);

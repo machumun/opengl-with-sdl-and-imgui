@@ -62,6 +62,7 @@ struct SceneMain::Internal
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Crate});
 
         assetManager.loadTextures({hid::assets::Texture::Hamster});
+        assetManager.loadTextures({hid::assets::Texture::Metal});
 
         // staticMeshesUnlit.push_back(hid::StaticMeshInstance{
         //     hid::assets::StaticMesh::Hamster,
@@ -73,7 +74,7 @@ struct SceneMain::Internal
 
         staticMeshesLit.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Hamster,
-            hid::assets::Texture::Hamster,
+            hid::assets::Texture::Metal,
             glm::vec3{0.4f, 0.6f, 0.4f}, // Position
             glm::vec3{0.6f, 0.6f, 0.6f}, // Scale
             glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
@@ -85,10 +86,10 @@ struct SceneMain::Internal
         //     glm::vec3{0.0f, -1.6f, 0.0f},
         //     glm::vec3{10.6f, 10.6f, 10.6f}});
 
-        lightInstance.push_back(
+        staticMeshesLit.push_back(
             hid::StaticMeshInstance{
                 hid::assets::StaticMesh::Crate,
-                hid::assets::Texture::Hamster,
+                hid::assets::Texture::Metal,
                 sharedUserData->pointLightPosition,
                 glm::vec3{0.2f, 0.2f, 0.2f}});
 
@@ -123,8 +124,8 @@ struct SceneMain::Internal
         staticMeshesLit.at(0).updateModelMatrix();
         staticMeshesLit.at(1).updateModelMatrix();
 
-        lightInstance.at(0).setPosition(sharedUserData->pointLightPosition);
-        lightInstance.at(0).updateModelMatrix();
+        staticMeshesLit.at(2).setPosition(sharedUserData->pointLightPosition);
+        staticMeshesLit.at(2).updateModelMatrix();
 
         // for (auto& staticMesh : staticMeshesUnlit)
         // {
@@ -156,7 +157,6 @@ struct SceneMain::Internal
     void render(hid::Renderer& renderer)
     {
         renderer.render(hid::assets::Pipeline::LitPass, staticMeshesLit, camera, lightSettings);
-        // renderer.render(hid::assets::Pipeline::DefaultPass, lightInstance, camera);
     }
 
     void input(const float& delta)

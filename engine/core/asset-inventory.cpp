@@ -21,8 +21,8 @@ std::string hid::assets::resolveStaticMeshPath(const hid::assets::StaticMesh &st
     {
     case hid::assets::StaticMesh::Crate:
         return "assets/models/crate.obj";
-    case hid::assets::StaticMesh::Monkey:
-        return "assets/models/monkey.obj";
+    case hid::assets::StaticMesh::LightSaber:
+        return "assets/models/lightsaber.obj";
     case hid::assets::StaticMesh::Hamster:
         return "assets/models/hamster.obj";
     case hid::assets::StaticMesh::Plane:
@@ -40,6 +40,8 @@ std::string hid::assets::resolveTexturePath(const hid::assets::Texture &texture)
         return "assets/textures/cube.png";
     case hid::assets::Texture::Hamster:
         return "assets/textures/hamster.png";
+    case hid::assets::Texture::Metal:
+        return "assets/textures/metal.png";
     default:
         return "assets/textures/cube.png";
     }

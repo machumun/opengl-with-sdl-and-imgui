@@ -67,17 +67,11 @@ void main()
     //     result.b *= 5.0f;
     // }
 
-    // BloomColor = result;
-
-    // FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-
-    // float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
-    // if(brightness > 0.5f){
-    //     BloomColor = vec4(result.rgb, 1.0f);
-    // }else{
-    //     BloomColor = vec4(.0f, .0f, .0f, 1.0f);
-    // }
-    // BloomColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-    BloomColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
+    if(brightness > 0.5f){
+        BloomColor = vec4(FragColor.rgb, 1.0);
+    }else{
+        BloomColor = vec4(0.0, 0.0, 0.0, 1.0);
+    }
 }
 
