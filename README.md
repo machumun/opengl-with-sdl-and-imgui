@@ -35,14 +35,17 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 # Installation
 
 ## windows
+① 必要な構成を``/engine/third-party``フォルダにインストールします。
 ```powershell
 $ cd ${PROJECT_ROOT}/engine/build-tools/windows/
 
 $ ./setup.ps1
 ```
+  
+②
+Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build-tools/windows``フォルダを開き、CMakeターゲットビューからキャッシュを構成します。  
 
-Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build-tools/windows``フォルダを開いてCMakeターゲットビューからデバッグビルドをします。
-
+③　アセットフォルダのシンボリックリンクを作成して完了です。
 ```powershell
 $ ./cmake-post-build.ps1
 ```
