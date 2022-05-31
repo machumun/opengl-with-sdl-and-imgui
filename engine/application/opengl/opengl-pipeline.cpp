@@ -183,22 +183,6 @@ struct OpenGLPipeline::Internal
     void render(
         const hid::OpenGLAssetManager &assetManager,
         const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-        const hid::PerspectiveCamera &camera)
-    {
-        shader.use();
-        shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
-
-        for (const auto &staticMeshInstance : staticMeshInstances)
-        {
-            shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
-            assetManager.getTexture(staticMeshInstance.getTexture()).bind();
-            assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
-        }
-    }
-
-    void render(
-        const hid::OpenGLAssetManager &assetManager,
-        const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
         const hid::PerspectiveCamera &camera,
         const hid::LightSettings &lightSettings)
     {
@@ -283,13 +267,6 @@ struct OpenGLPipeline::Internal
 
 OpenGLPipeline::OpenGLPipeline(const std::string &vertShaderName, const std::string &fragShaderName)
     : internal(hid::make_internal_ptr<Internal>(vertShaderName, fragShaderName)) {}
-
-void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager,
-                            const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-                            const hid::PerspectiveCamera &camera)
-{
-    internal->render(assetManager, staticMeshInstances, camera);
-}
 
 void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager,
                             const std::vector<hid::StaticMeshInstance> &staticMeshInstances,

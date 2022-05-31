@@ -13,10 +13,6 @@ namespace hid
 
         void render(const hid::assets::Pipeline &pipeline,
                     const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-                    const hid::PerspectiveCamera &camera) override;
-
-        void render(const hid::assets::Pipeline &pipeline,
-                    const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
                     const hid::PerspectiveCamera &camera,
                     const hid::LightSettings &lightSettings) override;
 

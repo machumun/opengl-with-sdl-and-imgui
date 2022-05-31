@@ -24,13 +24,10 @@ namespace
 struct SceneMain::Internal
 {
     hid::PerspectiveCamera camera;
-    std::vector<hid::StaticMeshInstance> staticMeshesUnlit;
     std::vector<hid::StaticMeshInstance> staticMeshesLit;
     std::vector<hid::StaticMeshInstance> lightInstance;
 
     std::shared_ptr<hid::Dat> sharedUserData;
-    // hid::Dat* sharedUserData;
-    // std::shared_ptr<hid::Dat> sharedUserData;
 
     hid::LightSettings lightSettings;
 
@@ -53,9 +50,7 @@ struct SceneMain::Internal
         userData->rotateSpeed = 50.0f;
         sharedUserData = userData;
 
-        // assetManager.loadPipelines({hid::assets::Pipeline::DefaultPass});
         assetManager.loadPipelines({hid::assets::Pipeline::LitPass});
-        // assetManager.loadPipelines({hid::assets::Pipeline::BlurPass});
 
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Hamster});
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Plane});
@@ -63,10 +58,6 @@ struct SceneMain::Internal
 
         assetManager.loadTextures({hid::assets::Texture::Hamster});
         assetManager.loadTextures({hid::assets::Texture::Metal});
-
-        // staticMeshesUnlit.push_back(hid::StaticMeshInstance{
-        //     hid::assets::StaticMesh::Hamster,
-        //     hid::assets::Texture::Hamster});
 
         staticMeshesLit.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Hamster,
@@ -80,12 +71,6 @@ struct SceneMain::Internal
             glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
             0.0f});
 
-        // staticMeshesLit.push_back(hid::StaticMeshInstance{
-        //     hid::assets::StaticMesh::Plane,
-        //     hid::assets::Texture::Hamster,
-        //     glm::vec3{0.0f, -1.6f, 0.0f},
-        //     glm::vec3{10.6f, 10.6f, 10.6f}});
-
         staticMeshesLit.push_back(
             hid::StaticMeshInstance{
                 hid::assets::StaticMesh::Crate,
@@ -98,14 +83,6 @@ struct SceneMain::Internal
         lightSettings.pointLight.setStrength(sharedUserData->pointLightStrength);
         lightSettings.ambientLight.setColor(sharedUserData->ambientLightColor);
         lightSettings.ambientLight.setStrength(sharedUserData->ambientLightStrength);
-
-        // staticMeshes.push_back(hid::StaticMeshInstance{
-        //     hid::assets::StaticMesh::Monkey,
-        //     hid::assets::Texture::Cube,
-        //     glm::vec3{0.4f, 0.6f, 0.0f}, // Position
-        //     glm::vec3{0.6f, 0.6f, 0.6f}, // Scale
-        //     glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
-        //     0.0f});
     }
 
     void update(const float& delta)
@@ -126,25 +103,6 @@ struct SceneMain::Internal
 
         staticMeshesLit.at(2).setPosition(sharedUserData->pointLightPosition);
         staticMeshesLit.at(2).updateModelMatrix();
-
-        // for (auto& staticMesh : staticMeshesUnlit)
-        // {
-        //     if (sharedUserData->isActive)
-        //     {
-        //         staticMesh.rotateBy(delta * sharedUserData->rotateSpeed);
-        //     }
-
-        //     staticMesh.update(cameraMatrix);
-        // }
-        // for (auto& staticMesh : staticMeshesLit)
-        // {
-        //     if (sharedUserData->isActive)
-        //     {
-        //         staticMesh.rotateBy(delta * sharedUserData->rotateSpeed);
-        //     }
-
-        //     staticMesh.update(cameraMatrix);
-        // }
 
         // real time light move
         lightSettings.pointLight.setPosition(sharedUserData->pointLightPosition);

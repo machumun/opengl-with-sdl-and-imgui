@@ -9,13 +9,6 @@ struct OpenGLRenderer::Internal
 
     void render(const hid::assets::Pipeline &pipeline,
                 const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-                const hid::PerspectiveCamera &camera)
-    {
-        assetManager->getPipeline(pipeline).render(*assetManager, staticMeshInstances, camera);
-    }
-
-    void render(const hid::assets::Pipeline &pipeline,
-                const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
                 const hid::PerspectiveCamera &camera,
                 const hid::LightSettings &lightSettings)
     {
@@ -24,13 +17,6 @@ struct OpenGLRenderer::Internal
 };
 
 OpenGLRenderer::OpenGLRenderer(std::shared_ptr<hid::OpenGLAssetManager> assetManager) : internal(hid::make_internal_ptr<Internal>(assetManager)) {}
-
-void OpenGLRenderer::render(const hid::assets::Pipeline &pipeline,
-                            const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-                            const hid::PerspectiveCamera &camera)
-{
-    internal->render(pipeline, staticMeshInstances, camera);
-}
 
 void OpenGLRenderer::render(const hid::assets::Pipeline &pipeline,
                             const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
