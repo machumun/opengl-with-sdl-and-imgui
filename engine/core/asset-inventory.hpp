@@ -22,9 +22,11 @@ namespace hid::assets
 
     enum class Texture
     {
+
         Cube,
         Hamster,
         Metal,
+        Empty
     };
 
     enum class Material

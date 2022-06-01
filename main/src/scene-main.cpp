@@ -1,9 +1,8 @@
 #include "scene-main.hpp"
 #include "../../engine/core/light-settings.hpp"
 #include "../../engine/core/perspective-camera.hpp"
-#include "../../engine/core/static-mesh-instance.hpp"
-
 #include "../../engine/core/sdl-wrapper.hpp"
+#include "../../engine/core/static-mesh-instance.hpp"
 
 #include "player.hpp"
 
@@ -56,35 +55,9 @@ struct SceneMain::Internal
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Plane});
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Crate});
 
+        assetManager.loadTextures({hid::assets::Texture::Empty});
         assetManager.loadTextures({hid::assets::Texture::Hamster});
         assetManager.loadTextures({hid::assets::Texture::Metal});
-
-                staticMeshes.push_back(hid::StaticMeshInstance{
-            hid::assets::StaticMesh::Hamster,
-            hid::assets::Texture::Hamster});
-
-        staticMeshes.push_back(hid::StaticMeshInstance{
-            hid::assets::StaticMesh::Hamster,
-            hid::assets::Texture::Metal,
-            glm::vec3{0.4f, 0.6f, 0.4f}, // Position
-            glm::vec3{0.6f, 0.6f, 0.6f}, // Scale
-            glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
-            0.0f});
-
-        staticMeshes.push_back(
-            hid::StaticMeshInstance{
-                hid::assets::StaticMesh::Crate,
-                hid::assets::Texture::Metal,
-                sharedUserData->pointLightPosition,
-                glm::vec3{0.1f, 0.1f, 0.1f}});
-
-        staticMeshes.push_back(hid::StaticMeshInstance{
-            hid::assets::StaticMesh::Plane,
-            hid::assets::Texture::Metal,
-            glm::vec3{0.4f, -0.5f, 0.4f}, // Position
-            glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
-            glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
-            0.0f});
 
         lightSettings.pointLight.setPosition(sharedUserData->pointLightPosition);
         lightSettings.pointLight.setColor(sharedUserData->pointLightColor);
@@ -94,6 +67,45 @@ struct SceneMain::Internal
 
         lightSettings.bloomIntensity = sharedUserData->bloomIntensity;
         lightSettings.bloom = sharedUserData->bloom;
+
+        hid::Material hamMaterial{hid::assets::Texture::Hamster,
+                                  glm::vec3{1.0f, 1.0f, 1.0f}};
+        hid::Material metalMaterial{hid::assets::Texture::Metal,
+                                    glm::vec3{1.0f, 1.0f, 1.0f}};
+
+        hid::Material pointLightMaterial{hid::assets::Texture::Empty,
+                                         sharedUserData->pointLightColor};
+
+        // 0
+        staticMeshes.push_back(
+            hid::StaticMeshInstance{
+                hid::assets::StaticMesh::Crate,
+                pointLightMaterial,
+                sharedUserData->pointLightPosition,
+                glm::vec3{0.1f, 0.1f, 0.1f}});
+
+        // 1
+        staticMeshes.push_back(hid::StaticMeshInstance{
+            hid::assets::StaticMesh::Hamster,
+            hamMaterial});
+
+        // 2
+        staticMeshes.push_back(hid::StaticMeshInstance{
+            hid::assets::StaticMesh::Hamster,
+            metalMaterial,
+            glm::vec3{0.4f, 0.6f, 0.4f}, // Position
+            glm::vec3{0.6f, 0.6f, 0.6f}, // Scale
+            glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
+            0.0f});
+
+        // 3
+        staticMeshes.push_back(hid::StaticMeshInstance{
+            hid::assets::StaticMesh::Plane,
+            metalMaterial,
+            glm::vec3{0.4f, -0.5f, 0.4f}, // Position
+            glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
+            glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
+            0.0f});
     }
 
     void update(const float& delta)
@@ -105,17 +117,18 @@ struct SceneMain::Internal
 
         if (sharedUserData->isActive)
         {
-            staticMeshes.at(0).rotateBy(delta * sharedUserData->rotateSpeed);
-            staticMeshes.at(1).rotateBy(delta * sharedUserData->rotateSpeed);
+            staticMeshes[1].rotateBy(delta * sharedUserData->rotateSpeed);
+            staticMeshes[2].rotateBy(delta * sharedUserData->rotateSpeed);
         }
 
-        staticMeshes.at(0).updateModelMatrix();
-        staticMeshes.at(1).updateModelMatrix();
+        staticMeshes[1].updateModelMatrix();
+        staticMeshes[2].updateModelMatrix();
+        staticMeshes[3].updateModelMatrix();
 
-        staticMeshes.at(2).setPosition(sharedUserData->pointLightPosition);
-        staticMeshes.at(2).updateModelMatrix();
-
-        staticMeshes.at(3).updateModelMatrix();
+        // light
+        staticMeshes[0].setPosition(sharedUserData->pointLightPosition);
+        staticMeshes[0].setBaseColor(sharedUserData->pointLightColor);
+        staticMeshes[0].updateModelMatrix();
 
         // real time light move
         lightSettings.pointLight.setPosition(sharedUserData->pointLightPosition);

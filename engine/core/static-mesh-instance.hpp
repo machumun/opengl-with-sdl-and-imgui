@@ -11,7 +11,7 @@ namespace hid
     {
         StaticMeshInstance(
             const hid::assets::StaticMesh &staticMesh,
-            const hid::assets::Texture &texure,
+            const hid::Material &material,
             const glm::vec3 &position = glm::vec3{0.0f, 0.0f, 0.0f},
             const glm::vec3 &scale = glm::vec3{1.0f, 1.0f, 1.0f},
             const glm::vec3 &rotationAxis = glm::vec3{0.0f, 1.0f, 0.0f},
@@ -22,9 +22,10 @@ namespace hid
 
         void rotateBy(const float &degrees);
         void setPosition(const glm::vec3 &position);
+        void setBaseColor(const glm::vec3 &color);
 
         hid::assets::StaticMesh getMesh() const;
-        hid::assets::Texture getTexture() const;
+        hid::Material getMaterial() const;
         glm::mat4 getTransformMatrix() const;
         glm::mat4 getModelMatrix() const;
 

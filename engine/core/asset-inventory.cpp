@@ -42,7 +42,9 @@ std::string hid::assets::resolveTexturePath(const hid::assets::Texture &texture)
         return "assets/textures/hamster.png";
     case hid::assets::Texture::Metal:
         return "assets/textures/metal.png";
+    case hid::assets::Texture::Empty:
+        return "assets/textures/metal.png";
     default:
-        return "assets/textures/cube.png";
+        return "assets/textures/empty.png";
     }
 }

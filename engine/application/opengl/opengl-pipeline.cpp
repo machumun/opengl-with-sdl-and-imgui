@@ -215,8 +215,10 @@ struct OpenGLPipeline::Internal
         {
             shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
             // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
-            assetManager.getTexture(staticMeshInstance.getTexture()).bind();
+            hid::Material &mat = staticMeshInstance.getMaterial();
+            assetManager.getTexture(mat.albedo).bind();
             shader.setInt("u_sampler", 1);
+            shader.setVec3("u_baseColor", &mat.baseColor[0]);
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
 

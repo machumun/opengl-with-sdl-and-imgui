@@ -5,7 +5,7 @@ using hid::StaticMeshInstance;
 struct StaticMeshInstance::Internal
 {
     const hid::assets::StaticMesh mesh;
-    const hid::assets::Texture texture;
+    hid::Material material;
     const glm::mat4 identity;
 
     glm::vec3 position;
@@ -16,13 +16,13 @@ struct StaticMeshInstance::Internal
     glm::mat4 modelMatrix;
 
     Internal(const hid::assets::StaticMesh &mesh,
-             const hid::assets::Texture &texture,
+             const hid::Material &material,
              const glm::vec3 &position,
              const glm::vec3 &scale,
              const glm::vec3 &rotationAxis,
              const float &rotationDegrees)
         : mesh(mesh),
-          texture(texture),
+          material(material),
           identity(glm::mat4{1.0f}),
           position(position),
           scale(scale),
@@ -66,14 +66,14 @@ struct StaticMeshInstance::Internal
 
 StaticMeshInstance::StaticMeshInstance(
     const hid::assets::StaticMesh &staticMesh,
-    const hid::assets::Texture &texture,
+    const hid::Material &material,
     const glm::vec3 &position,
     const glm::vec3 &scale,
     const glm::vec3 &rotationAxis,
     const float &rotationDegrees)
     : internal(hid::make_internal_ptr<Internal>(
           staticMesh,
-          texture,
+          material,
           position,
           scale,
           rotationAxis,
@@ -99,14 +99,19 @@ void StaticMeshInstance::setPosition(const glm::vec3 &position)
     internal->position = position;
 }
 
+void StaticMeshInstance::setBaseColor(const glm::vec3 &color)
+{
+    internal->material.baseColor = color;
+};
+
 hid::assets::StaticMesh StaticMeshInstance::getMesh() const
 {
     return internal->mesh;
 }
 
-hid::assets::Texture StaticMeshInstance::getTexture() const
+hid::Material StaticMeshInstance::getMaterial() const
 {
-    return internal->texture;
+    return internal->material;
 }
 
 glm::mat4 StaticMeshInstance::getTransformMatrix() const

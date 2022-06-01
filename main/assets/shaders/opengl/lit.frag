@@ -1,4 +1,5 @@
 uniform sampler2D u_sampler;
+uniform vec3 u_baseColor = vec3(1.f,1.f,1.f);
 
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BloomColor;
@@ -63,7 +64,7 @@ void main()
     
     
 
-    vec4 result = vec4(ambient+diffuse, 1.f)*texture2D(u_sampler, v_texCoord);
+    vec4 result = vec4(ambient+diffuse, 1.f)*texture2D(u_sampler, v_texCoord)*vec4(u_baseColor, 1.f);
 
     
     // float depth = logisticDepth(gl_FragCoord.z, 0.5f, 0.5f);

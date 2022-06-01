@@ -6,6 +6,12 @@
 
 namespace hid
 {
+    enum class MaterialType
+    {
+        UnLit,
+        Lit
+    };
+
     struct Material
     {
         hid::assets::Texture albedo;
