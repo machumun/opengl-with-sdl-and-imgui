@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../core/asset-inventory.hpp"
-#include "../core/glm-wrapper.hpp"
-#include "../core/internal-ptr.hpp"
+#include "asset-inventory.hpp"
+#include "glm-wrapper.hpp"
+#include "internal-ptr.hpp"
+#include "material.hpp"
 
 namespace hid
 {
@@ -26,8 +27,6 @@ namespace hid
         hid::assets::Texture getTexture() const;
         glm::mat4 getTransformMatrix() const;
         glm::mat4 getModelMatrix() const;
-
-        
 
     private:
         struct Internal;

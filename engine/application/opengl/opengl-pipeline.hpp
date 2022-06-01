@@ -16,10 +16,6 @@ namespace hid
         OpenGLPipeline(const std::string &vertShaderName, const std::string &fragShaderName);
 
         // unlit
-        void render(
-            const hid::OpenGLAssetManager &assetManager,
-            const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-            const hid::PerspectiveCamera &camera);
 
         void render(
             const hid::OpenGLAssetManager &assetManager,

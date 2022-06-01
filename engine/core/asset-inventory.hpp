@@ -27,6 +27,15 @@ namespace hid::assets
         Metal,
     };
 
+    enum class Material
+    {
+        UnLit,
+        Lambert,
+        Phong,
+        Toon,
+        Standard
+    };
+
     std::pair<std::string, std::string> resolvePipelinePath(const hid::assets::Pipeline &pipeline);
     std::string resolveStaticMeshPath(const hid::assets::StaticMesh &staticMesh);
     std::string resolveTexturePath(const hid::assets::Texture &texture);
