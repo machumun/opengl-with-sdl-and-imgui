@@ -26,7 +26,7 @@ void Dat::userImGui()
         ImGui::SliderFloat("rotate speed", &rotateSpeed, 0.0f, 100.0f); // Edit 1 float using a slider from 0.0f to 1.0f
         if (ImGui::TreeNode("point light"))
         {
-            ImGui::SliderFloat("strength", &pointLightStrength, 0.0f, 3.0f);
+            ImGui::SliderFloat("strength", &pointLightStrength, 0.0f, 10.0f);
             ImGui::SliderFloat3("position", (float *)&pointLightPosition, 0.0f, 1.0f);
             ImGui::ColorEdit4("color", (float *)&pointLightColor);
             ImGui::TreePop();
@@ -34,7 +34,7 @@ void Dat::userImGui()
 
         if (ImGui::TreeNode("ambient light"))
         {
-            ImGui::SliderFloat("strength", &ambientLightStrength, 0.0f, 3.0f);
+            ImGui::SliderFloat("strength", &ambientLightStrength, 0.0f, 10.0f);
             ImGui::ColorEdit4("color", (float *)&ambientLightColor);
             ImGui::TreePop();
         }

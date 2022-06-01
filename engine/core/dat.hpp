@@ -29,13 +29,13 @@ namespace hid
 
         Dat() : isActive{true},
                 show_another_window{false},
-                pointLightStrength{float(0.714f)},
+                pointLightStrength{float(3.f)},
 
                 pointLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 
                 pointLightPosition(glm::vec3(1.0f, 1.0f, 1.0f)),
 
-                ambientLightStrength{.073f},
+                ambientLightStrength{.25f},
 
                 ambientLightColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
 

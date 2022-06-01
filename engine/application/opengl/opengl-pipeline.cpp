@@ -142,8 +142,8 @@ struct OpenGLPipeline::Internal
           framebufferVAO{::createFramebufferVAO()},
 
           postProcessingFBO{::createFBO()},
-          postProcessingTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)},
-          bloomTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)},
+          postProcessingTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)},
+          bloomTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT1)},
           depthRenderBufferId{::createRenderBuffer(postProcessingFBO)},
 
           pingpongAmount{10},

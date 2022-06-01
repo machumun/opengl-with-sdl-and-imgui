@@ -72,7 +72,7 @@ void main()
     
 
     float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
-    if(brightness > 0.5f){
+    if(brightness > 1.0f){
         BloomColor = vec4(FragColor.rgb, 1.0);
     }else{
         BloomColor = vec4(0.0, 0.0, 0.0, 1.0);
