@@ -26,20 +26,20 @@ void Dat::userImGui()
         ImGui::SliderFloat("rotate speed", &rotateSpeed, 0.0f, 100.0f); // Edit 1 float using a slider from 0.0f to 1.0f
         if (ImGui::TreeNode("point light"))
         {
-            ImGui::SliderFloat("strength", &pointLightStrength, 0.0f, 10.0f);
+            ImGui::SliderFloat("intensity", &pointLightIntensity, 0.0f, 10.0f);
             ImGui::SliderFloat3("position", (float *)&pointLightPosition, 0.0f, 1.0f);
-            ImGui::ColorEdit4("color", (float *)&pointLightColor);
+            ImGui::ColorEdit3("color", (float *)&pointLightColor);
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("ambient light"))
         {
-            ImGui::SliderFloat("strength", &ambientLightStrength, 0.0f, 10.0f);
-            ImGui::ColorEdit4("color", (float *)&ambientLightColor);
+            ImGui::SliderFloat("intensity", &ambientLightIntensity, 0.0f, 10.0f);
+            ImGui::ColorEdit3("color", (float *)&ambientLightColor);
             ImGui::TreePop();
         }
         ImGui::Checkbox("Bloom", &bloom);
-        ImGui::SliderFloat("gamma", &gamma, 0.0f, 10.0f);
+        ImGui::SliderFloat("blur intensity", &bloomIntensity, 0.0f, 10.0f);
 
         // ImGui::ColorEdit4("light color", (float *)&pointLightColor); // Edit 3 floats representing a color
 

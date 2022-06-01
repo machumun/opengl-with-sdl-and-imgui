@@ -17,7 +17,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 ## ・Bloom  
 
-![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/bloom.png)
+![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/bloom.gif)
 
 
 # Feature And Plan

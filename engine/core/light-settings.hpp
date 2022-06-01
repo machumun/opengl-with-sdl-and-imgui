@@ -19,21 +19,21 @@ namespace hid
     {
         LightType type;
         glm::vec3 position;
-        glm::vec4 color;
-        float strength;
+        glm::vec3 color;
+        float intensity;
         Light(
             const LightType &type,
             const glm::vec3 &position = glm::vec3{1.0f, 1.0f, 1.0f},
-            const glm::vec4 &color = glm::vec4{1.0f, 1.0f, 1.0f, 1.0f},
-            const float &strength = 1.0f)
+            const glm::vec3 &color = glm::vec3{1.0f, 1.0f, 1.0f},
+            const float &intensity = 1.0f)
             : position(position),
               color(color),
-              strength(strength),
+              intensity(intensity),
               type(type){};
 
         void setPosition(const glm::vec3 &_position) { position = _position; }
-        void setColor(const glm::vec4 &_color) { color = _color; }
-        void setStrength(float &_strength) { strength = _strength; }
+        void setColor(const glm::vec3 &_color) { color = _color; }
+        void setIntensity(float &_intensity) { intensity = _intensity; }
     };
 
     struct LightSettings
@@ -41,13 +41,13 @@ namespace hid
 
         Light pointLight;
         Light ambientLight;
-        float gamma;
+        float bloomIntensity;
         bool bloom;
 
         LightSettings(const Light &pointLight, const Light &ambientLight)
             : pointLight{pointLight},
               ambientLight{ambientLight},
-              gamma{2.2},
+              bloomIntensity{2.2},
               bloom{false}
         {
         }

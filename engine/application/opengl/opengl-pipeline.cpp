@@ -36,7 +36,7 @@ namespace
                      viewportWidth,
                      viewportHeight,
                      0,
-                     GL_RGB,
+                     GL_RGBA,
                      GL_UNSIGNED_BYTE,
                      NULL);
 
@@ -188,22 +188,26 @@ struct OpenGLPipeline::Internal
         glBindFramebuffer(GL_FRAMEBUFFER, postProcessingFBO);
 
         // glClearColor(.8f, .8f, .8f, 1.0f);
-        glClearColor(.0f, .0f, .0f, 1.0f);
+        // glClearColor(.0f, .0f, .0f, 1.0f);
+        glClearColor(.2f, .2f, .2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
 
         glDepthFunc(GL_LEQUAL);
+
+        // glEnable(GL_BLEND);
+        // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         // draw the normal models
         shader.use();
 
         const hid::Light &pointLight = lightSettings.pointLight;
         const hid::Light &ambientLight = lightSettings.ambientLight;
-        shader.setVec3("u_pointLightPosition", &pointLight.position[0]);
-        shader.setVec4("u_pointLightColor", &pointLight.color[0]);
-        shader.setFloat("u_pointLightStrength", pointLight.strength);
-        shader.setVec4("u_ambientLightColor", &ambientLight.color[0]);
-        shader.setFloat("u_ambientLightStrength", ambientLight.strength);
+        shader.setVec3("u_pointLight[0].position", &pointLight.position[0]);
+        shader.setVec3("u_pointLight[0].color", &pointLight.color[0]);
+        shader.setFloat("u_pointLight[0].intensity", pointLight.intensity);
+        shader.setVec3("u_ambientLight.color", &ambientLight.color[0]);
+        shader.setFloat("u_ambientLight.intensity", ambientLight.intensity);
 
         shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
@@ -225,6 +229,8 @@ struct OpenGLPipeline::Internal
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
             blurProgram.setInt("horizontal", horizontal);
+            // for tatamikomi kawase
+            blurProgram.setFloat("loopNum", (float)i + 1.0f);
 
             if (firstIteration)
             {
@@ -239,6 +245,7 @@ struct OpenGLPipeline::Internal
 
             glBindVertexArray(framebufferVAO);
             glDisable(GL_DEPTH_TEST);
+
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
             horizontal = !horizontal;
@@ -247,7 +254,7 @@ struct OpenGLPipeline::Internal
         // framebuffer program
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         framebufferProgram.use();
-        framebufferProgram.setFloat("gamma", lightSettings.gamma);
+        framebufferProgram.setFloat("bloomIntensity", lightSettings.bloomIntensity);
         framebufferProgram.setBool("bloom", lightSettings.bloom);
         glBindVertexArray(framebufferVAO);
         glDisable(GL_DEPTH_TEST);
