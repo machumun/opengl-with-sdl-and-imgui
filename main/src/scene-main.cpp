@@ -59,7 +59,7 @@ struct SceneMain::Internal
         assetManager.loadTextures({hid::assets::Texture::Hamster});
         assetManager.loadTextures({hid::assets::Texture::Metal});
 
-        staticMeshes.push_back(hid::StaticMeshInstance{
+                staticMeshes.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Hamster,
             hid::assets::Texture::Hamster});
 
@@ -76,7 +76,7 @@ struct SceneMain::Internal
                 hid::assets::StaticMesh::Crate,
                 hid::assets::Texture::Metal,
                 sharedUserData->pointLightPosition,
-                glm::vec3{0.2f, 0.2f, 0.2f}});
+                glm::vec3{0.1f, 0.1f, 0.1f}});
 
         staticMeshes.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Plane,
