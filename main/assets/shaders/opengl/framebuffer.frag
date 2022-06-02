@@ -46,6 +46,7 @@ void main()
     }else{
         // FragColor = texture2D(u_screenTexture, v_texCoord);
          FragColor = vec4(blur, 1.0f);
+        //  FragColor = vec4(frag, 1.0f);
     }
 
 

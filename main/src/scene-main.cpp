@@ -1,9 +1,9 @@
 #include "scene-main.hpp"
+#include "../../engine/core/animation-plane.hpp"
 #include "../../engine/core/light-settings.hpp"
 #include "../../engine/core/perspective-camera.hpp"
 #include "../../engine/core/sdl-wrapper.hpp"
 #include "../../engine/core/static-mesh-instance.hpp"
-
 #include "player.hpp"
 
 using usr::SceneMain;

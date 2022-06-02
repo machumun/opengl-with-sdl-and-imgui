@@ -90,6 +90,7 @@ void main()
     
     BloomColor = result;
     float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
+    // float brightness = 1.f;
     // BloomColor.a = brightness*1.f;
     // BloomColor.a = brightness;
     BloomColor = FragColor*brightness;

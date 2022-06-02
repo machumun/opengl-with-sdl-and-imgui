@@ -191,12 +191,13 @@ struct OpenGLPipeline::Internal
         // glClearColor(.0f, .0f, .0f, 1.0f);
         glClearColor(.2f, .2f, .2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        // glAlphaFunc(GL_GREATER, 0.5);
+
         glEnable(GL_DEPTH_TEST);
-
-        glDepthFunc(GL_LEQUAL);
-
-        // glEnable(GL_BLEND);
-        // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDepthFunc(GL_LESS);
 
         // draw the normal models
         shader.use();
@@ -221,13 +222,15 @@ struct OpenGLPipeline::Internal
             shader.setVec3("u_baseColor", &mat.baseColor[0]);
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
 
-                // blur pass
+        // blur pass
         bool firstIteration = true;
         bool horizontal = true;
         blurProgram.use();
         glDisable(GL_DEPTH_TEST);
-        glDisable(GL_BLEND);
+        // glDisable(GL_BLEND);
         for (int i = 0; i < pingpongAmount; ++i)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
@@ -247,7 +250,6 @@ struct OpenGLPipeline::Internal
             }
 
             glBindVertexArray(framebufferVAO);
-
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
             horizontal = !horizontal;
@@ -259,7 +261,6 @@ struct OpenGLPipeline::Internal
         framebufferProgram.setFloat("bloomIntensity", lightSettings.bloomIntensity);
         framebufferProgram.setBool("bloom", lightSettings.bloom);
         glBindVertexArray(framebufferVAO);
-        // glDisable(GL_DEPTH_TEST);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, postProcessingTextureId);
         glActiveTexture(GL_TEXTURE1);
