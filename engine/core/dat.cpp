@@ -26,27 +26,25 @@ void Dat::userImGui()
         ImGui::SliderFloat("rotate speed", &rotateSpeed, 0.0f, 100.0f); // Edit 1 float using a slider from 0.0f to 1.0f
         if (ImGui::TreeNode("point light"))
         {
-            ImGui::SliderFloat("intensity", &pointLightIntensity, 0.0f, 10.0f);
-            ImGui::SliderFloat3("position", (float *)&pointLightPosition, 0.0f, 1.0f);
-            ImGui::ColorEdit3("color", (float *)&pointLightColor);
+            ImGui::SliderFloat("intensity", &lightSettings.pointLight.intensity, 0.0f, 10.0f);
+            ImGui::SliderFloat3("position", (float *)&lightSettings.pointLight.position, 0.0f, 1.0f);
+            ImGui::ColorEdit3("color", (float *)&lightSettings.pointLight.color);
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("ambient light"))
         {
-            ImGui::SliderFloat("intensity", &ambientLightIntensity, 0.0f, 10.0f);
-            ImGui::ColorEdit3("color", (float *)&ambientLightColor);
+            ImGui::SliderFloat("intensity", &lightSettings.ambientLight.intensity, 0.0f, 10.0f);
+            ImGui::ColorEdit3("color", (float *)&lightSettings.ambientLight.color);
             ImGui::TreePop();
         }
-        ImGui::Checkbox("Bloom", &bloom);
-        ImGui::SliderFloat("blur intensity", &bloomIntensity, 0.0f, 10.0f);
-
-        // ImGui::ColorEdit4("light color", (float *)&pointLightColor); // Edit 3 floats representing a color
+        ImGui::Checkbox("Bloom", &lightSettings.bloom);
+        ImGui::SliderFloat("blur intensity", &lightSettings.bloomIntensity, 0.0f, 10.0f);
 
         if (ImGui::Button("Button"))
         {
             ::counter++;
-        } // Buttons return true when clicked (most widgets return true when edited/activated)
+        }
 
         ImGui::SameLine();
         ImGui::Text("counter = %d", ::counter);

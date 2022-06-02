@@ -222,11 +222,12 @@ struct OpenGLPipeline::Internal
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
 
-        // blur pass
+                // blur pass
         bool firstIteration = true;
         bool horizontal = true;
         blurProgram.use();
-
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
         for (int i = 0; i < pingpongAmount; ++i)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
@@ -246,7 +247,6 @@ struct OpenGLPipeline::Internal
             }
 
             glBindVertexArray(framebufferVAO);
-            glDisable(GL_DEPTH_TEST);
 
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -259,7 +259,7 @@ struct OpenGLPipeline::Internal
         framebufferProgram.setFloat("bloomIntensity", lightSettings.bloomIntensity);
         framebufferProgram.setBool("bloom", lightSettings.bloom);
         glBindVertexArray(framebufferVAO);
-        glDisable(GL_DEPTH_TEST);
+        // glDisable(GL_DEPTH_TEST);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, postProcessingTextureId);
         glActiveTexture(GL_TEXTURE1);

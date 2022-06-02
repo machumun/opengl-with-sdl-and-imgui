@@ -24,8 +24,6 @@ struct SceneMain::Internal
 {
     hid::PerspectiveCamera camera;
     std::vector<hid::StaticMeshInstance> staticMeshes;
-    std::vector<hid::StaticMeshInstance> lightInstance;
-
     std::shared_ptr<hid::Dat> sharedUserData;
 
     hid::LightSettings lightSettings;
@@ -58,16 +56,9 @@ struct SceneMain::Internal
         assetManager.loadTextures({hid::assets::Texture::Empty});
         assetManager.loadTextures({hid::assets::Texture::Hamster});
         assetManager.loadTextures({hid::assets::Texture::Metal});
-        assetManager.loadTextures({hid::assets::Texture::Bomb});
+        assetManager.loadTextures({hid::assets::Texture::Magician});
 
-        lightSettings.pointLight.setPosition(sharedUserData->pointLightPosition);
-        lightSettings.pointLight.setColor(sharedUserData->pointLightColor);
-        lightSettings.pointLight.setIntensity(sharedUserData->pointLightIntensity);
-        lightSettings.ambientLight.setColor(sharedUserData->ambientLightColor);
-        lightSettings.ambientLight.setIntensity(sharedUserData->ambientLightIntensity);
-
-        lightSettings.bloomIntensity = sharedUserData->bloomIntensity;
-        lightSettings.bloom = sharedUserData->bloom;
+        lightSettings = sharedUserData->lightSettings;
 
         hid::Material hamMaterial{hid::assets::Texture::Hamster,
                                   glm::vec3{1.0f, 1.0f, 1.0f}};
@@ -75,18 +66,18 @@ struct SceneMain::Internal
         hid::Material metalMaterial{hid::assets::Texture::Metal,
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
 
-        hid::Material bombMaterial{hid::assets::Texture::Bomb,
+        hid::Material bombMaterial{hid::assets::Texture::Magician,
                                    glm::vec3{1.0f, 1.0f, 1.0f}};
 
         hid::Material pointLightMaterial{hid::assets::Texture::Empty,
-                                         sharedUserData->pointLightColor};
+                                         sharedUserData->lightSettings.pointLight.color};
 
         // 0
         staticMeshes.push_back(
             hid::StaticMeshInstance{
                 hid::assets::StaticMesh::Crate,
                 pointLightMaterial,
-                sharedUserData->pointLightPosition,
+                sharedUserData->lightSettings.pointLight.position,
                 glm::vec3{0.1f, 0.1f, 0.1f}});
 
         // 1
@@ -111,6 +102,7 @@ struct SceneMain::Internal
             glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
             glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
             0.0f});
+
         // 4
         staticMeshes.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Plane,
@@ -134,24 +126,17 @@ struct SceneMain::Internal
             staticMeshes[2].rotateBy(delta * sharedUserData->rotateSpeed);
         }
 
-        staticMeshes[1].updateModelMatrix();
-        staticMeshes[2].updateModelMatrix();
-        staticMeshes[3].updateModelMatrix();
-        staticMeshes[4].updateModelMatrix();
-
-        // light
-        staticMeshes[0].setPosition(sharedUserData->pointLightPosition);
-        staticMeshes[0].setBaseColor(sharedUserData->pointLightColor);
-        staticMeshes[0].updateModelMatrix();
+        // light instance
+        staticMeshes[0].setPosition(sharedUserData->lightSettings.pointLight.position);
+        staticMeshes[0].setBaseColor(sharedUserData->lightSettings.pointLight.color);
 
         // real time light move
-        lightSettings.pointLight.setPosition(sharedUserData->pointLightPosition);
-        lightSettings.pointLight.setColor(sharedUserData->pointLightColor);
-        lightSettings.pointLight.setIntensity(sharedUserData->pointLightIntensity);
-        lightSettings.ambientLight.setColor(sharedUserData->ambientLightColor);
-        lightSettings.ambientLight.setIntensity(sharedUserData->ambientLightIntensity);
-        lightSettings.bloomIntensity = sharedUserData->bloomIntensity;
-        lightSettings.bloom = sharedUserData->bloom;
+        lightSettings = sharedUserData->lightSettings;
+
+        for (auto& staticMesh : staticMeshes)
+        {
+            staticMesh.updateModelMatrix();
+        }
     }
 
     void render(hid::Renderer& renderer)

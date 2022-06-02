@@ -21,8 +21,17 @@ namespace hid
 
         glm::vec3 baseColor;
 
-        Material(const hid::assets::Texture &albedo,
-                 const glm::vec3 &baseColor = glm::vec3{1.0f, 1.0f, 1.0f})
-            : albedo{albedo}, baseColor{baseColor} {}
+        Material(const hid::assets::Texture &albedo = hid::assets::Texture::Empty,
+                 const glm::vec3 &baseColor = glm::vec3{1.0f, 1.0f, 1.0f},
+                 const hid::assets::Texture &normal = hid::assets::Texture::Empty,
+                 const hid::assets::Texture &metaric = hid::assets::Texture::Empty,
+                 const hid::assets::Texture &speculer = hid::assets::Texture::Empty)
+            : albedo{albedo},
+              baseColor{baseColor},
+              normal(normal),
+              metaric(metaric),
+              speculer(speculer)
+        {
+        }
     };
 }

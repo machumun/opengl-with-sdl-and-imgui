@@ -44,11 +44,12 @@ namespace hid
         float bloomIntensity;
         bool bloom;
 
-        LightSettings(const Light &pointLight, const Light &ambientLight)
+        LightSettings(const Light &pointLight = Light(LightType::Point),
+                      const Light &ambientLight = Light(LightType::Ambient))
             : pointLight{pointLight},
               ambientLight{ambientLight},
-              bloomIntensity{2.2},
-              bloom{false}
+              bloomIntensity{0.6},
+              bloom{true}
         {
         }
 

@@ -26,7 +26,8 @@ namespace hid::assets
         Bomb,
         Hamster,
         Metal,
-        Empty
+        Empty,
+        Magician
     };
 
     enum class Material
