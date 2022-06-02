@@ -36,14 +36,14 @@ std::string hid::assets::resolveTexturePath(const hid::assets::Texture &texture)
 {
     switch (texture)
     {
-    case hid::assets::Texture::Cube:
-        return "assets/textures/cube.png";
+    case hid::assets::Texture::Bomb:
+        return "assets/textures/bomb.png";
     case hid::assets::Texture::Hamster:
         return "assets/textures/hamster.png";
     case hid::assets::Texture::Metal:
         return "assets/textures/metal.png";
     case hid::assets::Texture::Empty:
-        return "assets/textures/metal.png";
+        return "assets/textures/empty.png";
     default:
         return "assets/textures/empty.png";
     }

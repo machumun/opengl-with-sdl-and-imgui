@@ -58,6 +58,7 @@ struct SceneMain::Internal
         assetManager.loadTextures({hid::assets::Texture::Empty});
         assetManager.loadTextures({hid::assets::Texture::Hamster});
         assetManager.loadTextures({hid::assets::Texture::Metal});
+        assetManager.loadTextures({hid::assets::Texture::Bomb});
 
         lightSettings.pointLight.setPosition(sharedUserData->pointLightPosition);
         lightSettings.pointLight.setColor(sharedUserData->pointLightColor);
@@ -70,8 +71,12 @@ struct SceneMain::Internal
 
         hid::Material hamMaterial{hid::assets::Texture::Hamster,
                                   glm::vec3{1.0f, 1.0f, 1.0f}};
+
         hid::Material metalMaterial{hid::assets::Texture::Metal,
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
+
+        hid::Material bombMaterial{hid::assets::Texture::Bomb,
+                                   glm::vec3{1.0f, 1.0f, 1.0f}};
 
         hid::Material pointLightMaterial{hid::assets::Texture::Empty,
                                          sharedUserData->pointLightColor};
@@ -93,9 +98,9 @@ struct SceneMain::Internal
         staticMeshes.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Hamster,
             metalMaterial,
-            glm::vec3{0.4f, 0.6f, 0.4f}, // Position
-            glm::vec3{0.6f, 0.6f, 0.6f}, // Scale
-            glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
+            glm::vec3{-0.4f, 0.6f, 0.4f}, // Position
+            glm::vec3{0.6f, 0.6f, 0.6f},  // Scale
+            glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
             0.0f});
 
         // 3
@@ -106,6 +111,14 @@ struct SceneMain::Internal
             glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
             glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
             0.0f});
+        // 4
+        staticMeshes.push_back(hid::StaticMeshInstance{
+            hid::assets::StaticMesh::Plane,
+            bombMaterial,
+            glm::vec3{1.0f, .5f, .0f}, // Position
+            glm::vec3{.1f, .1f, .1f},  // Scale
+            glm::vec3{1.0f, .0f, .0f}, // Rotation axis
+            90.0f});
     }
 
     void update(const float& delta)
@@ -124,6 +137,7 @@ struct SceneMain::Internal
         staticMeshes[1].updateModelMatrix();
         staticMeshes[2].updateModelMatrix();
         staticMeshes[3].updateModelMatrix();
+        staticMeshes[4].updateModelMatrix();
 
         // light
         staticMeshes[0].setPosition(sharedUserData->pointLightPosition);

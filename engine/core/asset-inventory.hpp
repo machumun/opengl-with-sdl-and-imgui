@@ -23,7 +23,7 @@ namespace hid::assets
     enum class Texture
     {
 
-        Cube,
+        Bomb,
         Hamster,
         Metal,
         Empty
