@@ -24,6 +24,7 @@ struct SceneMain::Internal
 {
     hid::PerspectiveCamera camera;
     std::vector<hid::StaticMeshInstance> staticMeshes;
+    std::vector<hid::AnimationPlane> animationPlanes;
     std::shared_ptr<hid::Dat> sharedUserData;
 
     hid::LightSettings lightSettings;
@@ -41,7 +42,7 @@ struct SceneMain::Internal
     {
     }
 
-    void prepare(hid::AssetManager& assetManager, const std::shared_ptr<hid::Dat> userData)
+    void prepare(hid::AssetManager& assetManager, const std::shared_ptr<hid::Dat>& userData)
     {
 
         userData->rotateSpeed = 50.0f;
@@ -111,9 +112,20 @@ struct SceneMain::Internal
             glm::vec3{.1f, .1f, .1f},  // Scale
             glm::vec3{1.0f, .0f, .0f}, // Rotation axis
             90.0f});
+
+        // a0
+        animationPlanes.push_back(
+            hid::AnimationPlane{
+                charactorMaterial,
+                0,
+                glm::vec3{1.0f, .5f, .0f}, // Position
+                glm::vec3{.1f, .1f, .1f},  // Scale
+                glm::vec3{1.0f, .0f, .0f}, // Rotation axis
+                90.0f});
     }
 
-    void update(const float& delta)
+    void
+    update(const float& delta)
     {
         input(delta);
         camera.configure(player.getPosition(), player.getDirection());
@@ -182,7 +194,7 @@ SceneMain::SceneMain(const float& screenWidth, const float& screenHeight)
     : internal(hid::make_internal_ptr<Internal>(screenWidth, screenHeight)) {}
 
 void SceneMain::prepare(hid::AssetManager& assetManager,
-                        const std::shared_ptr<hid::Dat> userData)
+                        const std::shared_ptr<hid::Dat>& userData)
 {
     internal->prepare(assetManager, userData);
 }

@@ -12,7 +12,7 @@ namespace usr
         SceneMain(const float& screenWidth, const float& screenHeight);
 
         void prepare(hid::AssetManager& assetManager,
-                     const std::shared_ptr<hid::Dat> userData) override;
+                     const std::shared_ptr<hid::Dat>& userData) override;
 
         void update(const float& delta) override;
 
