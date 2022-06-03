@@ -117,6 +117,7 @@ struct OpenGLPipeline::Internal
     const hid::OpenGLShader shader;
     const hid::OpenGLShader blurProgram;
     const hid::OpenGLShader framebufferProgram;
+    const hid::OpenGLShader animationProgram;
 
     const GLuint postProcessingFBO;
 
@@ -139,6 +140,7 @@ struct OpenGLPipeline::Internal
         : shader{hid::OpenGLShader(vertShaderName, fragShaderName)},
           blurProgram{hid::OpenGLShader("framebuffer", "blur")},
           framebufferProgram{hid::OpenGLShader("framebuffer", "framebuffer")},
+          animationProgram{hid::OpenGLShader("lit", "animation")},
           framebufferVAO{::createFramebufferVAO()},
 
           postProcessingFBO{::createFBO()},
@@ -222,8 +224,8 @@ struct OpenGLPipeline::Internal
             shader.setVec3("u_baseColor", &mat.baseColor[0]);
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
+
+        // deffered shading pass
 
         // blur pass
         bool firstIteration = true;

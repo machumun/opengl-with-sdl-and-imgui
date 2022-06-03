@@ -88,12 +88,20 @@ void main()
     // }
 
     
-    BloomColor = result;
-    float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
+    // BloomColor = result;
+
+    if(result.a>0){
+        float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
+        BloomColor = vec4(FragColor.rgb * brightness, 1.f);
+    }else{
+        BloomColor = vec4(.0f, .0f, .0f, 0.f);
+    }
+    
     // float brightness = 1.f;
     // BloomColor.a = brightness*1.f;
     // BloomColor.a = brightness;
-    BloomColor = FragColor*brightness;
+
+    
     // if(brightness > 1.0f){
     //     BloomColor = FragColor*brightness;
     // }else{

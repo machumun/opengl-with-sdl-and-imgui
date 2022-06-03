@@ -43,6 +43,7 @@ void main()
         
         // FragColor = color;
         //  FragColor = texture2D(u_bloomTexture, v_texCoord);
+        // FragColor = vec4(frag, 1.0f);
     }else{
         // FragColor = texture2D(u_screenTexture, v_texCoord);
          FragColor = vec4(blur, 1.0f);
