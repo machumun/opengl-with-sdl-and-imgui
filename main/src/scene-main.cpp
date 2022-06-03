@@ -66,8 +66,8 @@ struct SceneMain::Internal
         hid::Material metalMaterial{hid::assets::Texture::Metal,
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
 
-        hid::Material bombMaterial{hid::assets::Texture::Magician,
-                                   glm::vec3{1.0f, 1.0f, 1.0f}};
+        hid::Material charactorMaterial{hid::assets::Texture::Magician,
+                                        glm::vec3{1.0f, 1.0f, 1.0f}};
 
         hid::Material pointLightMaterial{hid::assets::Texture::Empty,
                                          sharedUserData->lightSettings.pointLight.color};
@@ -78,7 +78,7 @@ struct SceneMain::Internal
                 hid::assets::StaticMesh::Crate,
                 pointLightMaterial,
                 sharedUserData->lightSettings.pointLight.position,
-                glm::vec3{0.1f, 0.1f, 0.1f}});
+                glm::vec3{0.02f, 0.02f, 0.02f}});
 
         // 1
         staticMeshes.push_back(hid::StaticMeshInstance{
@@ -106,7 +106,7 @@ struct SceneMain::Internal
         // 4
         staticMeshes.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Plane,
-            bombMaterial,
+            charactorMaterial,
             glm::vec3{1.0f, .5f, .0f}, // Position
             glm::vec3{.1f, .1f, .1f},  // Scale
             glm::vec3{1.0f, .0f, .0f}, // Rotation axis

@@ -115,53 +115,74 @@ namespace
 struct OpenGLPipeline::Internal
 {
     const hid::OpenGLShader shader;
+    const hid::OpenGLShader defferedLightingProgram;
     const hid::OpenGLShader blurProgram;
     const hid::OpenGLShader framebufferProgram;
     const hid::OpenGLShader animationProgram;
 
-    const GLuint postProcessingFBO;
+    // screen rect mesh vao
+    const GLuint framebufferVAO;
 
-    const GLuint postProcessingTextureId;
-    const GLuint bloomTextureId;
-
+    // g buffer
+    const GLuint baseFBO;
+    const GLuint positionTextureId;
+    const GLuint normalTextureId;
+    const GLuint albedoTextureId;
     const GLuint depthRenderBufferId;
 
-    const GLuint framebufferVAO;
+    // deffered lighting buffer
+    const GLuint defferedLightingFBO;
+    const GLuint baseTextureId;
+    const GLuint bloomTextureId;
 
     GLuint pingpongFBO[2];
     GLuint pingpongBufferTexture[2];
     GLuint pingpongDepthRenderBufferId[2];
 
-    const GLuint attatchments[2];
-
     const int pingpongAmount;
 
     Internal(const std::string &vertShaderName, const std::string &fragShaderName)
         : shader{hid::OpenGLShader(vertShaderName, fragShaderName)},
+          defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered-lighting")},
           blurProgram{hid::OpenGLShader("framebuffer", "blur")},
           framebufferProgram{hid::OpenGLShader("framebuffer", "framebuffer")},
           animationProgram{hid::OpenGLShader("lit", "animation")},
           framebufferVAO{::createFramebufferVAO()},
 
-          postProcessingFBO{::createFBO()},
-          postProcessingTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)},
-          bloomTextureId{::createFramebufferTexture(postProcessingFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT1)},
-          depthRenderBufferId{::createRenderBuffer(postProcessingFBO)},
+          baseFBO{::createFBO()},
+          positionTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)),
+          normalTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT1)),
+          albedoTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT2)),
+          depthRenderBufferId{::createRenderBuffer(baseFBO)},
 
-          pingpongAmount{10},
-          attatchments{GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1}
+          defferedLightingFBO(::createFBO()),
+          baseTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)},
+          bloomTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT1)},
+
+          pingpongAmount{8}
     {
+
+        // tell opengl use this attachment
+        const GLuint baseAttatchments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
+        glBindFramebuffer(GL_FRAMEBUFFER, baseFBO);
+        glDrawBuffers(3, baseAttatchments);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        defferedLightingProgram.use();
+        defferedLightingProgram.setInt("u_positionTexture", 0);
+        defferedLightingProgram.setInt("u_normalTexture", 1);
+        defferedLightingProgram.setInt("u_albedoTexture", 2);
+
+        blurProgram.use();
+        blurProgram.setInt("u_bloomTexture", 0);
 
         framebufferProgram.use();
         framebufferProgram.setInt("u_screenTexture", 0);
         framebufferProgram.setInt("u_bloomTexture", 1);
 
-        blurProgram.use();
-        blurProgram.setInt("u_bloomTexture", 1);
-
-        // tell opengl use this attachment
-        glBindFramebuffer(GL_FRAMEBUFFER, postProcessingFBO);
-        glDrawBuffers(2, attatchments);
+        const GLuint defferedLightingAttatchments[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+        glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
+        glDrawBuffers(2, defferedLightingAttatchments);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         // pinpongFBO
@@ -186,32 +207,23 @@ struct OpenGLPipeline::Internal
         const hid::LightSettings &lightSettings)
     {
 
-        // bind postprocess framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, postProcessingFBO);
+        // geometry buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, baseFBO);
 
-        // glClearColor(.8f, .8f, .8f, 1.0f);
-        // glClearColor(.0f, .0f, .0f, 1.0f);
-        glClearColor(.2f, .2f, .2f, 1.0f);
+        // glClearColor(.8f, .8f, .8f, 0.0f);
+        glClearColor(.0f, .0f, .0f, 1.0f);
+        // glClearColor(.2f, .2f, .2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        // glAlphaFunc(GL_GREATER, 0.5);
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
-        // draw the normal models
+        // basecolor pass
         shader.use();
-
-        const hid::Light &pointLight = lightSettings.pointLight;
-        const hid::Light &ambientLight = lightSettings.ambientLight;
-        shader.setVec3("u_pointLight[0].position", &pointLight.position[0]);
-        shader.setVec3("u_pointLight[0].color", &pointLight.color[0]);
-        shader.setFloat("u_pointLight[0].intensity", pointLight.intensity);
-        shader.setVec3("u_ambientLight.color", &ambientLight.color[0]);
-        shader.setFloat("u_ambientLight.intensity", ambientLight.intensity);
-
+        glActiveTexture(GL_TEXTURE0);
         shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
         for (const auto &staticMeshInstance : staticMeshInstances)
@@ -219,20 +231,44 @@ struct OpenGLPipeline::Internal
             shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
             // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
             hid::Material &mat = staticMeshInstance.getMaterial();
+
             assetManager.getTexture(mat.albedo).bind();
-            shader.setInt("u_sampler", 1);
+            // shader.setInt("u_sampler", 0);
             shader.setVec3("u_baseColor", &mat.baseColor[0]);
             assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
         }
 
         // deffered shading pass
+        glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+        defferedLightingProgram.use();
+        const hid::Light &pointLight = lightSettings.pointLight;
+        const hid::Light &ambientLight = lightSettings.ambientLight;
+        defferedLightingProgram.setVec3("u_pointLight[0].position", &pointLight.position[0]);
+        defferedLightingProgram.setVec3("u_pointLight[0].color", &pointLight.color[0]);
+        defferedLightingProgram.setFloat("u_pointLight[0].intensity", pointLight.intensity);
+        defferedLightingProgram.setVec3("u_ambientLight.color", &ambientLight.color[0]);
+        defferedLightingProgram.setFloat("u_ambientLight.intensity", ambientLight.intensity);
 
-        // blur pass
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, positionTextureId);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, normalTextureId);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, albedoTextureId);
+        glBindVertexArray(framebufferVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        // glDisable(GL_DEPTH_TEST);
+        // glDisable(GL_BLEND);
+
+        // blur effect pass
         bool firstIteration = true;
         bool horizontal = true;
         blurProgram.use();
         glDisable(GL_DEPTH_TEST);
-        // glDisable(GL_BLEND);
+        glDisable(GL_BLEND);
         for (int i = 0; i < pingpongAmount; ++i)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
@@ -240,9 +276,9 @@ struct OpenGLPipeline::Internal
             // for tatamikomi kawase
             blurProgram.setFloat("loopNum", (float)i + 1.0f);
 
+            glActiveTexture(GL_TEXTURE0);
             if (firstIteration)
             {
-                // hid::log("hid::OpenGLApplication::render: blur loop:", std::to_string(i));
                 glBindTexture(GL_TEXTURE_2D, bloomTextureId);
                 firstIteration = false;
             }
@@ -250,6 +286,8 @@ struct OpenGLPipeline::Internal
             {
                 glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
             }
+
+            defferedLightingProgram.setInt("u_bloomTexture", 0);
 
             glBindVertexArray(framebufferVAO);
             glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -260,11 +298,16 @@ struct OpenGLPipeline::Internal
         // framebuffer program
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         framebufferProgram.use();
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+
         framebufferProgram.setFloat("bloomIntensity", lightSettings.bloomIntensity);
         framebufferProgram.setBool("bloom", lightSettings.bloom);
         glBindVertexArray(framebufferVAO);
+
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, postProcessingTextureId);
+        glBindTexture(GL_TEXTURE_2D, baseTextureId);
+
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
         glDrawArrays(GL_TRIANGLES, 0, 6);

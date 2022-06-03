@@ -26,10 +26,12 @@ struct Player::Internal
     glm::vec3 position;
     glm::mat4 orientation;
     glm::vec3 forwardDirection;
+    glm::vec3 right;
 
     Internal(const glm::vec3& position, float rotationDegrees)
         : identity(glm::mat4(1)),
           up(glm::vec3{0.0f, 1.0f, 0.0f}),
+          right(glm::vec3{1.0f, 0.0f, 0.0f}),
           rotationDegrees(rotationDegrees),
           position(position),
           orientation(::computeOrientation(identity, rotationDegrees, up)),

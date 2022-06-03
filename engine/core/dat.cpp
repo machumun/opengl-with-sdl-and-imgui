@@ -27,7 +27,7 @@ void Dat::userImGui()
         if (ImGui::TreeNode("point light"))
         {
             ImGui::SliderFloat("intensity", &lightSettings.pointLight.intensity, 0.0f, 10.0f);
-            ImGui::SliderFloat3("position", (float *)&lightSettings.pointLight.position, 0.0f, 1.0f);
+            ImGui::SliderFloat3("position", (float *)&lightSettings.pointLight.position, -10.0f, 10.0f);
             ImGui::ColorEdit3("color", (float *)&lightSettings.pointLight.color);
             ImGui::TreePop();
         }

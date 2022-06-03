@@ -48,7 +48,7 @@ namespace hid
                       const Light &ambientLight = Light(LightType::Ambient))
             : pointLight{pointLight},
               ambientLight{ambientLight},
-              bloomIntensity{0.6},
+              bloomIntensity{0.2},
               bloom{true}
         {
         }

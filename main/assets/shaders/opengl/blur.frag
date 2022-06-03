@@ -1,14 +1,13 @@
+// in
 uniform sampler2D u_bloomTexture; //GL_COLOR_ATTACHMENT0
+uniform bool horizontal = true;
+uniform float loopNum = 1;
+in vec2 v_texCoord;
 
 layout (location = 0) out vec4 FragColor;
 
-uniform bool horizontal = true;
-uniform float loopNum = 1;
-
 const int WEIGHT_NUM = 5;
 float weight[WEIGHT_NUM] = float[](0.227027f, 0.1945946f, 0.1216216f, 0.054054f, 0.016216f);
-
-in vec2 v_texCoord;
 
 void main()
 {

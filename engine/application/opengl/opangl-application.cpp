@@ -35,7 +35,7 @@ namespace
         glCullFace(GL_FRONT);
         glFrontFace(GL_CW);
 
-        glEnable(GL_MULTISAMPLE);
+        // glEnable(GL_MULTISAMPLE);
 
         glViewport(0, 0, viewportWidth, viewportHeight);
 
