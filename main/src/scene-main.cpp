@@ -67,7 +67,7 @@ struct SceneMain::Internal
         hid::Material metalMaterial{hid::assets::Texture::Metal,
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
 
-        hid::Material charactorMaterial{hid::assets::Texture::Magician,
+        hid::Material characterMaterial{hid::assets::Texture::Magician,
                                         glm::vec3{1.0f, 1.0f, 1.0f}};
 
         hid::Material pointLightMaterial{hid::assets::Texture::Empty,
@@ -107,7 +107,7 @@ struct SceneMain::Internal
         // 4
         staticMeshes.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Plane,
-            charactorMaterial,
+            characterMaterial,
             glm::vec3{1.0f, .5f, .0f}, // Position
             glm::vec3{.1f, .1f, .1f},  // Scale
             glm::vec3{1.0f, .0f, .0f}, // Rotation axis
@@ -116,7 +116,7 @@ struct SceneMain::Internal
         // a0
         animationPlanes.push_back(
             hid::AnimationPlane{
-                charactorMaterial,
+                characterMaterial,
                 0,
                 glm::vec3{1.0f, .5f, .0f}, // Position
                 glm::vec3{.1f, .1f, .1f},  // Scale
