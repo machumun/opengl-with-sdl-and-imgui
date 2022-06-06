@@ -24,6 +24,8 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 ![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/material/uvanimation.gif)
 
+テクスチャは[こちらから](http://obane.blog.shinobi.jp/)お借りしました。
+
 
 # Feature And Plan
 
