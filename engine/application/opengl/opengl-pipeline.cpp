@@ -252,6 +252,7 @@ struct OpenGLPipeline::Internal
         defferedLightingProgram.setFloat("u_ambientLight.intensity", ambientLight.intensity);
 
         glActiveTexture(GL_TEXTURE0);
+
         glBindTexture(GL_TEXTURE_2D, positionTextureId);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, normalTextureId);
