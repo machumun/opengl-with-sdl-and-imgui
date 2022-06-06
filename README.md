@@ -22,7 +22,7 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 ## ・UV Animation Plane  
 
-![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/uvanimation.gif)
+![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/material/uvanimation.gif)
 
 
 # Feature And Plan
