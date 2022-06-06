@@ -39,7 +39,7 @@ std::string hid::assets::resolveTexturePath(const hid::assets::Texture &texture)
     case hid::assets::Texture::Bomb:
         return "assets/textures/bomb.png";
     case hid::assets::Texture::Frog:
-        return "assets/textures/frog.png";
+        return "assets/textures/chara.png";
     case hid::assets::Texture::Hamster:
         return "assets/textures/hamster.png";
     case hid::assets::Texture::Metal:

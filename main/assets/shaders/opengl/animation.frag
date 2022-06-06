@@ -16,10 +16,10 @@ layout (location = 2) out vec4 u_albedoTexture; // framebuffer attachment 2
 uniform int u_animationFrameX = 0;
 uniform int u_animationFrameY = 0;
 
-const int unitNumX = 8;
+const int unitNumX = 6;
 const int unitNumY = 4;
 
-const float texCoordOffsetsX[unitNumX] = float[](.0f, .125f, .25f, .375f, .5f, .625f, .75f, .875f);
+const float texCoordOffsetsX[unitNumX] = float[](.0f, 0.16667f, 0.33333f, 0.5f, 0.66667f, 0.83333f);
 const float texCoordOffsetsY[unitNumY] = float[](.0f, .25f, .5f, .75f);
 
 

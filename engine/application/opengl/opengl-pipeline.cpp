@@ -142,7 +142,7 @@ struct OpenGLPipeline::Internal
     const int pingpongAmount;
 
     // animation test
-    const int animationFrame[4] = {0, 1, 2, 3};
+    const int animationFrame[4] = {0, 1, 2, 1};
     const int skipFrame = 8;
     int frameCount = 0;
     int animationCount = 0;
@@ -265,7 +265,7 @@ struct OpenGLPipeline::Internal
         {
             frameCount = 0;
             ++animationCount;
-            if (animationCount > 4)
+            if (animationCount >= 4)
             {
                 animationCount = 0;
             }

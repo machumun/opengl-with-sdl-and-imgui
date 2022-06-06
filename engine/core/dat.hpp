@@ -27,7 +27,7 @@ namespace hid
                         hid::LightType::Point,
                         glm::vec3(1.0f, 1.0f, 1.0f),
                         glm::vec3(216.f / 255.f, 218.f / 255.f, 192.f / 255.f),
-                        6.893f},
+                        5.093f},
                     hid::Light{
                         LightType::Ambient,
                         glm::vec3(1.0f, 1.0f, 1.0f),

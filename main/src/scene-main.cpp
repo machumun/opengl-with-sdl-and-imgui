@@ -107,7 +107,7 @@ struct SceneMain::Internal
         staticMeshes.push_back(hid::StaticMeshInstance{
             hid::assets::StaticMesh::Plane,
             characterMaterial,
-            glm::vec3{1.0f, .5f, .0f}, // Position
+            glm::vec3{1.0f, .0f, .0f}, // Position
             glm::vec3{.1f, .1f, .1f},  // Scale
             glm::vec3{1.0f, .0f, .0f}, // Rotation axis
             90.0f});
