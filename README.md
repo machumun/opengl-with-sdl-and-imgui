@@ -20,16 +20,21 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 ![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/bloom.gif)
 
 
+## ・UV Animation Plane  
+
+![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/uvanimation.gif)
+
+
 # Feature And Plan
 
 * クロスプラットフォーム
   * Windows10, macOS, iOS, Android, Webをビルドターゲットとして想定しているので、SDL2とOpenGLの組み合わせを用いています。
 * 設計
-  * 後々Vulkan(MoltenVK)に対応することを想定して抽象化をしています。
-  * ゲームを作る段階で困らないように、明快なAPIであることを心がけています。
+  * ゲームを作る段階で困らないように、明快なAPI、抽象化を心がけています。
 * 今後の予定
   * シャドウマップの実装。
   * gltfへの対応。
+  * Batchレンダリングの実装
 * 課題
   * モデルをレンダリングするプロセスが最善ではないので、設計を模索しています。
 

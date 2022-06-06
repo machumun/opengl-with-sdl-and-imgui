@@ -49,6 +49,8 @@ void Dat::userImGui()
         ImGui::SameLine();
         ImGui::Text("counter = %d", ::counter);
 
+        ImGui::Text("delta between frames %.3f", &delta);
+
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::End();
     }

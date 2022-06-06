@@ -17,6 +17,8 @@ namespace hid
         float rotateSpeed;
         hid::LightSettings lightSettings;
 
+        float delta;
+
         Dat() : isActive{true},
                 show_another_window{false},
                 rotateSpeed{.0f},
@@ -30,7 +32,8 @@ namespace hid
                         LightType::Ambient,
                         glm::vec3(1.0f, 1.0f, 1.0f),
                         glm::vec3(153.f / 255.f, 166.f / 255.f, 180.f / 255.f),
-                        .583f}}
+                        .583f}},
+                delta{.0f}
         {
         }
 

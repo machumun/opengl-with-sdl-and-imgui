@@ -11,7 +11,6 @@ float weight[WEIGHT_NUM] = float[](0.227027f, 0.1945946f, 0.1216216f, 0.054054f,
 
 void main()
 {
-
     // texel
    vec2 tex_offset_delta = loopNum / textureSize(u_bloomTexture, 0);
    vec4 color = texture(u_bloomTexture, v_texCoord);

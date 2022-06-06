@@ -13,7 +13,6 @@ using usr::SceneMain;
 
 namespace
 {
-
     hid::PerspectiveCamera createCamera(const float& width, const float& height)
     {
         return hid::PerspectiveCamera(width, height);
@@ -57,7 +56,7 @@ struct SceneMain::Internal
         assetManager.loadTextures({hid::assets::Texture::Empty});
         assetManager.loadTextures({hid::assets::Texture::Hamster});
         assetManager.loadTextures({hid::assets::Texture::Metal});
-        assetManager.loadTextures({hid::assets::Texture::Magician});
+        assetManager.loadTextures({hid::assets::Texture::Frog});
 
         lightSettings = sharedUserData->lightSettings;
 
@@ -67,7 +66,7 @@ struct SceneMain::Internal
         hid::Material metalMaterial{hid::assets::Texture::Metal,
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
 
-        hid::Material characterMaterial{hid::assets::Texture::Magician,
+        hid::Material characterMaterial{hid::assets::Texture::Frog,
                                         glm::vec3{1.0f, 1.0f, 1.0f}};
 
         hid::Material pointLightMaterial{hid::assets::Texture::Empty,
@@ -124,9 +123,10 @@ struct SceneMain::Internal
                 90.0f});
     }
 
-    void
-    update(const float& delta)
+    void update(const float& delta)
     {
+
+        // user data ->
         input(delta);
         camera.configure(player.getPosition(), player.getDirection());
 

@@ -141,6 +141,12 @@ struct OpenGLPipeline::Internal
 
     const int pingpongAmount;
 
+    // animation test
+    const int animationFrame[4] = {0, 1, 2, 3};
+    const int skipFrame = 8;
+    int frameCount = 0;
+    int animationCount = 0;
+
     Internal(const std::string &vertShaderName, const std::string &fragShaderName)
         : shader{hid::OpenGLShader(vertShaderName, fragShaderName)},
           defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered-lighting")},
@@ -226,22 +232,54 @@ struct OpenGLPipeline::Internal
         glActiveTexture(GL_TEXTURE0);
         shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
-        for (const auto &staticMeshInstance : staticMeshInstances)
-        {
-            shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
-            // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
-            hid::Material &mat = staticMeshInstance.getMaterial();
+        // for (const auto &staticMeshInstance : staticMeshInstances)
+        // {
+        //     shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
+        //     // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
+        //     hid::Material &mat = staticMeshInstance.getMaterial();
 
-            assetManager.getTexture(mat.albedo).bind();
-            // shader.setInt("u_sampler", 0);
-            shader.setVec3("u_baseColor", &mat.baseColor[0]);
-            assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
+        //     assetManager.getTexture(mat.albedo).bind();
+        //     // shader.setInt("u_sampler", 0);
+        //     shader.setVec3("u_baseColor", &mat.baseColor[0]);
+        //     assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
+        // }
+
+        shader.setMat4("u_modelMatrix", &staticMeshInstances[3].getModelMatrix()[0][0]);
+        hid::Material &mat2 = staticMeshInstances[3].getMaterial();
+
+        assetManager.getTexture(mat2.albedo).bind();
+        shader.setVec3("u_baseColor", &mat2.baseColor[0]);
+        assetManager.getStaticMesh(staticMeshInstances[3].getMesh()).draw();
+
+        animationProgram.use();
+        glActiveTexture(GL_TEXTURE0);
+        animationProgram.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
+        animationProgram.setMat4("u_modelMatrix", &staticMeshInstances[4].getModelMatrix()[0][0]);
+
+        animationProgram.setInt("u_animationFrameX", animationFrame[animationCount]);
+        if (frameCount < skipFrame)
+        {
+            ++frameCount;
+        }
+        else
+        {
+            frameCount = 0;
+            ++animationCount;
+            if (animationCount > 4)
+            {
+                animationCount = 0;
+            }
         }
 
+        hid::Material &mat = staticMeshInstances[4].getMaterial();
+        assetManager.getTexture(mat.albedo).bind();
+        shader.setVec3("u_baseColor", &mat.baseColor[0]);
+        assetManager.getStaticMesh(staticMeshInstances[4].getMesh()).draw();
+
         // deffered shading pass
-        glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
+        glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
         defferedLightingProgram.use();
         const hid::Light &pointLight = lightSettings.pointLight;
         const hid::Light &ambientLight = lightSettings.ambientLight;
@@ -252,7 +290,6 @@ struct OpenGLPipeline::Internal
         defferedLightingProgram.setFloat("u_ambientLight.intensity", ambientLight.intensity);
 
         glActiveTexture(GL_TEXTURE0);
-
         glBindTexture(GL_TEXTURE_2D, positionTextureId);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, normalTextureId);
@@ -261,15 +298,10 @@ struct OpenGLPipeline::Internal
         glBindVertexArray(framebufferVAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        // glDisable(GL_DEPTH_TEST);
-        // glDisable(GL_BLEND);
-
         // blur effect pass
         bool firstIteration = true;
         bool horizontal = true;
         blurProgram.use();
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_BLEND);
         for (int i = 0; i < pingpongAmount; ++i)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);

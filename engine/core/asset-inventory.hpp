@@ -27,7 +27,7 @@ namespace hid::assets
         Hamster,
         Metal,
         Empty,
-        Magician
+        Frog
     };
 
     enum class Material
