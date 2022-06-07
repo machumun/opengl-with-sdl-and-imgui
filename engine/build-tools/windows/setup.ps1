@@ -87,12 +87,12 @@ if (!(Test-Path "..\..\third-party\sdl-image-windows")) {
 if (!(Test-Path "..\..\third-party\imgui")) {
     Write-Host "Downloading ImGui library into third party folder imgui ..."
    
-    Invoke-WebRequest -Uri "https://github.com/ocornut/imgui/archive/refs/heads/master.zip" -OutFile "..\..\third-party\master.zip"
+    Invoke-WebRequest -Uri "https://github.com/ocornut/imgui/archive/refs/heads/docking.zip" -OutFile "..\..\third-party\docking.zip"
     Push-Location -Path "..\..\third-party"
         Write-Host "Unzipping ImGui library into third-party\imgui ..."
-        cmd.exe /c 'tar -xf master.zip'
-        Move-Item -Path imgui-master -Destination imgui
-        Remove-Item -Path master.zip
+        cmd.exe /c 'tar -xf docking.zip'
+        Move-Item -Path imgui-docking -Destination imgui
+        Remove-Item -Path docking.zip
     Pop-Location
 }
 

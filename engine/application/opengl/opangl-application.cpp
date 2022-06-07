@@ -66,6 +66,33 @@ namespace
     {
         return std::make_shared<hid::Dat>(hid::Dat());
     }
+
+    int32_t resizingEventWatcher(void *data, SDL_Event *event)
+    {
+        static const std::string logTag{"hid::OpenGLApplication::resizingEventWatcher"};
+
+        // if (event->type == SDL_WINDOWEVENT &&
+        //     event->window.event == SDL_WINDOWEVENT_RESIZED)
+        // {
+        //     SDL_Window *win = SDL_GetWindowFromID(event->window.windowID);
+        //     if (win == (SDL_Window *)data)
+        //     {
+        //         hid::log(logTag, "Window is resizing");
+        //     }
+        // }
+
+        if (event->type == SDL_WINDOWEVENT &&
+            event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+        {
+            SDL_Window *win = SDL_GetWindowFromID(event->window.windowID);
+            if (win == (SDL_Window *)data)
+            {
+                hid::log(logTag, "Window size was Changed.");
+            }
+        }
+
+        return 0;
+    }
 } // namespace
 
 struct hid::OpenGLApplication::Internal
@@ -73,7 +100,7 @@ struct hid::OpenGLApplication::Internal
     SDL_Window *window;
     SDL_GLContext context;
 
-    std::unique_ptr<hid::OpenGLGui> imgui;
+    std::unique_ptr<hid::OpenGLImGui> imgui;
 
     const std::shared_ptr<hid::OpenGLAssetManager> assetManager;
 
@@ -89,7 +116,7 @@ struct hid::OpenGLApplication::Internal
                  assetManager(::createAssetManager()),
                  data(::createUserData()),
                  renderer(::createRenderer(assetManager)),
-                 imgui(std::make_unique<hid::OpenGLGui>(window, context))
+                 imgui(std::make_unique<hid::OpenGLImGui>())
     {
     }
 
@@ -102,7 +129,7 @@ struct hid::OpenGLApplication::Internal
     {
         SDL_GL_MakeCurrent(window, context);
 
-        imgui->loopImGui(window);
+        imgui->loop(window);
 
         getScene().render(renderer);
         imgui->render();
@@ -112,6 +139,8 @@ struct hid::OpenGLApplication::Internal
 
     void init()
     {
+        // SDL_AddEventWatch(::resizingEventWatcher, window);
+
         if (!scene)
         {
             scene = ::createMainScene(*assetManager, data);
@@ -119,6 +148,7 @@ struct hid::OpenGLApplication::Internal
         std::function<void()> userImGui = [&]() -> void
         { return data->userImGui(); };
 
+        imgui->setup(window, context);
         imgui->setUserImGui(userImGui);
     }
 
@@ -128,7 +158,7 @@ struct hid::OpenGLApplication::Internal
     }
     ~Internal()
     {
-        imgui->cleanUpImGui();
+        imgui->cleanUp();
         SDL_GL_DeleteContext(context);
         SDL_DestroyWindow(window);
     }

@@ -7,14 +7,13 @@
 
 namespace hid
 {
-    struct OpenGLGui
+    struct OpenGLImGui
     {
-        OpenGLGui(SDL_Window *window, SDL_GLContext context);
+        OpenGLImGui();
         void setup(SDL_Window *, SDL_GLContext);
-        void loopImGui(SDL_Window *);
-        void cleanUpImGui();
+        void loop(SDL_Window *);
+        void cleanUp();
         void render();
-
 
         void setUserImGui(std::function<void()>);
 

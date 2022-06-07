@@ -7,9 +7,9 @@
 #include <string>
 #include <iostream>
 
-using hid::OpenGLGui;
+using hid::OpenGLImGui;
 
-struct OpenGLGui::Internal
+struct OpenGLImGui::Internal
 {
 #if defined(IMGUI_IMPL_OPENGL_ES2)
     // GL ES 2.0 + GLSL 100
@@ -22,33 +22,36 @@ struct OpenGLGui::Internal
     const char *glsl_version = "#version 330";
 #endif
 
-    Internal(SDL_Window *window, SDL_GLContext context) : userImGui(nullptr)
+    std::function<void()> userImGui;
+
+    Internal()
+        : userImGui(nullptr)
     {
-        setup(window, context);
     }
 
-
-    std::function<void()> userImGui;
     void setup(SDL_Window *window, SDL_GLContext context)
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
 
         ImGuiIO &io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
         (void)io;
 
-        ImGui::StyleColorsDark();
+        // ImGui::StyleColorsDark();
 
         ImGui_ImplSDL2_InitForOpenGL(window, context);
         ImGui_ImplOpenGL3_Init(glsl_version);
+
+        ImGui::StyleColorsLight();
     }
 
-    void loopImGui(SDL_Window *window)
+    void loop(SDL_Window *window)
     {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame(window);
         ImGui::NewFrame();
-
 
         if (!(userImGui == nullptr))
         {
@@ -56,7 +59,7 @@ struct OpenGLGui::Internal
         }
     }
 
-    void cleanUpImGui()
+    void cleanUp()
     {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplSDL2_Shutdown();
@@ -65,8 +68,21 @@ struct OpenGLGui::Internal
 
     void render()
     {
+        ImGuiIO &io = ImGui::GetIO();
+        std::pair<uint32_t, uint32_t> displaySize = hid::sdl::getDisplaySize();
+        io.DisplaySize = ImVec2(displaySize.first, displaySize.second);
+
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            SDL_GLContext backupContext = SDL_GL_GetCurrentContext();
+            SDL_Window *backupWindow = SDL_GL_GetCurrentWindow();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            SDL_GL_MakeCurrent(backupWindow, backupContext);
+        }
     }
 
     void setUserImGui(std::function<void()> fp)
@@ -75,29 +91,29 @@ struct OpenGLGui::Internal
     }
 };
 
-OpenGLGui::OpenGLGui(SDL_Window *window, SDL_GLContext context) : internal(hid::make_internal_ptr<Internal>(window, context)) {}
+OpenGLImGui::OpenGLImGui() : internal(hid::make_internal_ptr<Internal>()) {}
 
-void OpenGLGui::setup(SDL_Window *window, SDL_GLContext context)
+void OpenGLImGui::setup(SDL_Window *window, SDL_GLContext context)
 {
     internal->setup(window, context);
 }
 
-void OpenGLGui::loopImGui(SDL_Window *window)
+void OpenGLImGui::loop(SDL_Window *window)
 {
-    internal->loopImGui(window);
+    internal->loop(window);
 }
 
-void OpenGLGui::cleanUpImGui()
+void OpenGLImGui::cleanUp()
 {
-    internal->cleanUpImGui();
+    internal->cleanUp();
 }
 
-void OpenGLGui::render()
+void OpenGLImGui::render()
 {
     internal->render();
 }
 
-void OpenGLGui::setUserImGui(std::function<void()> fp)
+void OpenGLImGui::setUserImGui(std::function<void()> fp)
 {
     internal->setUserImGui(fp);
 }

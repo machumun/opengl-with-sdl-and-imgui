@@ -19,9 +19,14 @@ namespace hid
 
         float delta;
 
+        char text1[64] = "";
+
+        bool showDemoWindow;
+
         Dat() : isActive{true},
                 show_another_window{false},
                 rotateSpeed{.0f},
+                showDemoWindow{false},
                 lightSettings{
                     hid::Light{
                         hid::LightType::Point,
@@ -40,6 +45,7 @@ namespace hid
         void init();
 
         void userImGui();
-    };
 
+        void showDebug();
+    };
 }

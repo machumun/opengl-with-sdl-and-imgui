@@ -59,7 +59,9 @@ add_executable(
     ${APPLICATION_HEADERS}
     ${APPLICATION_SOURCES}
     ${IMGUI_SOURCE_DIR}/imgui.cpp
+    ${IMGUI_SOURCE_DIR}/imgui.h
     ${IMGUI_SOURCE_DIR}/imgui_draw.cpp
+    ${IMGUI_SOURCE_DIR}/imgui_demo.cpp
     ${IMGUI_SOURCE_DIR}/imgui_tables.cpp
     ${IMGUI_SOURCE_DIR}/imgui_widgets.cpp
     ${IMGUI_BACKENDS_SOURCE_DIR}/imgui_impl_sdl.cpp
