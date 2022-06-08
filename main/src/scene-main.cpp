@@ -82,6 +82,13 @@ struct SceneMain::Internal
                     glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
                     glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
                     0.0f}));
+
+        // 1
+        sharedUserData->staticMeshInstances.emplace_back(
+            std::make_shared<hid::StaticMeshInstance>(
+                hid::StaticMeshInstance{
+                    hid::assets::StaticMesh::Hamster,
+                    hamMaterial}));
         // staticMeshes.push_back(
         //     hid::StaticMeshInstance{
         //         hid::assets::StaticMesh::Crate,

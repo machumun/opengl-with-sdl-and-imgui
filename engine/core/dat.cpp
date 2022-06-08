@@ -59,13 +59,24 @@ void Dat::HierarchyWindow(bool *p_open)
 {
     ImGui::Begin("Hierarchy", p_open);
 
-    for (auto &StaticMeshInstance : staticMeshInstances)
+    // for (auto &StaticMeshInstance : staticMeshInstances)
+    // {
+    //     if (ImGui::TreeNode("GameObject"))
+    //     {
+    //         ImGui::SliderFloat3("position", (float *)&StaticMeshInstance->position, -10.0f, 10.0f);
+    //         ImGui::TreePop();
+    //     }
+    // }
+
+    if (ImGui::TreeNode("GameObject"))
     {
-        if (ImGui::TreeNode("GameObject"))
-        {
-            ImGui::SliderFloat3("position", (float *)&StaticMeshInstance->position, -10.0f, 10.0f);
-            ImGui::TreePop();
-        }
+        ImGui::SliderFloat3("position", (float *)&staticMeshInstances[0]->position, -10.0f, 10.0f);
+        ImGui::TreePop();
+    }
+    if (ImGui::TreeNode("GameObject 1"))
+    {
+        ImGui::SliderFloat3("position", (float *)&staticMeshInstances[1]->position, -10.0f, 10.0f);
+        ImGui::TreePop();
     }
 
     ImGui::End();
@@ -271,7 +282,7 @@ void Dat::userImGui()
     debugWindow(&showDebug);
     HierarchyWindow(&showHierarchy);
 
-    ImGui::ShowDemoWindow(&showDemoWindow);
+    // ImGui::ShowDemoWindow(&showDemoWindow);
 
     ImGui::End();
 }
