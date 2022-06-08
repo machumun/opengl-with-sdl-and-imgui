@@ -32,7 +32,7 @@ namespace
         glBufferData(GL_ARRAY_BUFFER,
                      bufferData.size() * sizeof(float),
                      bufferData.data(),
-                     GL_STATIC_DRAW);
+                     GL_DYNAMIC_DRAW);
         return bufferId;
     }
 
@@ -44,7 +44,7 @@ namespace
         glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                      mesh.getIndices().size() * sizeof(uint32_t),
                      mesh.getIndices().data(),
-                     GL_STATIC_DRAW);
+                     GL_DYNAMIC_DRAW);
 
         return bufferId;
     }

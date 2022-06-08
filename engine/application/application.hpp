@@ -4,6 +4,7 @@
 #include "../core/dat.hpp"
 #include <functional>
 
+// template method
 namespace hid
 {
     struct Application

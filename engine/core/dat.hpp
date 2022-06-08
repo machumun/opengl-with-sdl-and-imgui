@@ -39,6 +39,7 @@ namespace hid
                         glm::vec3(153.f / 255.f, 166.f / 255.f, 180.f / 255.f),
                         .583f}},
                 delta{.0f}
+
         {
         }
 
@@ -46,6 +47,6 @@ namespace hid
 
         void userImGui();
 
-        void showDebug();
+        void showDebug(bool *);
     };
 }

@@ -16,10 +16,9 @@ void Dat::init()
 {
 }
 
-void Dat::showDebug()
+void Dat::showDebug(bool *p_open)
 {
-    ImGui::Begin("SandBox Window"); // Create a window called "Hello, world!" and append into it.
-
+    ImGui::Begin("SandBox Window", p_open);
     ImGui::Text("My Hamsters");              // Display some text (you can use a format strings too)
     ImGui::Checkbox("Is Active", &isActive); // Edit bools storing our window open/close state
     ImGui::Checkbox("Show Demo Window", &showDemoWindow);
@@ -64,6 +63,9 @@ void Dat::userImGui()
     static bool dockSpaceOpen = true;
     static bool opt_fullscreen = true;
     static bool opt_padding = false;
+
+    static bool show_debug = false;
+
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
@@ -250,7 +252,7 @@ void Dat::userImGui()
         ImGui::EndMenuBar();
     }
 
-    showDebug();
+    showDebug(&show_debug);
     ImGui::End();
 
     // ImGui::ShowDemoWindow(&showDemoWindow);
