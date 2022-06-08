@@ -42,7 +42,6 @@ namespace hid
 {
     struct AnimationPlane : public Transform
     {
-
         hid::assets::StaticMesh mesh;
         uint32_t animationFrame;
         hid::Material material;

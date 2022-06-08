@@ -16,12 +16,10 @@ void Dat::init()
 {
 }
 
-void Dat::showDebug(bool *p_open)
+void Dat::debugWindow(bool *p_open)
 {
     ImGui::Begin("SandBox Window", p_open);
-    ImGui::Text("My Hamsters");              // Display some text (you can use a format strings too)
     ImGui::Checkbox("Is Active", &isActive); // Edit bools storing our window open/close state
-    ImGui::Checkbox("Show Demo Window", &showDemoWindow);
 
     ImGui::SliderFloat("rotate speed", &rotateSpeed, 0.0f, 100.0f); // Edit 1 float using a slider from 0.0f to 1.0f
     if (ImGui::TreeNode("point light"))
@@ -57,6 +55,22 @@ void Dat::showDebug(bool *p_open)
     ImGui::End();
 }
 
+void Dat::HierarchyWindow(bool *p_open)
+{
+    ImGui::Begin("Hierarchy", p_open);
+
+    for (auto &StaticMeshInstance : staticMeshInstances)
+    {
+        if (ImGui::TreeNode("GameObject"))
+        {
+            ImGui::SliderFloat3("position", (float *)&StaticMeshInstance->position, -10.0f, 10.0f);
+            ImGui::TreePop();
+        }
+    }
+
+    ImGui::End();
+}
+
 void Dat::userImGui()
 {
 
@@ -64,7 +78,9 @@ void Dat::userImGui()
     static bool opt_fullscreen = true;
     static bool opt_padding = false;
 
-    static bool show_debug = false;
+    static bool showDebug = true;
+    static bool showHierarchy = true;
+    static bool showDemoWindow = false;
 
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 
@@ -252,8 +268,10 @@ void Dat::userImGui()
         ImGui::EndMenuBar();
     }
 
-    showDebug(&show_debug);
-    ImGui::End();
+    debugWindow(&showDebug);
+    HierarchyWindow(&showHierarchy);
 
-    // ImGui::ShowDemoWindow(&showDemoWindow);
+    ImGui::ShowDemoWindow(&showDemoWindow);
+
+    ImGui::End();
 }

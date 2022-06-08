@@ -122,7 +122,6 @@ struct OpenGLMesh::Internal
             stride,
             reinterpret_cast<const GLvoid *>(offsetPositionNormal));
 
-        // unbind VBO
         // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         // unbind VAO

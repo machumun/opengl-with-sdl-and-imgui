@@ -2,6 +2,7 @@
 
 #include "../../core/internal-ptr.hpp"
 #include "../../core/renderer.hpp"
+#include "../../core/dat.hpp"
 #include "opengl-asset-manager.hpp"
 #include <memory>
 
@@ -11,10 +12,10 @@ namespace hid
     {
         OpenGLRenderer(std::shared_ptr<hid::OpenGLAssetManager> assetManager);
 
-        void render(const hid::assets::Pipeline &pipeline,
-                    const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-                    const hid::PerspectiveCamera &camera,
-                    const hid::LightSettings &lightSettings) override;
+        void render(
+            const hid::assets::Pipeline &pipeline,
+            const std::shared_ptr<hid::Dat> &userData,
+            const hid::PerspectiveCamera &camera) override;
 
     private:
         struct Internal;

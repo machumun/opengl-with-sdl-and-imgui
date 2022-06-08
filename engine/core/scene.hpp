@@ -14,7 +14,7 @@ namespace hid
         virtual ~Scene() = default;
 
         virtual void prepare(hid::AssetManager &assetManager,
-                             const std::shared_ptr<hid::Dat> &userData) = 0;
+                             std::shared_ptr<hid::Dat> &userData) = 0;
 
         virtual void update(const float &delta) = 0;
 

@@ -3,8 +3,11 @@
 #include "imgui.h"
 #include "light-settings.hpp"
 #include "glm-wrapper.hpp"
+#include "static-mesh-instance.hpp"
+#include "animation-plane.hpp"
 
 #include <memory>
+#include <vector>
 
 namespace hid
 {
@@ -21,12 +24,12 @@ namespace hid
 
         char text1[64] = "";
 
-        bool showDemoWindow;
+        std::vector<std::shared_ptr<hid::StaticMeshInstance>> staticMeshInstances;
+        std::vector<std::shared_ptr<hid::AnimationPlane>> animationPlanes;
 
         Dat() : isActive{true},
                 show_another_window{false},
                 rotateSpeed{.0f},
-                showDemoWindow{false},
                 lightSettings{
                     hid::Light{
                         hid::LightType::Point,
@@ -47,6 +50,7 @@ namespace hid
 
         void userImGui();
 
-        void showDebug(bool *);
+        void debugWindow(bool *);
+        void HierarchyWindow(bool *);
     };
 }

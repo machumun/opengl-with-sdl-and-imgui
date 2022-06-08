@@ -1,8 +1,7 @@
 #pragma once
 
 #include "asset-inventory.hpp"
-#include "static-mesh-instance.hpp"
-#include "light-settings.hpp"
+#include "dat.hpp"
 #include "perspective-camera.hpp"
 
 #include <vector>
@@ -14,8 +13,7 @@ namespace hid
 
         virtual void render(
             const hid::assets::Pipeline &pipeline,
-            const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-            const hid::PerspectiveCamera &camera,
-            const hid::LightSettings &lightSettings) = 0;
+            const std::shared_ptr<hid::Dat> &userData,
+            const hid::PerspectiveCamera &camera) = 0;
     };
 }

@@ -52,7 +52,7 @@ namespace
         return hid::OpenGLRenderer(assetManager);
     }
 
-    std::unique_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager, const std::shared_ptr<hid::Dat> &userData)
+    std::unique_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager, std::shared_ptr<hid::Dat> &userData)
     {
         std::pair<uint32_t, uint32_t> displaySize{hid::sdl::getDisplaySize()};
         std::unique_ptr<hid::Scene> scene{std::make_unique<usr::SceneMain>(
@@ -105,7 +105,7 @@ struct hid::OpenGLApplication::Internal
     const std::shared_ptr<hid::OpenGLAssetManager> assetManager;
 
     // user data
-    const std::shared_ptr<hid::Dat> data;
+    std::shared_ptr<hid::Dat> data;
 
     hid::OpenGLRenderer renderer;
 

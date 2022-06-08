@@ -41,7 +41,7 @@ struct SceneMain::Internal
     {
     }
 
-    void prepare(hid::AssetManager& assetManager, const std::shared_ptr<hid::Dat>& userData)
+    void prepare(hid::AssetManager& assetManager, std::shared_ptr<hid::Dat>& userData)
     {
 
         userData->rotateSpeed = 50.0f;
@@ -73,54 +73,63 @@ struct SceneMain::Internal
                                          sharedUserData->lightSettings.pointLight.color};
 
         // 0
-        staticMeshes.push_back(
-            hid::StaticMeshInstance{
-                hid::assets::StaticMesh::Crate,
-                pointLightMaterial,
-                sharedUserData->lightSettings.pointLight.position,
-                glm::vec3{0.02f, 0.02f, 0.02f}});
+        sharedUserData->staticMeshInstances.emplace_back(
+            std::make_shared<hid::StaticMeshInstance>(
+                hid::StaticMeshInstance{
+                    hid::assets::StaticMesh::Plane,
+                    metalMaterial,
+                    glm::vec3{0.4f, -0.5f, 0.4f}, // Position
+                    glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
+                    glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
+                    0.0f}));
+        // staticMeshes.push_back(
+        //     hid::StaticMeshInstance{
+        //         hid::assets::StaticMesh::Crate,
+        //         pointLightMaterial,
+        //         sharedUserData->lightSettings.pointLight.position,
+        //         glm::vec3{0.02f, 0.02f, 0.02f}});
 
-        // 1
-        staticMeshes.push_back(hid::StaticMeshInstance{
-            hid::assets::StaticMesh::Hamster,
-            hamMaterial});
+        // // 1
+        // staticMeshes.push_back(hid::StaticMeshInstance{
+        //     hid::assets::StaticMesh::Hamster,
+        //     hamMaterial});
 
-        // 2
-        staticMeshes.push_back(hid::StaticMeshInstance{
-            hid::assets::StaticMesh::Hamster,
-            metalMaterial,
-            glm::vec3{-0.4f, 0.6f, 0.4f}, // Position
-            glm::vec3{0.6f, 0.6f, 0.6f},  // Scale
-            glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
-            0.0f});
+        // // 2
+        // staticMeshes.push_back(hid::StaticMeshInstance{
+        //     hid::assets::StaticMesh::Hamster,
+        //     metalMaterial,
+        //     glm::vec3{-0.4f, 0.6f, 0.4f}, // Position
+        //     glm::vec3{0.6f, 0.6f, 0.6f},  // Scale
+        //     glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
+        //     0.0f});
 
-        // 3
-        staticMeshes.push_back(hid::StaticMeshInstance{
-            hid::assets::StaticMesh::Plane,
-            metalMaterial,
-            glm::vec3{0.4f, -0.5f, 0.4f}, // Position
-            glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
-            glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
-            0.0f});
+        // // 3
+        // staticMeshes.push_back(hid::StaticMeshInstance{
+        //     hid::assets::StaticMesh::Plane,
+        //     metalMaterial,
+        //     glm::vec3{0.4f, -0.5f, 0.4f}, // Position
+        //     glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
+        //     glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
+        //     0.0f});
 
-        // 4
-        staticMeshes.push_back(hid::StaticMeshInstance{
-            hid::assets::StaticMesh::Plane,
-            characterMaterial,
-            glm::vec3{1.0f, .0f, .0f}, // Position
-            glm::vec3{.1f, .1f, .1f},  // Scale
-            glm::vec3{1.0f, .0f, .0f}, // Rotation axis
-            90.0f});
+        // // 4
+        // staticMeshes.push_back(hid::StaticMeshInstance{
+        //     hid::assets::StaticMesh::Plane,
+        //     characterMaterial,
+        //     glm::vec3{1.0f, .0f, .0f}, // Position
+        //     glm::vec3{.1f, .1f, .1f},  // Scale
+        //     glm::vec3{1.0f, .0f, .0f}, // Rotation axis
+        //     90.0f});
 
         // a0
-        animationPlanes.push_back(
-            hid::AnimationPlane{
-                characterMaterial,
-                0,
-                glm::vec3{1.0f, .5f, .0f}, // Position
-                glm::vec3{.1f, .1f, .1f},  // Scale
-                glm::vec3{1.0f, .0f, .0f}, // Rotation axis
-                90.0f});
+        // animationPlanes.push_back(
+        //     hid::AnimationPlane{
+        //         characterMaterial,
+        //         0,
+        //         glm::vec3{1.0f, .5f, .0f}, // Position
+        //         glm::vec3{.1f, .1f, .1f},  // Scale
+        //         glm::vec3{1.0f, .0f, .0f}, // Rotation axis
+        //         90.0f});
     }
 
     void update(const float& delta)
@@ -132,28 +141,28 @@ struct SceneMain::Internal
 
         const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
 
-        if (sharedUserData->isActive)
-        {
-            staticMeshes[1].rotateBy(delta * sharedUserData->rotateSpeed);
-            staticMeshes[2].rotateBy(delta * sharedUserData->rotateSpeed);
-        }
+        // if (sharedUserData->isActive)
+        // {
+        //     staticMeshes[1].rotateBy(delta * sharedUserData->rotateSpeed);
+        //     staticMeshes[2].rotateBy(delta * sharedUserData->rotateSpeed);
+        // }
 
         // light instance
-        staticMeshes[0].setPosition(sharedUserData->lightSettings.pointLight.position);
-        staticMeshes[0].setBaseColor(sharedUserData->lightSettings.pointLight.color);
+        // staticMeshes[0].setPosition(sharedUserData->lightSettings.pointLight.position);
+        // staticMeshes[0].setBaseColor(sharedUserData->lightSettings.pointLight.color);
 
         // real time light move
-        lightSettings = sharedUserData->lightSettings;
+        // lightSettings = sharedUserData->lightSettings;
 
-        for (auto& staticMesh : staticMeshes)
+        for (auto& staticMesh : sharedUserData->staticMeshInstances)
         {
-            staticMesh.updateModelMatrix();
+            staticMesh->updateModelMatrix();
         }
     }
 
     void render(hid::Renderer& renderer)
     {
-        renderer.render(hid::assets::Pipeline::LitPass, staticMeshes, camera, lightSettings);
+        renderer.render(hid::assets::Pipeline::LitPass, sharedUserData, camera);
     }
 
     void input(const float& delta)
@@ -194,7 +203,7 @@ SceneMain::SceneMain(const float& screenWidth, const float& screenHeight)
     : internal(hid::make_internal_ptr<Internal>(screenWidth, screenHeight)) {}
 
 void SceneMain::prepare(hid::AssetManager& assetManager,
-                        const std::shared_ptr<hid::Dat>& userData)
+                        std::shared_ptr<hid::Dat>& userData)
 {
     internal->prepare(assetManager, userData);
 }

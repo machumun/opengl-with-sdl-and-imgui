@@ -208,9 +208,8 @@ struct OpenGLPipeline::Internal
 
     void render(
         const hid::OpenGLAssetManager &assetManager,
-        const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-        const hid::PerspectiveCamera &camera,
-        const hid::LightSettings &lightSettings)
+        const std::shared_ptr<hid::Dat> &userData,
+        const hid::PerspectiveCamera &camera)
     {
 
         // geometry buffer
@@ -232,56 +231,51 @@ struct OpenGLPipeline::Internal
         glActiveTexture(GL_TEXTURE0);
         shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
-        // for (const auto &staticMeshInstance : staticMeshInstances)
-        // {
-        //     shader.setMat4("u_modelMatrix", &staticMeshInstance.getModelMatrix()[0][0]);
-        //     // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
-        //     hid::Material &mat = staticMeshInstance.getMaterial();
+        for (const auto &staticMeshInstance : userData->staticMeshInstances)
+        {
+            shader.setMat4("u_modelMatrix", &staticMeshInstance->getModelMatrix()[0][0]);
+            // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
+            hid::Material &mat = staticMeshInstance->getMaterial();
 
-        //     assetManager.getTexture(mat.albedo).bind();
-        //     // shader.setInt("u_sampler", 0);
-        //     shader.setVec3("u_baseColor", &mat.baseColor[0]);
-        //     assetManager.getStaticMesh(staticMeshInstance.getMesh()).draw();
+            assetManager.getTexture(mat.albedo).bind();
+            // shader.setInt("u_sampler", 0);
+            shader.setVec3("u_baseColor", &mat.baseColor[0]);
+            assetManager.getStaticMesh(staticMeshInstance->getMesh()).draw();
+        }
+
+        // animationProgram.use();
+        // glActiveTexture(GL_TEXTURE0);
+        // animationProgram.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
+        // animationProgram.setMat4("u_modelMatrix", &staticMeshInstances[4].getModelMatrix()[0][0]);
+
+        // animationProgram.setInt("u_animationFrameX", animationFrame[animationCount]);
+        // if (frameCount < skipFrame)
+        // {
+        //     ++frameCount;
+        // }
+        // else
+        // {
+        //     frameCount = 0;
+        //     ++animationCount;
+        //     if (animationCount >= 4)
+        //     {
+        //         animationCount = 0;
+        //     }
         // }
 
-        shader.setMat4("u_modelMatrix", &staticMeshInstances[3].getModelMatrix()[0][0]);
-        hid::Material &mat2 = staticMeshInstances[3].getMaterial();
-        assetManager.getTexture(mat2.albedo).bind();
-        shader.setVec3("u_baseColor", &mat2.baseColor[0]);
-        assetManager.getStaticMesh(staticMeshInstances[3].getMesh()).draw();
-
-        animationProgram.use();
-        glActiveTexture(GL_TEXTURE0);
-        animationProgram.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
-        animationProgram.setMat4("u_modelMatrix", &staticMeshInstances[4].getModelMatrix()[0][0]);
-
-        animationProgram.setInt("u_animationFrameX", animationFrame[animationCount]);
-        if (frameCount < skipFrame)
-        {
-            ++frameCount;
-        }
-        else
-        {
-            frameCount = 0;
-            ++animationCount;
-            if (animationCount >= 4)
-            {
-                animationCount = 0;
-            }
-        }
-
-        hid::Material &mat = staticMeshInstances[4].getMaterial();
-        assetManager.getTexture(mat.albedo).bind();
-        shader.setVec3("u_baseColor", &mat.baseColor[0]);
-        assetManager.getStaticMesh(staticMeshInstances[4].getMesh()).draw();
+        // ground
+        // hid::Material &mat = staticMeshInstances[4].getMaterial();
+        // assetManager.getTexture(mat.albedo).bind();
+        // shader.setVec3("u_baseColor", &mat.baseColor[0]);
+        // assetManager.getStaticMesh(staticMeshInstances[4].getMesh()).draw();
 
         // deffered shading pass
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
         glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
         defferedLightingProgram.use();
-        const hid::Light &pointLight = lightSettings.pointLight;
-        const hid::Light &ambientLight = lightSettings.ambientLight;
+        const hid::Light &pointLight = userData->lightSettings.pointLight;
+        const hid::Light &ambientLight = userData->lightSettings.ambientLight;
         defferedLightingProgram.setVec3("u_pointLight[0].position", &pointLight.position[0]);
         defferedLightingProgram.setVec3("u_pointLight[0].color", &pointLight.color[0]);
         defferedLightingProgram.setFloat("u_pointLight[0].intensity", pointLight.intensity);
@@ -333,8 +327,8 @@ struct OpenGLPipeline::Internal
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
 
-        framebufferProgram.setFloat("bloomIntensity", lightSettings.bloomIntensity);
-        framebufferProgram.setBool("bloom", lightSettings.bloom);
+        framebufferProgram.setFloat("bloomIntensity", userData->lightSettings.bloomIntensity);
+        framebufferProgram.setBool("bloom", userData->lightSettings.bloom);
         glBindVertexArray(framebufferVAO);
 
         glActiveTexture(GL_TEXTURE0);
@@ -355,9 +349,8 @@ OpenGLPipeline::OpenGLPipeline(const std::string &vertShaderName, const std::str
     : internal(hid::make_internal_ptr<Internal>(vertShaderName, fragShaderName)) {}
 
 void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager,
-                            const std::vector<hid::StaticMeshInstance> &staticMeshInstances,
-                            const hid::PerspectiveCamera &camera,
-                            const hid::LightSettings &lightSettings)
+                            const std::shared_ptr<hid::Dat> &userData,
+                            const hid::PerspectiveCamera &camera)
 {
-    internal->render(assetManager, staticMeshInstances, camera, lightSettings);
+    internal->render(assetManager, userData, camera);
 }
