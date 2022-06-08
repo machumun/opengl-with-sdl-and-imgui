@@ -2,9 +2,10 @@
 uniform mat4 u_mvp;
 uniform mat4 u_projectionMatrix;
 uniform mat4 u_modelMatrix;
-in vec3 a_vertexPosition;
-in vec2 a_texCoord;
-in vec3 a_normal;
+
+layout (location = 0) in vec3 a_vertexPosition;
+layout (location = 1) in vec2 a_texCoord;
+layout (location = 2) in vec3 a_normal;
 
 // out
 out vec3 v_vertexPosition;

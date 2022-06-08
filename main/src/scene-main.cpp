@@ -49,8 +49,8 @@ struct SceneMain::Internal
 
         assetManager.loadPipelines({hid::assets::Pipeline::LitPass});
 
-        assetManager.loadStaticMeshes({hid::assets::StaticMesh::Hamster});
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Plane});
+        assetManager.loadStaticMeshes({hid::assets::StaticMesh::Hamster});
         assetManager.loadStaticMeshes({hid::assets::StaticMesh::Crate});
 
         assetManager.loadTextures({hid::assets::Texture::Empty});
