@@ -51,6 +51,6 @@ namespace hid
         void userImGui();
 
         void debugWindow(bool *);
-        void HierarchyWindow(bool *);
+        void hierarchyWindow(bool *);
     };
 }

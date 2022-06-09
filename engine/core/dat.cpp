@@ -1,8 +1,6 @@
 #include "dat.hpp"
-
 #include "imgui.h"
 
-#include <memory>
 #include <string>
 
 using hid::Dat;
@@ -55,9 +53,9 @@ void Dat::debugWindow(bool *p_open)
     ImGui::End();
 }
 
-void Dat::HierarchyWindow(bool *p_open)
+void Dat::hierarchyWindow(bool *p_open)
 {
-    ImGui::Begin("Hierarchy", p_open);
+    ImGui::Begin("Main Scene", p_open);
 
     // for (auto &StaticMeshInstance : staticMeshInstances)
     // {
@@ -70,12 +68,14 @@ void Dat::HierarchyWindow(bool *p_open)
 
     if (ImGui::TreeNode("GameObject"))
     {
-        ImGui::SliderFloat3("position", (float *)&staticMeshInstances[0]->position, -10.0f, 10.0f);
+        ImGui::DragFloat3("position", (float *)&staticMeshInstances[0]->position, -10.0f, 10.0f);
+        ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
         ImGui::TreePop();
     }
     if (ImGui::TreeNode("GameObject 1"))
     {
         ImGui::SliderFloat3("position", (float *)&staticMeshInstances[1]->position, -10.0f, 10.0f);
+        ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
         ImGui::TreePop();
     }
 
@@ -280,9 +280,9 @@ void Dat::userImGui()
     }
 
     debugWindow(&showDebug);
-    HierarchyWindow(&showHierarchy);
+    hierarchyWindow(&showHierarchy);
 
-    // ImGui::ShowDemoWindow(&showDemoWindow);
+    ImGui::ShowDemoWindow(&showDemoWindow);
 
     ImGui::End();
 }

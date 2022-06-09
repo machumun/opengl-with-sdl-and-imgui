@@ -15,6 +15,7 @@ namespace hid
         glm::vec3 position;
         glm::vec3 scale;
         glm::vec3 rotationAxis;
+        glm::vec3 localEulerAngles;
         float rotationDegrees;
         glm::mat4 transformMatrix;
         glm::mat4 modelMatrix;

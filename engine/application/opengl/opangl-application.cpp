@@ -54,11 +54,9 @@ namespace
 
     std::unique_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager, std::shared_ptr<hid::Dat> &userData)
     {
-        std::pair<uint32_t, uint32_t> displaySize{hid::sdl::getDisplaySize()};
-        std::unique_ptr<hid::Scene> scene{std::make_unique<usr::SceneMain>(
-            static_cast<float>(displaySize.first),
-            static_cast<float>(displaySize.second))};
-        scene->prepare(assetManager, userData);
+
+        std::unique_ptr<hid::Scene> scene{std::make_unique<hid::SceneMain>(userData)};
+        scene->prepare(assetManager);
         return scene;
     }
 
