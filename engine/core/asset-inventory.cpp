@@ -50,3 +50,14 @@ std::string hid::assets::resolveTexturePath(const hid::assets::Texture &texture)
         return "assets/textures/empty.png";
     }
 }
+
+std::string hid::assets::resolveGLTFModelPath(const hid::assets::GLTF &gltf)
+{
+    switch (gltf)
+    {
+    case hid::assets::GLTF::Scene:
+        return "assets/gltfs/farm-sim/scene.gltf";
+    default:
+        return "assets/models/scene.gltf";
+    }
+}

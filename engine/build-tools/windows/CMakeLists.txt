@@ -15,6 +15,7 @@ set(IMGUI_SOURCE_DIR ${THIRD_PARTY_DIR}/imgui)
 set(IMGUI_BACKENDS_SOURCE_DIR ${THIRD_PARTY_DIR}/imgui/backends)
 
 
+
 set(LIB_SDL2 ${THIRD_PARTY_DIR}/sdl-windows/lib/x64/SDL2.lib)
 set(LIB_SDL2_MAIN ${THIRD_PARTY_DIR}/sdl-windows/lib/x64/SDL2main.lib)
 set(LIB_GLEW ${THIRD_PARTY_DIR}/glew/lib/Release/x64/glew32s.lib)
@@ -29,6 +30,7 @@ include_directories(${THIRD_PARTY_DIR}/sdl-windows/include)
 include_directories(${THIRD_PARTY_DIR}/glew/include)
 include_directories(${THIRD_PARTY_DIR}/glm)
 include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
+include_directories(${THIRD_PARTY_DIR}/json)
 include_directories(${THIRD_PARTY_DIR}/sdl-image-windows/include)
 include_directories(${THIRD_PARTY_DIR}/vulkan-windows/Include)
 
@@ -41,6 +43,7 @@ file(GLOB_RECURSE CORE_SOURCES ${CORE_SOURCE_DIR}/*.cpp)
 file(GLOB_RECURSE APPLICATION_HEADERS ${APPLICATION_SOURCE_DIR}/*.hpp)
 file(GLOB_RECURSE APPLICATION_SOURCES ${APPLICATION_SOURCE_DIR}/*.cpp)
 
+
 # file(GLOB_RECURSE IMGUI_HEADERS ${IMGUI_SOURCE_DIR}/*.h)
 # file(GLOB_RECURSE IMGUI_SOURCES ${IMGUI_SOURCE_DIR}/*.cpp)
 # file(GLOB_RECURSE IMGUI_BACKENDS_HEADERS ${IMGUI_BACKENDS_SOURCE_DIR}/*.h)
@@ -50,6 +53,7 @@ if(CMAKE_BUILD_TYPE MATCHES "Release")
 	set(EXECUTABLE_TYPE WIN32)
 endif()
 
+
 add_executable(
     opengl-with-sdl-and-imgui ${EXECUTABLE_TYPE}
     ${MAIN_HEADERS}
@@ -58,6 +62,7 @@ add_executable(
     ${CORE_SOURCES}
     ${APPLICATION_HEADERS}
     ${APPLICATION_SOURCES}
+
     ${IMGUI_SOURCE_DIR}/imgui.cpp
     ${IMGUI_SOURCE_DIR}/imgui.h
     ${IMGUI_SOURCE_DIR}/imgui_draw.cpp

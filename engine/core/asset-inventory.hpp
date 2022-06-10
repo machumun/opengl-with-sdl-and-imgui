@@ -30,16 +30,13 @@ namespace hid::assets
         Frog
     };
 
-    enum class Material
+    enum class GLTF
     {
-        UnLit,
-        Lambert,
-        Phong,
-        Toon,
-        Standard
+        Scene
     };
 
     std::pair<std::string, std::string> resolvePipelinePath(const hid::assets::Pipeline &pipeline);
     std::string resolveStaticMeshPath(const hid::assets::StaticMesh &staticMesh);
     std::string resolveTexturePath(const hid::assets::Texture &texture);
+    std::string resolveGLTFModelPath(const hid::assets::GLTF &gltf);
 }

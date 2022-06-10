@@ -10,6 +10,7 @@ struct OpenGLAssetManager::Internal
     std::unordered_map<hid::assets::Pipeline, hid::OpenGLPipeline> pipelineCache;
     std::unordered_map<hid::assets::StaticMesh, hid::OpenGLMesh> staticMeshCache;
     std::unordered_map<hid::assets::Texture, hid::OpenGLTexture> textureCache;
+    std::unordered_map<hid::assets::GLTF, hid::OpenGLGLTF> gltfCache;
 
     Internal() {}
 
@@ -53,7 +54,20 @@ struct OpenGLAssetManager::Internal
             }
         }
     }
-}; // struct
+
+    void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs)
+    {
+        for (const auto &gltf : gltfs)
+        {
+            if (gltfCache.count(gltf) == 0)
+            {
+                gltfCache.insert(std::pair(
+                    gltf,
+                    hid::OpenGLGLTF(hid::assets::loadGLTF(hid::assets::resolveGLTFModelPath(gltf)))));
+            }
+        }
+    }
+};
 
 OpenGLAssetManager::OpenGLAssetManager() : internal(hid::make_internal_ptr<Internal>()) {}
 
@@ -72,6 +86,11 @@ void OpenGLAssetManager::loadTextures(const std::vector<hid::assets::Texture> &t
     internal->loadTextures(textures);
 }
 
+void OpenGLAssetManager::loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs)
+{
+    // internal->loadGLTFModels(gltfs);
+}
+
 hid::OpenGLPipeline &OpenGLAssetManager::getPipeline(const hid::assets::Pipeline &pipeline)
 {
     return internal->pipelineCache.at(pipeline);
@@ -86,3 +105,8 @@ const hid::OpenGLTexture &OpenGLAssetManager::getTexture(const hid::assets::Text
 {
     return internal->textureCache.at(texture);
 }
+
+// const hid::OpenGLGLTF &OpenGLAssetManager::getGLTF(const hid::assets::GLTF &gltf) const
+// {
+//     return internal->gltfCache.at(gltf);
+// };

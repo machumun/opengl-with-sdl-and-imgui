@@ -5,6 +5,7 @@
 #include "opengl-mesh.hpp"
 #include "opengl-pipeline.hpp"
 #include "opengl-texture.hpp"
+#include "opengl-gltf.hpp"
 
 namespace hid
 {
@@ -17,11 +18,15 @@ namespace hid
 
         void loadTextures(const std::vector<hid::assets::Texture> &textures) override;
 
+        void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs) override;
+
         hid::OpenGLPipeline &getPipeline(const hid::assets::Pipeline &pipeline);
 
         const hid::OpenGLMesh &getStaticMesh(const hid::assets::StaticMesh &staticMesh) const;
 
         const hid::OpenGLTexture &getTexture(const hid::assets::Texture &texture) const;
+
+        // const hid::OpenGLGLTF &getGLTF(const hid::assets::GLTF &gltf) const;
 
     private:
         struct Internal;

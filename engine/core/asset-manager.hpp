@@ -12,5 +12,7 @@ namespace hid
         virtual void loadStaticMeshes(const std::vector<hid::assets::StaticMesh> &staticMeshes) = 0;
 
         virtual void loadTextures(const std::vector<hid::assets::Texture> &textures) = 0;
+
+        virtual void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs) = 0;
     };
 }

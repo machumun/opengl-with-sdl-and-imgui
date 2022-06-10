@@ -79,14 +79,14 @@ struct OpenGLMesh::Internal
     const GLsizei stride;
 
     Internal(const hid::Mesh &mesh)
-        : bufferIdVBO(::createVBO(mesh)),
-          bufferIdEBO(::createEBO(mesh)),
-          numIndices(static_cast<uint32_t>(mesh.getIndices().size())),
-          bufferIdVAO(::createVAO()),
-          offsetPositionTexCoord(0),
-          offsetTexCoord(3 * sizeof(float)),
-          offsetPositionNormal(5 * sizeof(float)),
-          stride(8 * sizeof(float))
+        : bufferIdVBO{::createVBO(mesh)},
+          bufferIdEBO{::createEBO(mesh)},
+          numIndices{static_cast<uint32_t>(mesh.getIndices().size())},
+          bufferIdVAO{::createVAO()},
+          offsetPositionTexCoord{0},
+          offsetTexCoord{3 * sizeof(float)},
+          offsetPositionNormal{5 * sizeof(float)},
+          stride{8 * sizeof(float)}
     {
         glEnableVertexAttribArray(::ATTRIBUTE_LOCATION_POSITIONS);
         glEnableVertexAttribArray(::ATTRIBUTE_LOCATION_TEXTUREUV);

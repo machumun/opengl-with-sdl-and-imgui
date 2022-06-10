@@ -7,14 +7,27 @@ namespace hid
 {
     struct Bitmap
     {
-        Bitmap(SDL_Surface *surface);
+        SDL_Surface *surface;
+        Bitmap(SDL_Surface *surface) : surface(surface) {}
 
-        uint16_t getWidth() const;
-        uint16_t getHeight() const;
-        void *getPixelData() const;
+        ~Bitmap()
+        {
+            SDL_FreeSurface(surface);
+        }
 
-    private:
-        struct Internal;
-        hid::internal_ptr<Internal> internal;
+        uint16_t getWidth() const
+        {
+            return static_cast<uint16_t>(surface->w);
+        }
+
+        uint16_t getHeight() const
+        {
+            return static_cast<uint16_t>(surface->h);
+        }
+
+        void *getPixelData() const
+        {
+            return surface->pixels;
+        }
     };
 }

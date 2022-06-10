@@ -3,12 +3,18 @@
 #include "assets.hpp"
 #include "sdl-wrapper.hpp"
 #include "vertex.hpp"
+#include "log.hpp"
+
 #include <SDL_image.h>
 #include <tiny_obj_loader.h>
 
 #include <sstream>
 #include <unordered_map>
 #include <vector>
+
+#include "json.hpp"
+
+using nlohmann::json;
 
 std::string hid::assets::loadTextFile(const std::string &path)
 {
@@ -33,7 +39,7 @@ std::string hid::assets::loadTextFile(const std::string &path)
 
 hid::Mesh hid::assets::loadOBJFile(const std::string &path)
 {
-    // Load the .obj file into a string and wrap it as a stream.
+
     std::istringstream sourceStream(hid::assets::loadTextFile(path));
 
     tinyobj::attrib_t attributes;
@@ -42,7 +48,6 @@ hid::Mesh hid::assets::loadOBJFile(const std::string &path)
     std::string warning;
     std::string error;
 
-    // Ask tinyobj to parse the string loaded from our file.
     if (!tinyobj::LoadObj(
             &attributes,
             &shapes,
@@ -58,19 +63,16 @@ hid::Mesh hid::assets::loadOBJFile(const std::string &path)
     std::vector<uint32_t> indices;
     std::unordered_map<hid::Vertex, uint32_t> uniqueVertices;
 
-    // Loop through all the shapes that there found.
     for (const auto &shape : shapes)
     {
-        // For each shape, loop through its indices.
+
         for (const auto &index : shape.mesh.indices)
         {
-            // Construct a new (x, y, z) position for the current mesh index.
             glm::vec3 position{
                 attributes.vertices[3 * index.vertex_index + 0],
                 attributes.vertices[3 * index.vertex_index + 1],
                 attributes.vertices[3 * index.vertex_index + 2]};
 
-            // Construct a new (u, v) texture coordinate for the current mesh index.
             glm::vec2 texCoord{
                 attributes.texcoords[2 * index.texcoord_index + 0],
                 1.0f - attributes.texcoords[2 * index.texcoord_index + 1]};
@@ -80,7 +82,6 @@ hid::Mesh hid::assets::loadOBJFile(const std::string &path)
                 attributes.normals[3 * index.normal_index + 1],
                 attributes.normals[3 * index.normal_index + 2]};
 
-            // Construct a vertex with the extracted data.
             hid::Vertex vertex{position, normal, texCoord};
 
             {
@@ -129,4 +130,28 @@ hid::Bitmap hid::assets::loadBitmap(const std::string &path)
     SDL_FreeSurface(source);
 
     return hid::Bitmap(target);
+}
+
+hid::GLTF loadGLTF(const std::string &path)
+{
+
+    static const std::string logTag{"hid::assets::loadGLTF"};
+
+    hid::GLTF gltf;
+
+    // make json object
+    std::string sourceStream(hid::assets::loadTextFile(path));
+    gltf.JSON = json::parse(sourceStream);
+
+    std::string bytesText;
+    std::string uri = gltf.JSON["buffers"][0]["uri"];
+    std::string fileDirectory = sourceStream.substr(0, sourceStream.find_last_of('/') + 1);
+    bytesText = hid::assets::loadTextFile((fileDirectory + uri).c_str());
+    std::vector<unsigned char> data(bytesText.begin(), bytesText.end());
+
+    gltf.data = data;
+
+    gltf.traverseNode(0);
+
+    return gltf;
 }
