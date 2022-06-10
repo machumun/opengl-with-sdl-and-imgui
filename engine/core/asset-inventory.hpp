@@ -32,7 +32,7 @@ namespace hid::assets
 
     enum class GLTF
     {
-        Scene
+        TestBox
     };
 
     std::pair<std::string, std::string> resolvePipelinePath(const hid::assets::Pipeline &pipeline);
