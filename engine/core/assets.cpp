@@ -16,10 +16,10 @@
 
 using nlohmann::json;
 
-std::string hid::assets::loadTextFile(const std::string &path)
+std::string hid::assets::loadTextFile(const std::string &path, const std::string &mode)
 {
     // Open a file operation handle to the asset file.
-    SDL_RWops *file{SDL_RWFromFile(path.c_str(), "r")};
+    SDL_RWops *file{SDL_RWFromFile(path.c_str(), mode.c_str())};
 
     // Determine how big the file is.
     size_t fileLength{static_cast<size_t>(SDL_RWsize(file))};
@@ -132,7 +132,8 @@ hid::Bitmap hid::assets::loadBitmap(const std::string &path)
     return hid::Bitmap(target);
 }
 
-hid::GLTF loadGLTF(const std::string &path)
+// after this work, we made path to "std::pair path{root, filename}"
+hid::GLTF hid::assets::loadGLTF(const std::string &path)
 {
 
     static const std::string logTag{"hid::assets::loadGLTF"};
@@ -140,16 +141,19 @@ hid::GLTF loadGLTF(const std::string &path)
     hid::GLTF gltf;
 
     // make json object
-    std::string sourceStream(hid::assets::loadTextFile(path));
-    gltf.JSON = json::parse(sourceStream);
+    std::string fileStr{hid::assets::loadTextFile(path)};
 
+    gltf.file = fileStr.c_str();
+    gltf.JSON = json::parse(gltf.file);
+
+    // load binary data
     std::string bytesText;
     std::string uri = gltf.JSON["buffers"][0]["uri"];
-    std::string fileDirectory = sourceStream.substr(0, sourceStream.find_last_of('/') + 1);
-    bytesText = hid::assets::loadTextFile((fileDirectory + uri).c_str());
-    std::vector<unsigned char> data(bytesText.begin(), bytesText.end());
+    // std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
+    gltf.fileDirectory = "assets/gltfs/testbox_reverse/";
+    bytesText = hid::assets::loadTextFile(gltf.fileDirectory + uri, "rb");
 
-    gltf.data = data;
+    gltf.data = std::vector<unsigned char>(bytesText.begin(), bytesText.end());
 
     gltf.traverseNode(0);
 

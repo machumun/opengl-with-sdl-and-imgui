@@ -78,14 +78,16 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
 
     assetManager.loadPipelines({hid::assets::Pipeline::LitPass});
 
-    assetManager.loadStaticMeshes({hid::assets::StaticMesh::Plane});
-    assetManager.loadStaticMeshes({hid::assets::StaticMesh::Hamster});
-    assetManager.loadStaticMeshes({hid::assets::StaticMesh::Crate});
+    assetManager.loadStaticMeshes({hid::assets::StaticMesh::Plane,
+                                   hid::assets::StaticMesh::Hamster,
+                                   hid::assets::StaticMesh::Crate});
 
-    assetManager.loadTextures({hid::assets::Texture::Empty});
-    assetManager.loadTextures({hid::assets::Texture::Hamster});
-    assetManager.loadTextures({hid::assets::Texture::Metal});
-    assetManager.loadTextures({hid::assets::Texture::Frog});
+    assetManager.loadTextures({hid::assets::Texture::Empty,
+                               hid::assets::Texture::Hamster,
+                               hid::assets::Texture::Metal,
+                               hid::assets::Texture::Frog});
+
+    assetManager.loadGLTFModels({hid::assets::GLTF::TestBox});
 
     hid::Material hamMaterial{hid::assets::Texture::Hamster,
                               glm::vec3{1.0f, 1.0f, 1.0f}};
@@ -116,6 +118,10 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
             hid::StaticMeshInstance{
                 hid::assets::StaticMesh::Hamster,
                 hamMaterial}));
+
+    // とりあえずgltfをstringから読み込む
+    sceneData->gltfs.emplace_back(hid::assets::GLTF::TestBox);
+
     // staticMeshes.push_back(
     //     hid::StaticMeshInstance{
     //         hid::assets::StaticMesh::Crate,

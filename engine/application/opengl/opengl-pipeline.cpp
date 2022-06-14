@@ -262,6 +262,19 @@ struct OpenGLPipeline::Internal
         //         animationCount = 0;
         //     }
         // }
+        // assetManager;
+
+        for (const auto &gltf : userData->gltfs)
+        {
+            assetManager.getGLTF(gltf).draw(shader);
+            // gltfInstance.gltf.;
+
+            // for (auto &mesh : gltfInstance.meshes)
+            // {
+            //     shader.setMat4("u_modelMatrix", &gltfInstance.gltf.getModelMatrix()[0][0]);
+            //     mesh.draw();
+            // }
+        }
 
         // ground
         // hid::Material &mat = staticMeshInstances[4].getMaterial();

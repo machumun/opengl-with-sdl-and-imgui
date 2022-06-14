@@ -8,7 +8,7 @@
 
 namespace hid::assets
 {
-    std::string loadTextFile(const std::string &path);
+    std::string loadTextFile(const std::string &path, const std::string &mode = "r");
     hid::Mesh loadOBJFile(const std::string &path);
     hid::Bitmap loadBitmap(const std::string &path);
 

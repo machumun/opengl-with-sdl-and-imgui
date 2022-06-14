@@ -130,7 +130,7 @@ struct OpenGLShader::Internal
         glUniform4fv(resolveUniformLocation(name), 1, value);
     }
 
-    void setMat4(const std::string &name, float *value) const
+    void setMat4(const std::string &name, const float *value) const
     {
         glUniformMatrix4fv(resolveUniformLocation(name), 1, GL_FALSE, value);
     }
@@ -182,7 +182,7 @@ void OpenGLShader::setVec4(const std::string &name, const float *value) const
     internal->setVec4(name, value);
 }
 
-void OpenGLShader::setMat4(const std::string &name, float *value) const
+void OpenGLShader::setMat4(const std::string &name, const float *value) const
 {
     internal->setMat4(name, value);
 }

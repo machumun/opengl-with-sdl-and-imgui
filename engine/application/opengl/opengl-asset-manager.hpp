@@ -26,7 +26,7 @@ namespace hid
 
         const hid::OpenGLTexture &getTexture(const hid::assets::Texture &texture) const;
 
-        // const hid::OpenGLGLTF &getGLTF(const hid::assets::GLTF &gltf) const;
+        const hid::OpenGLGLTF &getGLTF(const hid::assets::GLTF &gltf) const;
 
     private:
         struct Internal;

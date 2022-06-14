@@ -56,8 +56,8 @@ std::string hid::assets::resolveGLTFModelPath(const hid::assets::GLTF &gltf)
     switch (gltf)
     {
     case hid::assets::GLTF::TestBox:
-        return "assets/gltfs/testbox/gltftest.gltf";
+        return "assets/gltfs/testbox_reverse/gltftest.gltf";
     default:
-        return "assets/models/scene.gltf";
+        return "assets/gltfs/testbox_reverse/gltftest.gltf";
     }
 }

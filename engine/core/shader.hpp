@@ -16,7 +16,7 @@ namespace hid
         virtual void setVec2(const std::string &name, const float *value) const = 0;
         virtual void setVec3(const std::string &name, const float *value) const = 0;
         virtual void setVec4(const std::string &name, const float *value) const = 0;
-        virtual void setMat4(const std::string &name, float *value) const = 0;
+        virtual void setMat4(const std::string &name, const float *value) const = 0;
 
         virtual void release() const = 0;
 

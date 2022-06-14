@@ -22,6 +22,7 @@ namespace hid
         // easy access
         const char *file;
         std::vector<unsigned char> data;
+        std::string fileDirectory;
         json JSON;
 
         std::vector<std::string> loadedTexName;
@@ -35,7 +36,8 @@ namespace hid
         std::vector<glm::mat4> matricesMeshes;
 
         std::vector<hid::Mesh> meshes;
-        void loadMash(uint32_t indMesh);
+        std::vector<hid::Bitmap> textures;
+        void loadMesh(uint32_t indMesh);
 
         // GLTF();
 
@@ -53,6 +55,6 @@ namespace hid
         std::vector<glm::vec3> groupFloatsVec3(const std::vector<float> &floatVec);
         std::vector<glm::vec4> groupFloatsVec4(const std::vector<float> &floatVec);
 
-        std::vector<hid::Bitmap> getTextures();
+        void loadTextures();
     };
 }

@@ -1,5 +1,6 @@
 #include "gltf.hpp"
 #include "assets.hpp"
+#include "log.hpp"
 
 using hid::GLTF;
 
@@ -107,7 +108,7 @@ std::vector<hid::Vertex> GLTF::assembleVertices(
 {
     std::vector<hid::Vertex> vertices;
 
-    uint32_t maxInt = positions.size();
+    size_t maxInt = positions.size();
     for (int i = 0; i < maxInt; i++)
     {
         vertices.push_back(
@@ -122,7 +123,7 @@ std::vector<hid::Vertex> GLTF::assembleVertices(
 std::vector<glm::vec2> GLTF::groupFloatsVec2(const std::vector<float> &floatVec)
 {
     std::vector<glm::vec2> vectors;
-    uint32_t maxInt = floatVec.size();
+    size_t maxInt = floatVec.size();
     for (int i = 0; i < maxInt; i)
     {
         vectors.push_back(glm::vec2(floatVec[i++], floatVec[i++]));
@@ -133,7 +134,7 @@ std::vector<glm::vec2> GLTF::groupFloatsVec2(const std::vector<float> &floatVec)
 std::vector<glm::vec3> GLTF::groupFloatsVec3(const std::vector<float> &floatVec)
 {
     std::vector<glm::vec3> vectors;
-    uint32_t maxInt = floatVec.size();
+    size_t maxInt = floatVec.size();
     for (int i = 0; i < maxInt; i)
     {
         vectors.push_back(glm::vec3(floatVec[i++], floatVec[i++], floatVec[i++]));
@@ -144,7 +145,7 @@ std::vector<glm::vec3> GLTF::groupFloatsVec3(const std::vector<float> &floatVec)
 std::vector<glm::vec4> GLTF::groupFloatsVec4(const std::vector<float> &floatVec)
 {
     std::vector<glm::vec4> vectors;
-    uint32_t maxInt = floatVec.size();
+    size_t maxInt = floatVec.size();
     for (int i = 0; i < maxInt; i)
     {
         vectors.push_back(glm::vec4(floatVec[i++], floatVec[i++], floatVec[i++], floatVec[i++]));
@@ -152,28 +153,29 @@ std::vector<glm::vec4> GLTF::groupFloatsVec4(const std::vector<float> &floatVec)
     return vectors;
 }
 
-std::vector<hid::Bitmap> GLTF::getTextures()
+void GLTF::loadTextures()
 {
-    std::vector<hid::Bitmap> textures;
+    static std::string logTag{"hid::GLTF::getTextures"};
 
     // fs copy
-    std::string fileStr = std::string(file);
-    std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
+    // std::string fileStr = std::string(file);
+    // std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
 
-    uint32_t maxInt = JSON["images"].size();
+    size_t maxInt = JSON["images"].size();
     for (uint32_t i = 0; i < maxInt; i++)
     {
+
         // uri of current texture
         std::string texPath = JSON["images"][i]["uri"];
 
         // Check if the texture has already been loaded
         bool skip = false;
-        uint32_t maxJnt = loadedTexName.size();
+        size_t maxJnt = loadedTexName.size();
         for (uint32_t j = 0; j < maxJnt; j++)
         {
             if (loadedTexName[j] == texPath)
             {
-                // textures.push_back(loadedTex[j]);
+                textures.push_back(loadedTex[j]);
                 skip = true;
                 break;
             }
@@ -182,27 +184,29 @@ std::vector<hid::Bitmap> GLTF::getTextures()
         // If the texture has been loaded, skip this
         if (!skip)
         {
+            hid::log(logTag, "Image was loaded from " + fileDirectory + texPath);
+            hid::Bitmap diffuse = hid::Bitmap{hid::assets::loadBitmap(fileDirectory + texPath)};
 
-            // Load diffuse texture
-            if (texPath.find("baseColor") != std::string::npos)
-            {
-                hid::Bitmap diffuse = hid::assets::loadBitmap((fileDirectory + texPath).c_str());
-                textures.push_back(diffuse);
-                loadedTex.push_back(diffuse);
-                loadedTexName.push_back(texPath);
-            }
-            // Load specular texture
-            else if (texPath.find("metallicRoughness") != std::string::npos)
-            {
-                hid::Bitmap specular = hid::assets::loadBitmap((fileDirectory + texPath).c_str());
-                textures.push_back(specular);
-                loadedTex.push_back(specular);
-                loadedTexName.push_back(texPath);
-            }
+            textures.push_back(diffuse);
+
+            // // Load diffuse texture
+            // if (texPath.find("baseColor") != std::string::npos)
+            // {
+            //     hid::Bitmap diffuse = hid::assets::loadBitmap((fileDirectory + texPath).c_str());
+            //     textures.push_back(diffuse);
+            //     loadedTex.push_back(diffuse);
+            //     loadedTexName.push_back(texPath);
+            // }
+            // // Load specular texture
+            // else if (texPath.find("metallicRoughness") != std::string::npos)
+            // {
+            //     hid::Bitmap specular = hid::assets::loadBitmap((fileDirectory + texPath).c_str());
+            //     textures.push_back(specular);
+            //     loadedTex.push_back(specular);
+            //     loadedTexName.push_back(texPath);
+            // }
         }
     }
-
-    return textures;
 }
 
 void GLTF::traverseNode(const uint32_t &nextNode, const glm::mat4 &matrix)
@@ -267,19 +271,19 @@ void GLTF::traverseNode(const uint32_t &nextNode, const glm::mat4 &matrix)
 
         matricesMeshes.push_back(matNextNode);
 
-        // loadMesh(node["mesh"]);
+        loadMesh(node["mesh"]);
     }
 
     // Check if the node has children, and if it does, apply this function to them with the matNextNode
     if (node.find("children") != node.end())
     {
-        uint32_t maxInt = node["children"].size();
+        size_t maxInt = node["children"].size();
         for (uint32_t i = 0; i < maxInt; i++)
             traverseNode(node["children"][i], matNextNode);
     }
 }
 
-void GLTF::loadMash(uint32_t indMesh)
+void GLTF::loadMesh(uint32_t indMesh)
 {
 
     // Get all accessor indices
@@ -299,8 +303,10 @@ void GLTF::loadMash(uint32_t indMesh)
     // Combine all the vertex components and also get the indices and textures
     std::vector<Vertex> vertices = assembleVertices(positions, normals, texUVs);
     std::vector<uint32_t> indices = getIndices(JSON["accessors"][indAccInd]);
-    std::vector<hid::Bitmap> textures = getTextures();
+    // std::vector<hid::Bitmap> textures = getTextures();
 
     // Combine the vertices, indices, and textures into a mesh
+    // textures = getTextures();
+    loadTextures();
     meshes.push_back(hid::Mesh{vertices, indices});
 }

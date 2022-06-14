@@ -27,6 +27,8 @@ namespace hid
         std::vector<std::shared_ptr<hid::StaticMeshInstance>> staticMeshInstances;
         std::vector<std::shared_ptr<hid::AnimationPlane>> animationPlanes;
 
+        std::vector<hid::assets::GLTF> gltfs;
+
         Dat() : isActive{true},
                 show_another_window{false},
                 rotateSpeed{.0f},

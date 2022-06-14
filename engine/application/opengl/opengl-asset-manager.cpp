@@ -88,7 +88,7 @@ void OpenGLAssetManager::loadTextures(const std::vector<hid::assets::Texture> &t
 
 void OpenGLAssetManager::loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs)
 {
-    // internal->loadGLTFModels(gltfs);
+    internal->loadGLTFModels(gltfs);
 }
 
 hid::OpenGLPipeline &OpenGLAssetManager::getPipeline(const hid::assets::Pipeline &pipeline)
@@ -106,7 +106,7 @@ const hid::OpenGLTexture &OpenGLAssetManager::getTexture(const hid::assets::Text
     return internal->textureCache.at(texture);
 }
 
-// const hid::OpenGLGLTF &OpenGLAssetManager::getGLTF(const hid::assets::GLTF &gltf) const
-// {
-//     return internal->gltfCache.at(gltf);
-// };
+const hid::OpenGLGLTF &OpenGLAssetManager::getGLTF(const hid::assets::GLTF &gltf) const
+{
+    return internal->gltfCache.at(gltf);
+};

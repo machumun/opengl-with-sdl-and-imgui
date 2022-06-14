@@ -15,7 +15,7 @@ namespace hid
         void setInt(const std::string &name, int value) const override;
         void setFloat(const std::string &name, float value) const override;
 
-        void setMat4(const std::string &name, float *value) const override;
+        void setMat4(const std::string &name, const float *value) const override;
         void setVec2(const std::string &name, const float *value) const override;
         void setVec3(const std::string &name, const float *value) const override;
         void setVec4(const std::string &name, const float *value) const override;
