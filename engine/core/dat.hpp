@@ -3,8 +3,7 @@
 #include "imgui.h"
 #include "light-settings.hpp"
 #include "glm-wrapper.hpp"
-// #include "static-mesh-instance.hpp"
-// #include "animation-plane.hpp"
+#include "object.hpp"
 
 #include <memory>
 #include <vector>
@@ -23,6 +22,11 @@ namespace hid
         float delta;
 
         char text1[64] = "";
+
+        // std::vector<std::shared_ptr<hid::StaticMeshInstance>> staticMeshInstances;
+        // std::vector<std::shared_ptr<hid::AnimationPlane>> animationPlanes;
+
+        std::vector<std::shared_ptr<hid::Object>> objects;
 
         std::vector<hid::assets::GLTF> gltfs;
 

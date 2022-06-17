@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../core/asset-inventory.hpp"
-#include "../core/glm-wrapper.hpp"
-#include "../core/internal-ptr.hpp"
+#include "asset-inventory.hpp"
+#include "glm-wrapper.hpp"
+#include "internal-ptr.hpp"
 
 namespace hid
 {
@@ -14,18 +14,18 @@ namespace hid
 
     struct Material
     {
-        hid::assets::Texture albedo;
-        hid::assets::Texture normal;
-        hid::assets::Texture metaric;
-        hid::assets::Texture speculer;
+        std::string albedo;
+        std::string normal;
+        std::string metaric;
+        std::string speculer;
 
         glm::vec3 baseColor;
 
-        Material(const hid::assets::Texture &albedo = hid::assets::Texture::Empty,
+        Material(const std::string &albedo = "empty",
                  const glm::vec3 &baseColor = glm::vec3{1.0f, 1.0f, 1.0f},
-                 const hid::assets::Texture &normal = hid::assets::Texture::Empty,
-                 const hid::assets::Texture &metaric = hid::assets::Texture::Empty,
-                 const hid::assets::Texture &speculer = hid::assets::Texture::Empty)
+                 const std::string &normal = "empty",
+                 const std::string &metaric = "empty",
+                 const std::string &speculer = "empty")
             : albedo{albedo},
               baseColor{baseColor},
               normal(normal),

@@ -1,26 +1,24 @@
 #include "scene-main.hpp"
 
-#include "../../core/material.hpp"
-#include "../../core/object.hpp"
+#include "../../engine/core/components/mesh-renderer.hpp"
+#include "../../engine/core/object.hpp"
 
 using hid::SceneMain;
-// using namespace hid;
 
 #include <iostream>
 
 void SceneMain::update(const float& delta)
 {
-
     // user data ->
     input(delta);
     camera.configure(player.getPosition(), player.getDirection());
 
     const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
 
-    // for (auto& staticMesh : sceneData->staticMeshInstances)
-    // {
-    //     staticMesh->updateModelMatrix();
-    // }
+    for (auto& object : sceneData->objects)
+    {
+        object->update();
+    }
 }
 
 void SceneMain::input(const float& delta)
@@ -68,28 +66,31 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
 
     assetManager.loadPipelines({hid::assets::Pipeline::LitPass});
 
-    assetManager.loadStaticMeshes({hid::assets::StaticMesh::Plane,
-                                   hid::assets::StaticMesh::Hamster,
-                                   hid::assets::StaticMesh::Crate});
+    assetManager.loadStaticMeshes({{"plane", "assets/models/plane.obj"},
+                                   {"hamster", "assets/models/hamster.obj"},
+                                   {"crate", "assets/models/crate.obj"}});
 
-    assetManager.loadTextures({hid::assets::Texture::Empty,
-                               hid::assets::Texture::Hamster,
-                               hid::assets::Texture::Metal,
-                               hid::assets::Texture::Frog});
+    // to memory
+    assetManager.loadTextures({{"hamster", "assets/textures/hamster.png"},
+                               {"metal", "assets/textures/metal.png"},
+                               {"chara", "assets/textures/chara.png"},
+                               {"empty", "assets/textures/empty.png"}});
 
     assetManager.loadGLTFModels({hid::assets::GLTF::TestBox});
 
-    hid::Material hamMaterial{hid::assets::Texture::Hamster,
+    hid::Material hamMaterial{"hamster",
                               glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    hid::Material metalMaterial{hid::assets::Texture::Metal,
+    hid::Material metalMaterial{"metal",
                                 glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    hid::Material characterMaterial{hid::assets::Texture::Frog,
+    hid::Material characterMaterial{"chara",
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    hid::Material pointLightMaterial{hid::assets::Texture::Empty,
+    hid::Material pointLightMaterial{"empty",
                                      sceneData->lightSettings.pointLight.color};
 
     std::shared_ptr<hid::Object> obj1 = std::make_shared<hid::Object>();
+    obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
+    sceneData->objects.emplace_back(obj1);
 }
