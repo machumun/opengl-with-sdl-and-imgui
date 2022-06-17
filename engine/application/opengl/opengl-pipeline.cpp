@@ -6,6 +6,10 @@
 #include "../../core/graphics-wrapper.hpp"
 #include "../../core/log.hpp"
 
+#include "../../core/object.hpp"
+
+#include "../../core/components/mesh-renderer.hpp"
+
 #include <stdexcept>
 #include <vector>
 
@@ -212,6 +216,7 @@ struct OpenGLPipeline::Internal
         const hid::PerspectiveCamera &camera)
     {
 
+        const static std::string logTag{"hid::OpenGLPipeline::render"};
         // geometry buffer
         glBindFramebuffer(GL_FRAMEBUFFER, baseFBO);
 
@@ -231,11 +236,28 @@ struct OpenGLPipeline::Internal
         glActiveTexture(GL_TEXTURE0);
         shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
+        for (auto &object : userData->objects)
+        {
+            auto &meshRenderer = object->getComponent<hid::MeshRenderer>();
+            auto &transform = object->getComponent<hid::Transform>();
+
+            auto &material = meshRenderer.getMaterial();
+
+            // hid::log(logTag, "albedo : " + material.albedo);
+            // hid::log(logTag, "mesh : " + meshRenderer.getMesh());
+
+            assetManager.getTexture(material.albedo).bind();
+            shader.setMat4("u_modelMatrix", &transform.getModelMatrix()[0][0]);
+            assetManager.getStaticMesh(meshRenderer.getMesh()).draw();
+            // if (meshRenderer != nullptr)
+            // {
+            // }
+        }
+
         // animationProgram.use();
         // glActiveTexture(GL_TEXTURE0);
         // animationProgram.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
         // animationProgram.setMat4("u_modelMatrix", &staticMeshInstances[4].getModelMatrix()[0][0]);
-
 
         // animationProgram.setInt("u_animationFrameX", animationFrame[animationCount]);
         // if (frameCount < skipFrame)

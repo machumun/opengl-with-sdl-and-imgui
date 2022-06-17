@@ -53,8 +53,8 @@ namespace hid
 
         void update()
         {
-            const static std::string logTag{"hid::Transform::update"};
-            hid::log(logTag, "transform update");
+            // const static std::string logTag{"hid::Transform::update"};
+            // hid::log(logTag, "transform update");
             if (!isStatic)
             {
                 updateModelMatrix();

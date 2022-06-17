@@ -3,14 +3,18 @@
 #include "components/transform.hpp"
 #include "interfaces/IComponent.hpp"
 
+// #include "log.hpp"
+
 namespace hid
 {
     struct Object
     {
-        //
+
         Object()
             : components{std::make_shared<hid::Transform>()},
-              componentsIterator{components.begin()} {}
+              componentsIterator{components.begin()}
+        {
+        }
 
         ~Object()
         {
@@ -42,6 +46,7 @@ namespace hid
 
         void update()
         {
+            // const static std::string logTag{"component update"};
             for (auto &&component : components)
             {
                 component->update();
