@@ -24,9 +24,6 @@ namespace hid
 
         char text1[64] = "";
 
-        // std::vector<std::shared_ptr<hid::StaticMeshInstance>> staticMeshInstances;
-        // std::vector<std::shared_ptr<hid::AnimationPlane>> animationPlanes;
-
         std::vector<hid::assets::GLTF> gltfs;
 
         Dat() : isActive{true},

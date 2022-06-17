@@ -2,6 +2,7 @@
 
 #include "asset-inventory.hpp"
 #include <vector>
+#include <utility>
 
 namespace hid
 {

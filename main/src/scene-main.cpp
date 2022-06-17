@@ -16,19 +16,6 @@ void SceneMain::update(const float& delta)
 
     const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
 
-    // if (sceneData->isActive)
-    // {
-    //     staticMeshes[1].rotateBy(delta * sceneData->rotateSpeed);
-    //     staticMeshes[2].rotateBy(delta * sceneData->rotateSpeed);
-    // }
-
-    // light instance
-    // staticMeshes[0].setPosition(sceneData->lightSettings.pointLight.position);
-    // staticMeshes[0].setBaseColor(sceneData->lightSettings.pointLight.color);
-
-    // real time light move
-    // lightSettings = sceneData->lightSettings;
-
     // for (auto& staticMesh : sceneData->staticMeshInstances)
     // {
     //     staticMesh->updateModelMatrix();
@@ -103,23 +90,5 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     hid::Material pointLightMaterial{hid::assets::Texture::Empty,
                                      sceneData->lightSettings.pointLight.color};
 
-    // 0
-    // sceneData->staticMeshInstances.emplace_back(
-    //     std::make_shared<hid::StaticMeshInstance>(
-    //         hid::StaticMeshInstance{
-    //             hid::assets::StaticMesh::Plane,
-    //             metalMaterial,
-    //             glm::vec3{0.4f, -0.5f, 0.4f}, // Position
-    //             glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
-    //             glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
-    //             0.0f}));
-
-    // // 1
-    // sceneData->staticMeshInstances.emplace_back(
-    //     std::make_shared<hid::StaticMeshInstance>(
-    //         hid::StaticMeshInstance{
-    //             hid::assets::StaticMesh::Hamster,
-    //             hamMaterial}));
-
-    // sceneData->gltfs.emplace_back(hid::assets::GLTF::TestBox);
+    std::shared_ptr<hid::Object> obj1 = std::make_shared<hid::Object>();
 }
