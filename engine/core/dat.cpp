@@ -66,18 +66,18 @@ void Dat::hierarchyWindow(bool *p_open)
     //     }
     // }
 
-    if (ImGui::TreeNode("GameObject"))
-    {
-        ImGui::DragFloat3("position", (float *)&staticMeshInstances[0]->position, -10.0f, 10.0f);
-        ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
-        ImGui::TreePop();
-    }
-    if (ImGui::TreeNode("GameObject 1"))
-    {
-        ImGui::SliderFloat3("position", (float *)&staticMeshInstances[1]->position, -10.0f, 10.0f);
-        ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
-        ImGui::TreePop();
-    }
+    // if (ImGui::TreeNode("GameObject"))
+    // {
+    //     ImGui::DragFloat3("position", (float *)&staticMeshInstances[0]->position, -10.0f, 10.0f);
+    //     ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
+    //     ImGui::TreePop();
+    // }
+    // if (ImGui::TreeNode("GameObject 1"))
+    // {
+    //     ImGui::SliderFloat3("position", (float *)&staticMeshInstances[1]->position, -10.0f, 10.0f);
+    //     ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
+    //     ImGui::TreePop();
+    // }
 
     ImGui::End();
 }

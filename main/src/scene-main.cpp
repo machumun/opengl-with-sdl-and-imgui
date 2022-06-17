@@ -1,5 +1,7 @@
 #include "scene-main.hpp"
 
+#include "../../core/object.hpp"
+
 using hid::SceneMain;
 // using namespace hid;
 
@@ -27,10 +29,10 @@ void SceneMain::update(const float& delta)
     // real time light move
     // lightSettings = sceneData->lightSettings;
 
-    for (auto& staticMesh : sceneData->staticMeshInstances)
-    {
-        staticMesh->updateModelMatrix();
-    }
+    // for (auto& staticMesh : sceneData->staticMeshInstances)
+    // {
+    //     staticMesh->updateModelMatrix();
+    // }
 }
 
 void SceneMain::input(const float& delta)
@@ -102,22 +104,22 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
                                      sceneData->lightSettings.pointLight.color};
 
     // 0
-    sceneData->staticMeshInstances.emplace_back(
-        std::make_shared<hid::StaticMeshInstance>(
-            hid::StaticMeshInstance{
-                hid::assets::StaticMesh::Plane,
-                metalMaterial,
-                glm::vec3{0.4f, -0.5f, 0.4f}, // Position
-                glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
-                glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
-                0.0f}));
+    // sceneData->staticMeshInstances.emplace_back(
+    //     std::make_shared<hid::StaticMeshInstance>(
+    //         hid::StaticMeshInstance{
+    //             hid::assets::StaticMesh::Plane,
+    //             metalMaterial,
+    //             glm::vec3{0.4f, -0.5f, 0.4f}, // Position
+    //             glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
+    //             glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
+    //             0.0f}));
 
-    // 1
-    sceneData->staticMeshInstances.emplace_back(
-        std::make_shared<hid::StaticMeshInstance>(
-            hid::StaticMeshInstance{
-                hid::assets::StaticMesh::Hamster,
-                hamMaterial}));
+    // // 1
+    // sceneData->staticMeshInstances.emplace_back(
+    //     std::make_shared<hid::StaticMeshInstance>(
+    //         hid::StaticMeshInstance{
+    //             hid::assets::StaticMesh::Hamster,
+    //             hamMaterial}));
 
     // sceneData->gltfs.emplace_back(hid::assets::GLTF::TestBox);
 }

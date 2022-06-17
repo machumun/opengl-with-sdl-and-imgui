@@ -231,17 +231,17 @@ struct OpenGLPipeline::Internal
         glActiveTexture(GL_TEXTURE0);
         shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
-        for (const auto &staticMeshInstance : userData->staticMeshInstances)
-        {
-            shader.setMat4("u_modelMatrix", &staticMeshInstance->getModelMatrix()[0][0]);
-            // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
-            hid::Material &mat = staticMeshInstance->getMaterial();
+        // for (const auto &staticMeshInstance : userData->staticMeshInstances)
+        // {
+        //     shader.setMat4("u_modelMatrix", &staticMeshInstance->getModelMatrix()[0][0]);
+        //     // const OpenGLTexture &albedo = assetManager.getTexture(staticMeshInstance.getTexture());
+        //     hid::Material &mat = staticMeshInstance->getMaterial();
 
-            assetManager.getTexture(mat.albedo).bind();
-            // shader.setInt("u_sampler", 0);
-            shader.setVec3("u_baseColor", &mat.baseColor[0]);
-            assetManager.getStaticMesh(staticMeshInstance->getMesh()).draw();
-        }
+        //     assetManager.getTexture(mat.albedo).bind();
+        //     // shader.setInt("u_sampler", 0);
+        //     shader.setVec3("u_baseColor", &mat.baseColor[0]);
+        //     assetManager.getStaticMesh(staticMeshInstance->getMesh()).draw();
+        // }
 
         // animationProgram.use();
         // glActiveTexture(GL_TEXTURE0);
@@ -263,18 +263,6 @@ struct OpenGLPipeline::Internal
         //     }
         // }
         // assetManager;
-
-        for (const auto &gltf : userData->gltfs)
-        {
-            assetManager.getGLTF(gltf).draw(shader);
-            // gltfInstance.gltf.;
-
-            // for (auto &mesh : gltfInstance.meshes)
-            // {
-            //     shader.setMat4("u_modelMatrix", &gltfInstance.gltf.getModelMatrix()[0][0]);
-            //     mesh.draw();
-            // }
-        }
 
         // ground
         // hid::Material &mat = staticMeshInstances[4].getMaterial();

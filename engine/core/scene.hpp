@@ -22,8 +22,5 @@ namespace hid
         virtual void update(const float &delta) = 0;
 
         virtual void render(hid::Renderer &renderer) = 0;
-
-        void instantiate(hid::StaticMeshInstance &staticMeshInstance);
-        void instantiate(hid::AnimationPlane &animationPlane);
     };
 } // namespace usr
