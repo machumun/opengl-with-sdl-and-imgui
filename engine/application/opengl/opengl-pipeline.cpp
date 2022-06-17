@@ -236,6 +236,7 @@ struct OpenGLPipeline::Internal
         // animationProgram.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
         // animationProgram.setMat4("u_modelMatrix", &staticMeshInstances[4].getModelMatrix()[0][0]);
 
+
         // animationProgram.setInt("u_animationFrameX", animationFrame[animationCount]);
         // if (frameCount < skipFrame)
         // {

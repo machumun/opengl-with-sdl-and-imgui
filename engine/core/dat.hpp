@@ -3,8 +3,8 @@
 #include "imgui.h"
 #include "light-settings.hpp"
 #include "glm-wrapper.hpp"
-#include "static-mesh-instance.hpp"
-#include "animation-plane.hpp"
+// #include "static-mesh-instance.hpp"
+// #include "animation-plane.hpp"
 
 #include <memory>
 #include <vector>

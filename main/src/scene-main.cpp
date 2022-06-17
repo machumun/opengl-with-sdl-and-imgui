@@ -1,5 +1,6 @@
 #include "scene-main.hpp"
 
+#include "../../core/material.hpp"
 #include "../../core/object.hpp"
 
 using hid::SceneMain;

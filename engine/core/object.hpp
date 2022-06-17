@@ -1,15 +1,16 @@
 #pragma once
 
-// #include "components/transform.hpp"
+#include "components/transform.hpp"
 #include "interfaces/IComponent.hpp"
 
 namespace hid
 {
     struct Object
     {
-        // components{std::make_shared<hid::Transform>()},
+        //
         Object()
-            : componentsIterator{components.begin()} {}
+            : components{std::make_shared<hid::Transform>()},
+              componentsIterator{components.begin()} {}
 
         ~Object()
         {
