@@ -119,55 +119,5 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
                 hid::assets::StaticMesh::Hamster,
                 hamMaterial}));
 
-    // とりあえずgltfをstringから読み込む
-    sceneData->gltfs.emplace_back(hid::assets::GLTF::TestBox);
-
-    // staticMeshes.push_back(
-    //     hid::StaticMeshInstance{
-    //         hid::assets::StaticMesh::Crate,
-    //         pointLightMaterial,
-    //         sceneData->lightSettings.pointLight.position,
-    //         glm::vec3{0.02f, 0.02f, 0.02f}});
-
-    // // 1
-    // staticMeshes.push_back(hid::StaticMeshInstance{
-    //     hid::assets::StaticMesh::Hamster,
-    //     hamMaterial});
-
-    // // 2
-    // staticMeshes.push_back(hid::StaticMeshInstance{
-    //     hid::assets::StaticMesh::Hamster,
-    //     metalMaterial,
-    //     glm::vec3{-0.4f, 0.6f, 0.4f}, // Position
-    //     glm::vec3{0.6f, 0.6f, 0.6f},  // Scale
-    //     glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
-    //     0.0f});
-
-    // // 3
-    // staticMeshes.push_back(hid::StaticMeshInstance{
-    //     hid::assets::StaticMesh::Plane,
-    //     metalMaterial,
-    //     glm::vec3{0.4f, -0.5f, 0.4f}, // Position
-    //     glm::vec3{1.6f, 1.6f, 1.6f},  // Scale
-    //     glm::vec3{0.0f, 0.4f, 0.9f},  // Rotation axis
-    //     0.0f});
-
-    // // 4
-    // staticMeshes.push_back(hid::StaticMeshInstance{
-    //     hid::assets::StaticMesh::Plane,
-    //     characterMaterial,
-    //     glm::vec3{1.0f, .0f, .0f}, // Position
-    //     glm::vec3{.1f, .1f, .1f},  // Scale
-    //     glm::vec3{1.0f, .0f, .0f}, // Rotation axis
-    //     90.0f});
-
-    // a0
-    // animationPlanes.push_back(
-    //     hid::AnimationPlane{
-    //         characterMaterial,
-    //         0,
-    //         glm::vec3{1.0f, .5f, .0f}, // Position
-    //         glm::vec3{.1f, .1f, .1f},  // Scale
-    //         glm::vec3{1.0f, .0f, .0f}, // Rotation axis
-    //         90.0f});
+    // sceneData->gltfs.emplace_back(hid::assets::GLTF::TestBox);
 }

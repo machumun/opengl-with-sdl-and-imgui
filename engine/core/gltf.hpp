@@ -2,22 +2,17 @@
 
 #include "json.hpp"
 #include "mesh.hpp"
-#include "bitmap.hpp"
-#include "transform.hpp"
+#include "interfaces/IComponent.hpp"
+#include "asset-manager.hpp"
 
 using nlohmann::json;
 
 namespace hid
 {
-    struct GLTF : public hid::Transform
+    struct GLTF : public hid::IComponent
     {
 
-        GLTF(
-            const glm::vec3 &position = glm::vec3{0.0f, 0.0f, 0.0f},
-            const glm::vec3 &scale = glm::vec3{1.0f, 1.0f, 1.0f},
-            const glm::vec3 &rotationAxis = glm::vec3{0.0f, 1.0f, 0.0f},
-            const float &rotationDegrees = 0.0f)
-            : Transform(position, scale, rotationAxis, rotationDegrees){};
+        GLTF() {}
 
         // easy access
         const char *file;
@@ -25,18 +20,15 @@ namespace hid
         std::string fileDirectory;
         json JSON;
 
-        std::vector<std::string> loadedTexName;
-        std::vector<hid::Bitmap> loadedTex;
-
         std::vector<glm::vec3> translationsMeshes;
         std::vector<glm::quat> rotationsMeshes;
         std::vector<glm::vec3> scalesMeshes;
 
-        std::vector<hid::Transform> transformMeshes;
         std::vector<glm::mat4> matricesMeshes;
 
         std::vector<hid::Mesh> meshes;
-        std::vector<hid::Bitmap> textures;
+        std::vector<std::string> textures;
+
         void loadMesh(uint32_t indMesh);
 
         // GLTF();
