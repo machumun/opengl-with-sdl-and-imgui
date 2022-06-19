@@ -1,9 +1,11 @@
 #include "opengl-application.hpp"
 #include "opengl-imgui.hpp"
+
 #include "../../core/graphics-wrapper.hpp"
 #include "../../core/log.hpp"
 #include "../../core/sdl-wrapper.hpp"
 #include "../../../main/src/scene-main.hpp"
+
 #include "opengl-asset-manager.hpp"
 #include "opengl-renderer.hpp"
 
@@ -52,7 +54,7 @@ namespace
         return hid::OpenGLRenderer(assetManager);
     }
 
-    std::unique_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager, std::shared_ptr<hid::Dat> &userData)
+    std::unique_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager, std::shared_ptr<hid::Gui> &userData)
     {
 
         std::unique_ptr<hid::Scene> scene{std::make_unique<hid::SceneMain>(userData)};
@@ -60,9 +62,9 @@ namespace
         return scene;
     }
 
-    std::shared_ptr<hid::Dat> createUserData()
+    std::shared_ptr<hid::Gui> createUserData()
     {
-        return std::make_shared<hid::Dat>(hid::Dat());
+        return std::make_shared<hid::Gui>(hid::Gui());
     }
 
     int32_t resizingEventWatcher(void *data, SDL_Event *event)
@@ -103,7 +105,7 @@ struct hid::OpenGLApplication::Internal
     const std::shared_ptr<hid::OpenGLAssetManager> assetManager;
 
     // user data
-    std::shared_ptr<hid::Dat> data;
+    std::shared_ptr<hid::Gui> data;
 
     hid::OpenGLRenderer renderer;
 

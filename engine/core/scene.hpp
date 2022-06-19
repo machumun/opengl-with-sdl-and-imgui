@@ -2,7 +2,7 @@
 
 #include "asset-manager.hpp"
 #include "renderer.hpp"
-#include "dat.hpp"
+#include "gui/gui.hpp"
 
 namespace hid
 {
@@ -10,9 +10,9 @@ namespace hid
     struct Scene
     {
 
-        std::shared_ptr<hid::Dat> sceneData;
+        std::shared_ptr<hid::Gui> sceneData;
 
-        Scene(std::shared_ptr<hid::Dat> &userData)
+        Scene(std::shared_ptr<hid::Gui> &userData)
             : sceneData(userData){};
 
         virtual ~Scene() = default;

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "imgui.h"
-#include "light-settings.hpp"
-#include "glm-wrapper.hpp"
-#include "object.hpp"
+#include "../light-settings.hpp"
+#include "../glm-wrapper.hpp"
+#include "../object.hpp"
 
 #include <memory>
 #include <vector>
@@ -11,7 +11,7 @@
 namespace hid
 {
 
-    struct Dat
+    struct Gui
     {
         bool isActive;
         bool show_another_window;
@@ -30,7 +30,7 @@ namespace hid
 
         std::vector<hid::assets::GLTF> gltfs;
 
-        Dat() : isActive{true},
+        Gui() : isActive{true},
                 show_another_window{false},
                 rotateSpeed{.0f},
                 lightSettings{

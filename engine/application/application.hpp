@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../core/internal-ptr.hpp"
-#include "../core/dat.hpp"
 #include <functional>
 
 // template method

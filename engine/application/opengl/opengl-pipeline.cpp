@@ -212,7 +212,7 @@ struct OpenGLPipeline::Internal
 
     void render(
         const hid::OpenGLAssetManager &assetManager,
-        const std::shared_ptr<hid::Dat> &userData,
+        const std::shared_ptr<hid::Gui> &userData,
         const hid::PerspectiveCamera &camera)
     {
 
@@ -220,9 +220,9 @@ struct OpenGLPipeline::Internal
         // geometry buffer
         glBindFramebuffer(GL_FRAMEBUFFER, baseFBO);
 
-        // glClearColor(.8f, .8f, .8f, 0.0f);
-        // glClearColor(.0f, .0f, .0f, 1.0f);
-        glClearColor(.2f, .2f, .2f, 1.0f);
+        // glClearColor(.8f, .8f, .8f, 1.0f);
+        glClearColor(.0f, .0f, .0f, 1.0f);
+        // glClearColor(.2f, .2f, .2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glEnable(GL_BLEND);
@@ -239,7 +239,7 @@ struct OpenGLPipeline::Internal
         for (auto &object : userData->objects)
         {
             auto &meshRenderer = object->getComponent<hid::MeshRenderer>();
-            auto &transform = object->getComponent<hid::Transform>();
+            auto &modelMatrix = object->getComponent<hid::Transform>().getModelMatrix();
 
             auto &material = meshRenderer.getMaterial();
 
@@ -247,7 +247,7 @@ struct OpenGLPipeline::Internal
             // hid::log(logTag, "mesh : " + meshRenderer.getMesh());
 
             assetManager.getTexture(material.albedo).bind();
-            shader.setMat4("u_modelMatrix", &transform.getModelMatrix()[0][0]);
+            shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
             assetManager.getStaticMesh(meshRenderer.getMesh()).draw();
             // if (meshRenderer != nullptr)
             // {
@@ -355,7 +355,7 @@ OpenGLPipeline::OpenGLPipeline(const std::string &vertShaderName, const std::str
     : internal(hid::make_internal_ptr<Internal>(vertShaderName, fragShaderName)) {}
 
 void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager,
-                            const std::shared_ptr<hid::Dat> &userData,
+                            const std::shared_ptr<hid::Gui> &userData,
                             const hid::PerspectiveCamera &camera)
 {
     internal->render(assetManager, userData, camera);

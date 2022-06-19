@@ -1,13 +1,16 @@
 #pragma once
 
-#include "../core/glm-wrapper.hpp"
-#include "../core/internal-ptr.hpp"
+#include "../interfaces/IComponent.hpp"
+#include "../material.hpp"
 
 namespace hid
 {
-    struct PerspectiveCamera
+    struct Camera : public hid::IComponent
     {
-        PerspectiveCamera(const float &width, const float &height);
+        static const std::size_t Type;
+        virtual bool IsClassType(const std::size_t classType) const override;
+
+        Camera(const float &width, const float &height);
 
         void configure(const glm::vec3 &position, const glm::vec3 &direction);
 
@@ -23,4 +26,5 @@ namespace hid
         glm::vec3 position;
         glm::vec3 target;
     };
+
 }

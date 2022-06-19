@@ -1,20 +1,20 @@
-#include "dat.hpp"
+#include "gui.hpp"
 #include "imgui.h"
 
 #include <string>
 
-using hid::Dat;
+using hid::Gui;
 
 namespace
 {
     uint32_t counter = 0;
 }
 
-void Dat::init()
+void Gui::init()
 {
 }
 
-void Dat::debugWindow(bool *p_open)
+void Gui::debugWindow(bool *p_open)
 {
     ImGui::Begin("SandBox Window", p_open);
     ImGui::Checkbox("Is Active", &isActive); // Edit bools storing our window open/close state
@@ -53,7 +53,7 @@ void Dat::debugWindow(bool *p_open)
     ImGui::End();
 }
 
-void Dat::hierarchyWindow(bool *p_open)
+void Gui::hierarchyWindow(bool *p_open)
 {
     ImGui::Begin("Main Scene", p_open);
 
@@ -82,7 +82,7 @@ void Dat::hierarchyWindow(bool *p_open)
     ImGui::End();
 }
 
-void Dat::userImGui()
+void Gui::userImGui()
 {
 
     static bool dockSpaceOpen = true;

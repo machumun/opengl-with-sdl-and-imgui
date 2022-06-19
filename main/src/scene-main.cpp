@@ -82,19 +82,22 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     //     std::make_shared<hid::Material>("hamster",
     //                                     glm::vec3{1.0f, 1.0f, 1.0f});
 
-    // hid::Material metalMaterial{"metal",
-    //                             glm::vec3{1.0f, 1.0f, 1.0f}};
+    hid::Material metalMaterial{"metal",
+                                glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    hid::Material hamMaterial{"metal",
+    hid::Material hamMaterial{"hamster",
                               glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    // hid::Material characterMaterial{"chara",
-    //                                 glm::vec3{1.0f, 1.0f, 1.0f}};
+    hid::Material characterMaterial{"chara",
+                                    glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    // hid::Material pointLightMaterial{"empty",
-    //                                  sceneData->lightSettings.pointLight.color};
+    hid::Material pointLightMaterial{"empty",
+                                     sceneData->lightSettings.pointLight.color};
 
     const std::shared_ptr<hid::Object> obj1 = std::make_shared<hid::Object>();
+
+    // arg1: mesh string
+    // arg2: material
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
     sceneData->objects.emplace_back(obj1);
 }

@@ -28,15 +28,15 @@ namespace hid
         // TransformComponent(const TransformComponent &) = default;
         Transform(const glm::vec3 &position = glm::vec3{.0f, .0f, .0f},
                   const glm::vec3 &scale = glm::vec3{1.f, 1.f, 1.f},
-                  const glm::vec3 &rotationAxis = glm::vec3{.0f, .0f, .0f},
+                  const glm::vec3 &rotationAxis = glm::vec3{.0f, 1.f, .0f},
                   const float &rotationDegrees = .0f)
-            : identity(glm::mat4{1.0f}),
-              position(position),
-              scale(scale),
-              rotationAxis(rotationAxis),
-              rotationDegrees(rotationDegrees),
-              transformMatrix(identity),
-              modelMatrix(identity),
+            : identity{glm::mat4{1.0f}},
+              position{position},
+              scale{scale},
+              rotationAxis{rotationAxis},
+              rotationDegrees{rotationDegrees},
+              transformMatrix{identity},
+              modelMatrix{identity},
               isStatic{false}
         {
         }

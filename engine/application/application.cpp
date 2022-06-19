@@ -3,6 +3,7 @@
 #endif
 
 #include "../core/sdl-wrapper.hpp"
+
 #include "application.hpp"
 
 #include "imgui_impl_sdl.h"
