@@ -26,7 +26,7 @@ namespace hid
                     std::pair<std::string, std::string> pass = hid::assets::resolvePipelinePath(pipeline);
                     pipelineCache.insert(std::make_pair(
                         pipeline,
-                        hid::OpenGLPipeline(pass.first, pass.second)));
+                        hid::OpenGLPipeline()));
                 }
             }
         }

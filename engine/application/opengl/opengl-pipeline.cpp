@@ -151,8 +151,8 @@ struct OpenGLPipeline::Internal
     int frameCount = 0;
     int animationCount = 0;
 
-    Internal(const std::string &vertShaderName, const std::string &fragShaderName)
-        : shader{hid::OpenGLShader(vertShaderName, fragShaderName)},
+    Internal()
+        : shader{hid::OpenGLShader("lit", "lit")},
           defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered-lighting")},
           blurProgram{hid::OpenGLShader("framebuffer", "blur")},
           framebufferProgram{hid::OpenGLShader("framebuffer", "framebuffer")},
@@ -351,8 +351,8 @@ struct OpenGLPipeline::Internal
     }
 };
 
-OpenGLPipeline::OpenGLPipeline(const std::string &vertShaderName, const std::string &fragShaderName)
-    : internal(hid::make_internal_ptr<Internal>(vertShaderName, fragShaderName)) {}
+OpenGLPipeline::OpenGLPipeline()
+    : internal(hid::make_internal_ptr<Internal>()) {}
 
 void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager,
                             const std::shared_ptr<hid::Gui> &userData,
