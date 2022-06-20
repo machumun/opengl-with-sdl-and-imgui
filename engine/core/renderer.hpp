@@ -10,7 +10,6 @@ namespace hid
 {
     struct Renderer
     {
-
         virtual void render(
             const hid::assets::Pipeline &pipeline,
             const std::shared_ptr<hid::Gui> &userData,

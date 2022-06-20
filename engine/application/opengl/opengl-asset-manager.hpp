@@ -26,7 +26,7 @@ namespace hid
                     std::pair<std::string, std::string> pass = hid::assets::resolvePipelinePath(pipeline);
                     pipelineCache.insert(std::make_pair(
                         pipeline,
-                        hid::OpenGLPipeline()));
+                        std::make_unique<hid::OpenGLPipeline>()));
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace hid
             }
         }
 
-        hid::OpenGLPipeline &getPipeline(const hid::assets::Pipeline &pipeline)
+        std::unique_ptr<hid::OpenGLPipeline> &getPipeline(const hid::assets::Pipeline &pipeline)
         {
             return pipelineCache.at(pipeline);
         }
@@ -94,7 +94,7 @@ namespace hid
         }
 
     private:
-        std::unordered_map<hid::assets::Pipeline, hid::OpenGLPipeline> pipelineCache;
+        std::unordered_map<hid::assets::Pipeline, std::unique_ptr<hid::OpenGLPipeline>> pipelineCache;
         std::unordered_map<std::string, hid::OpenGLMesh> staticMeshCache;
         std::unordered_map<std::string, hid::OpenGLTexture> textureCache;
         std::unordered_map<hid::assets::GLTF, hid::OpenGLGLTF *> gltfCache;

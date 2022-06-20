@@ -11,7 +11,7 @@ struct OpenGLRenderer::Internal
                 const std::shared_ptr<hid::Gui> &userData,
                 const hid::PerspectiveCamera &camera)
     {
-        assetManager->getPipeline(pipeline).render(*assetManager, userData, camera);
+        assetManager->getPipeline(pipeline)->render(*assetManager, userData, camera);
     }
 };
 
