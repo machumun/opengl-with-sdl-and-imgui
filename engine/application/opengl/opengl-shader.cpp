@@ -82,107 +82,51 @@ namespace
 
 } // namespace
 
-struct OpenGLShader::Internal
-{
-    const GLuint shaderProgramId;
-
-    Internal(const std::string &vertShaderName, const std::string &fragShaderName)
-        : shaderProgramId(::createShaderProgram(vertShaderName, fragShaderName)) {}
-
-    void use()
-    {
-        glUseProgram(shaderProgramId);
-    };
-
-    void release()
-    {
-        glDeleteProgram(shaderProgramId);
-    }
-
-    GLuint resolveUniformLocation(const std::string &name) const
-    {
-        return glGetUniformLocation(shaderProgramId, name.c_str());
-    }
-
-    void setBool(const std::string &name, bool value) const
-    {
-        glUniform1i(resolveUniformLocation(name), (int)value);
-    }
-    void setInt(const std::string &name, int value) const
-    {
-        glUniform1i(resolveUniformLocation(name), value);
-    }
-    void setFloat(const std::string &name, float value) const
-    {
-        glUniform1f(resolveUniformLocation(name), value);
-    }
-
-    void setVec2(const std::string &name, const float *value)
-    {
-        glUniform2fv(resolveUniformLocation(name), 1, value);
-    }
-    void setVec3(const std::string &name, const float *value)
-    {
-        glUniform3fv(resolveUniformLocation(name), 1, value);
-    }
-    void setVec4(const std::string &name, const float *value)
-    {
-        glUniform4fv(resolveUniformLocation(name), 1, value);
-    }
-
-    void setMat4(const std::string &name, const float *value) const
-    {
-        glUniformMatrix4fv(resolveUniformLocation(name), 1, GL_FALSE, value);
-    }
-};
-
 OpenGLShader::OpenGLShader(const std::string &vertShaderName, const std::string &fragShaderName)
-    : internal(hid::make_internal_ptr<Internal>(vertShaderName, fragShaderName)) {}
-
-GLuint OpenGLShader::getShaderProgramId() const
-{
-    return internal->shaderProgramId;
-}
+    : shaderProgramId(::createShaderProgram(vertShaderName, fragShaderName)) {}
 
 void OpenGLShader::use() const
 {
-    internal->use();
-}
+    glUseProgram(shaderProgramId);
+};
 
 void OpenGLShader::release() const
 {
-    internal->release();
+    glDeleteProgram(shaderProgramId);
+}
+
+GLuint OpenGLShader::resolveUniformLocation(const std::string &name) const
+{
+    return glGetUniformLocation(shaderProgramId, name.c_str());
 }
 
 void OpenGLShader::setBool(const std::string &name, bool value) const
 {
-    internal->setBool(name, value);
+    glUniform1i(resolveUniformLocation(name), (int)value);
 }
-
 void OpenGLShader::setInt(const std::string &name, int value) const
 {
-    internal->setInt(name, value);
+    glUniform1i(resolveUniformLocation(name), value);
 }
-
 void OpenGLShader::setFloat(const std::string &name, float value) const
 {
-    internal->setFloat(name, value);
+    glUniform1f(resolveUniformLocation(name), value);
 }
 
 void OpenGLShader::setVec2(const std::string &name, const float *value) const
 {
-    internal->setVec2(name, value);
+    glUniform2fv(resolveUniformLocation(name), 1, value);
 }
 void OpenGLShader::setVec3(const std::string &name, const float *value) const
 {
-    internal->setVec3(name, value);
+    glUniform3fv(resolveUniformLocation(name), 1, value);
 }
 void OpenGLShader::setVec4(const std::string &name, const float *value) const
 {
-    internal->setVec4(name, value);
+    glUniform4fv(resolveUniformLocation(name), 1, value);
 }
 
 void OpenGLShader::setMat4(const std::string &name, const float *value) const
 {
-    internal->setMat4(name, value);
+    glUniformMatrix4fv(resolveUniformLocation(name), 1, GL_FALSE, value);
 }
