@@ -3,7 +3,7 @@
 #include "opengl_shader.hpp"
 
 #include "../../core/light_settings.hpp"
-#include "../../core/gui/gui.hpp"
+#include "../../core/scene/scene_data.hpp"
 #include "../../core/perspective_camera.hpp"
 #include <string>
 #include <vector>
@@ -19,7 +19,7 @@ namespace hid
 
         void render(
             const hid::OpenGLAssetManager &assetManager,
-            const std::shared_ptr<hid::Gui> &sceneData,
+            const std::shared_ptr<hid::SceneData> &sceneData,
             const hid::PerspectiveCamera &camera);
 
         void setup();

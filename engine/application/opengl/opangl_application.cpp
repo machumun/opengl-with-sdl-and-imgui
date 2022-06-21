@@ -3,6 +3,9 @@
 #include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/log.hpp"
 #include "../../core/wrapper/sdl_wrapper.hpp"
+#include "../../core/scene/scene_data.hpp"
+
+#include "../../core/gui/layout.hpp"
 
 #include <iostream>
 
@@ -41,27 +44,16 @@ namespace
         return context;
     }
 
-    std::shared_ptr<hid::OpenGLAssetManager> createAssetManager()
-    {
-        return std::make_shared<hid::OpenGLAssetManager>();
-    }
-
     hid::OpenGLRenderer createRenderer(std::shared_ptr<hid::OpenGLAssetManager> assetManager)
     {
         return hid::OpenGLRenderer(assetManager);
     }
 
-    std::unique_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager, std::shared_ptr<hid::Gui> &userData)
+    std::shared_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager)
     {
-
-        std::unique_ptr<hid::Scene> scene{std::make_unique<hid::SceneMain>(userData)};
+        std::shared_ptr<hid::Scene> scene{std::make_shared<hid::SceneMain>()};
         scene->prepare(assetManager);
         return scene;
-    }
-
-    std::shared_ptr<hid::Gui> createLayout()
-    {
-        return std::make_shared<hid::Gui>();
     }
 
     int32_t resizingEventWatcher(void *data, SDL_Event *event)
@@ -93,12 +85,13 @@ namespace
 } // namespace
 
 OpenGLApplication::OpenGLApplication() : Application(),
-                                         window(hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)),
-                                         context(::createContext(window)),
-                                         assetManager(::createAssetManager()),
-                                         layout(::createLayout()),
-                                         renderer(::createRenderer(assetManager)),
-                                         imgui(std::make_unique<hid::OpenGLImGui>())
+                                         window{hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)},
+                                         context{::createContext(window)},
+                                         assetManager{std::make_shared<hid::OpenGLAssetManager>()},
+                                         scene{createMainScene(*assetManager)},
+                                         layout{std::make_shared<hid::Layout>(scene->sceneData)},
+                                         renderer{::createRenderer(assetManager)},
+                                         imgui{std::make_unique<hid::OpenGLImGui>()}
 {
 }
 
@@ -123,10 +116,6 @@ void OpenGLApplication::init()
 {
     // SDL_AddEventWatch(::resizingEventWatcher, window);
 
-    if (!scene)
-    {
-        scene = ::createMainScene(*assetManager, layout);
-    }
     std::function<void()> viewport = [&]() -> void
     { return layout->viewport(); };
 

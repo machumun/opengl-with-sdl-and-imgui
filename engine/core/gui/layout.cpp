@@ -1,41 +1,41 @@
-#include "gui.hpp"
+#include "layout.hpp"
 #include "imgui.h"
 
 #include <string>
 
-using hid::Gui;
+using hid::Layout;
 
 namespace
 {
     uint32_t counter = 0;
 }
 
-void Gui::init()
+void Layout::init()
 {
 }
 
-void Gui::debugWindow(bool *p_open)
+void Layout::debugWindow(bool *p_open)
 {
     ImGui::Begin("SandBox Window", p_open);
     ImGui::Checkbox("Is Active", &isActive); // Edit bools storing our window open/close state
 
     ImGui::SliderFloat("rotate speed", &rotateSpeed, 0.0f, 100.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-    if (ImGui::TreeNode("point light"))
-    {
-        ImGui::SliderFloat("intensity", &lightSettings.pointLight.intensity, 0.0f, 10.0f);
-        ImGui::SliderFloat3("position", (float *)&lightSettings.pointLight.position, -10.0f, 10.0f);
-        ImGui::ColorEdit3("color", (float *)&lightSettings.pointLight.color);
-        ImGui::TreePop();
-    }
+    // if (ImGui::TreeNode("point light"))
+    // {
+    //     ImGui::SliderFloat("intensity", &lightSettings.pointLight.intensity, 0.0f, 10.0f);
+    //     ImGui::SliderFloat3("position", (float *)&lightSettings.pointLight.position, -10.0f, 10.0f);
+    //     ImGui::ColorEdit3("color", (float *)&lightSettings.pointLight.color);
+    //     ImGui::TreePop();
+    // }
 
-    if (ImGui::TreeNode("ambient light"))
-    {
-        ImGui::SliderFloat("intensity", &lightSettings.ambientLight.intensity, 0.0f, 10.0f);
-        ImGui::ColorEdit3("color", (float *)&lightSettings.ambientLight.color);
-        ImGui::TreePop();
-    }
-    ImGui::Checkbox("Bloom", &lightSettings.bloom);
-    ImGui::SliderFloat("blur intensity", &lightSettings.bloomIntensity, 0.0f, 10.0f);
+    // if (ImGui::TreeNode("ambient light"))
+    // {
+    //     ImGui::SliderFloat("intensity", &lightSettings.ambientLight.intensity, 0.0f, 10.0f);
+    //     ImGui::ColorEdit3("color", (float *)&lightSettings.ambientLight.color);
+    //     ImGui::TreePop();
+    // }
+    // ImGui::Checkbox("Bloom", &lightSettings.bloom);
+    // ImGui::SliderFloat("blur intensity", &lightSettings.bloomIntensity, 0.0f, 10.0f);
 
     if (ImGui::Button("Button"))
     {
@@ -53,14 +53,7 @@ void Gui::debugWindow(bool *p_open)
     ImGui::End();
 }
 
-void Gui::hierarchyWindow(bool *p_open)
-{
-    ImGui::Begin("Main Scene", p_open);
-
-    ImGui::End();
-}
-
-void Gui::viewport()
+void Layout::viewport()
 {
 
     static bool dockSpaceOpen = true;
@@ -260,9 +253,8 @@ void Gui::viewport()
 
     debugWindow(&showDebug);
 
-    hierarchyWindow(&showHierarchy);
-
-    inspectorWindow.showWindow(&showInspector);
+    hierarchyWindow->showWindow(&showHierarchy);
+    inspectorWindow->showWindow(&showInspector);
 
     ImGui::ShowDemoWindow(&showDemoWindow);
 

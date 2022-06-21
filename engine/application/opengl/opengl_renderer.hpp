@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../core/renderer.hpp"
-#include "../../core/gui/gui.hpp"
+#include "../../core/scene/scene_data.hpp"
 #include "opengl_asset_manager.hpp"
 #include <memory>
 
@@ -15,7 +15,7 @@ namespace hid
 
         void render(
             const hid::assets::Pipeline &pipeline,
-            const std::shared_ptr<hid::Gui> &userData,
+            const std::shared_ptr<hid::SceneData> &sceneData,
             const hid::PerspectiveCamera &camera) override;
     };
 }

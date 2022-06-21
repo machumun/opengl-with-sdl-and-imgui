@@ -1,4 +1,4 @@
-#include "scene-main.hpp"
+#include "scene_main.hpp"
 
 #include "../../engine/core/components/mesh_renderer.hpp"
 #include "../../engine/core/object.hpp"
@@ -62,8 +62,6 @@ void SceneMain::render(hid::Renderer& renderer)
 void SceneMain::prepare(hid::AssetManager& assetManager)
 {
 
-    sceneData->rotateSpeed = 50.0f;
-
     assetManager.loadPipelines({hid::assets::Pipeline::LitPass});
 
     assetManager.loadStaticMeshes({{"plane", "assets/models/plane.obj"},
@@ -90,7 +88,7 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     hid::Material pointLightMaterial{"empty",
                                      sceneData->lightSettings.pointLight.color};
 
-    std::unique_ptr<hid::Object> obj1 = std::make_unique<hid::Object>("GameObject 1");
+    auto obj1{std::make_unique<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
-    sceneData->objects.emplace_back(std::move(obj1));
+    instantiate(std::move(obj1));
 }

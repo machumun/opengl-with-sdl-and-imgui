@@ -177,7 +177,7 @@ OpenGLPipeline::OpenGLPipeline()
 
 void OpenGLPipeline::render(
     const hid::OpenGLAssetManager &assetManager,
-    const std::shared_ptr<hid::Gui> &sceneData,
+    const std::shared_ptr<hid::SceneData> &sceneData,
     const hid::PerspectiveCamera &camera)
 {
 

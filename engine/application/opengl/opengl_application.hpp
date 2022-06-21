@@ -4,8 +4,10 @@
 #include "opengl_asset_manager.hpp"
 #include "opengl_renderer.hpp"
 
-#include "../../../main/src/scene-main.hpp"
+#include "../../../main/src/scene_main.hpp"
 #include "../application.hpp"
+
+#include "../../core/gui/layout.hpp"
 
 namespace hid
 {
@@ -24,10 +26,11 @@ namespace hid
     private:
         SDL_Window *window;
         SDL_GLContext context;
-        std::unique_ptr<hid::OpenGLImGui> imgui;
         const std::shared_ptr<hid::OpenGLAssetManager> assetManager;
-        std::shared_ptr<hid::Gui> layout;
+
+        std::shared_ptr<hid::Scene> scene;
+        std::shared_ptr<hid::Layout> layout;
         hid::OpenGLRenderer renderer;
-        std::unique_ptr<hid::Scene> scene;
+        std::unique_ptr<hid::OpenGLImGui> imgui;
     };
 }

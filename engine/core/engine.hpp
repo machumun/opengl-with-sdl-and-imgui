@@ -3,7 +3,6 @@
 
 #include "../application/application.hpp"
 #include "../application/opengl/opengl_application.hpp"
-#include "gui/gui.hpp"
 
 #include <functional>
 

@@ -1,8 +1,6 @@
 #include "../../engine/core/engine.hpp"
 #include "../../engine/core/wrapper/sdl_wrapper.hpp"
 
-#include "../../engine/core/gui/gui.hpp"
-
 #include <functional>
 #include <iostream>
 #include <memory>

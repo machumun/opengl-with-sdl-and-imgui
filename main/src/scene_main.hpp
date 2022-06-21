@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../../engine/core/gui/gui.hpp"
-#include "../../engine/core/scene.hpp"
+#include "../../engine/core/scene/scene.hpp"
 
 #include "../../engine/core/light_settings.hpp"
 #include "../../engine/core/perspective_camera.hpp"
@@ -28,9 +27,8 @@ namespace hid
 
         const uint8_t* keyboardState;
 
-        SceneMain::SceneMain(std::shared_ptr<hid::Gui>& userData)
-            : Scene(userData),
-              camera(::createCamera()),
+        SceneMain::SceneMain()
+            : camera(::createCamera()),
               player(hid::Player(glm::vec3{0.0f, 0.0f, 2.0f}, 0.0f)),
               keyboardState(SDL_GetKeyboardState(nullptr)) {}
 
