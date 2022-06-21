@@ -2,7 +2,7 @@
 #pragma once
 
 #include "../application/application.hpp"
-#include "../application/opengl/opengl-application.hpp"
+#include "../application/opengl/opengl_application.hpp"
 #include "gui/gui.hpp"
 
 #include <functional>

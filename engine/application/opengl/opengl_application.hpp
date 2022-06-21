@@ -1,8 +1,8 @@
 #pragma once
 
-#include "opengl-imgui.hpp"
-#include "opengl-asset-manager.hpp"
-#include "opengl-renderer.hpp"
+#include "opengl_imgui.hpp"
+#include "opengl_asset_manager.hpp"
+#include "opengl_renderer.hpp"
 
 #include "../../../main/src/scene-main.hpp"
 #include "../application.hpp"

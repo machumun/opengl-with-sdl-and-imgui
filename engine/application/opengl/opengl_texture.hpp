@@ -4,7 +4,7 @@
 
 #include "../../core/wrapper/graphics_wrapper.hpp"
 
-#include "opengl-shader.hpp"
+#include "opengl_shader.hpp"
 
 namespace hid
 {

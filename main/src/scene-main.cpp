@@ -1,6 +1,6 @@
 #include "scene-main.hpp"
 
-#include "../../engine/core/components/mesh-renderer.hpp"
+#include "../../engine/core/components/mesh_renderer.hpp"
 #include "../../engine/core/object.hpp"
 
 using hid::SceneMain;
@@ -90,7 +90,7 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     hid::Material pointLightMaterial{"empty",
                                      sceneData->lightSettings.pointLight.color};
 
-    std::unique_ptr<hid::Object> obj1 = std::make_unique<hid::Object>();
+    std::unique_ptr<hid::Object> obj1 = std::make_unique<hid::Object>("GameObject 1");
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
     sceneData->objects.emplace_back(std::move(obj1));
 }

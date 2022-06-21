@@ -1,4 +1,4 @@
-#include "perspective-camera.hpp"
+#include "perspective_camera.hpp"
 
 using hid::PerspectiveCamera;
 

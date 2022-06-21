@@ -2,7 +2,7 @@
 
 #include "../../core/renderer.hpp"
 #include "../../core/gui/gui.hpp"
-#include "opengl-asset-manager.hpp"
+#include "opengl_asset_manager.hpp"
 #include <memory>
 
 namespace hid

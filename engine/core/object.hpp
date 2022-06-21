@@ -9,9 +9,11 @@ namespace hid
 {
     struct Object
     {
+        std::string name;
 
-        Object()
-            : componentsIterator{components.begin()}
+        Object(const std::string &name)
+            : name{name},
+              componentsIterator{components.begin()}
         {
             this->addComponent<hid::Transform>();
         }

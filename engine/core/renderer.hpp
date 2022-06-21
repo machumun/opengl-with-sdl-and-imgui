@@ -2,7 +2,7 @@
 
 #include "asset_inventory.hpp"
 #include "gui/gui.hpp"
-#include "perspective-camera.hpp"
+#include "perspective_camera.hpp"
 
 #include <vector>
 

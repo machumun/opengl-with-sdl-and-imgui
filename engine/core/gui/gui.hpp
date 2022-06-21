@@ -3,7 +3,7 @@
 #include "inspector_window.hpp"
 
 #include "imgui.h"
-#include "../light-settings.hpp"
+#include "../light_settings.hpp"
 #include "../wrapper/glm_wrapper.hpp"
 #include "../object.hpp"
 

@@ -2,8 +2,8 @@
 
 #include <map>
 #include "../../core/gltf.hpp"
-#include "opengl-mesh.hpp"
-#include "opengl-texture.hpp"
+#include "opengl_mesh.hpp"
+#include "opengl_texture.hpp"
 
 #include <string>
 

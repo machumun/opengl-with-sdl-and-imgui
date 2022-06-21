@@ -1,4 +1,4 @@
-#include "opengl-application.hpp"
+#include "opengl_application.hpp"
 
 #include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/log.hpp"

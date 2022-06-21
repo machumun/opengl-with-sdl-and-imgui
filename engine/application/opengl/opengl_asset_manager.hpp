@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../core/asset-manager.hpp"
+#include "../../core/asset_manager.hpp"
 #include "../../core/asset_loader.hpp"
 
-#include "opengl-mesh.hpp"
-#include "opengl-pipeline.hpp"
-#include "opengl-texture.hpp"
-#include "opengl-gltf.hpp"
+#include "opengl_mesh.hpp"
+#include "opengl_pipeline.hpp"
+#include "opengl_texture.hpp"
+#include "opengl_gltf.hpp"
 
 #include <unordered_map>
 

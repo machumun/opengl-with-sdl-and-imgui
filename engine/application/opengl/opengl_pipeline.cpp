@@ -1,5 +1,5 @@
-#include "opengl-pipeline.hpp"
-#include "opengl-asset-manager.hpp"
+#include "opengl_pipeline.hpp"
+#include "opengl_asset_manager.hpp"
 
 #include "../../core/asset_loader.hpp"
 #include "../../core/wrapper/graphics_wrapper.hpp"
@@ -7,7 +7,7 @@
 
 #include "../../core/object.hpp"
 
-#include "../../core/components/mesh-renderer.hpp"
+#include "../../core/components/mesh_renderer.hpp"
 
 #include <stdexcept>
 #include <vector>

@@ -1,4 +1,4 @@
-#include "opengl-shader.hpp"
+#include "opengl_shader.hpp"
 
 #include "../../core/asset_loader.hpp"
 #include "../../core/log.hpp"

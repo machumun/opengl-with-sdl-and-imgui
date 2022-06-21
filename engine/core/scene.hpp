@@ -1,6 +1,6 @@
 #pragma once
 
-#include "asset-manager.hpp"
+#include "asset_manager.hpp"
 #include "renderer.hpp"
 #include "gui/gui.hpp"
 

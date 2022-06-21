@@ -1,10 +1,10 @@
 #pragma once
 
-#include "opengl-shader.hpp"
+#include "opengl_shader.hpp"
 
-#include "../../core/light-settings.hpp"
+#include "../../core/light_settings.hpp"
 #include "../../core/gui/gui.hpp"
-#include "../../core/perspective-camera.hpp"
+#include "../../core/perspective_camera.hpp"
 #include <string>
 #include <vector>
 

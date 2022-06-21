@@ -3,8 +3,8 @@
 #include "../../engine/core/gui/gui.hpp"
 #include "../../engine/core/scene.hpp"
 
-#include "../../engine/core/light-settings.hpp"
-#include "../../engine/core/perspective-camera.hpp"
+#include "../../engine/core/light_settings.hpp"
+#include "../../engine/core/perspective_camera.hpp"
 #include "../../engine/core/wrapper/sdl_wrapper.hpp"
 
 #include "player.hpp"

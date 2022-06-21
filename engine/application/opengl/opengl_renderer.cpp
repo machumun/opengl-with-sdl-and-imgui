@@ -1,4 +1,4 @@
-#include "opengl-renderer.hpp"
+#include "opengl_renderer.hpp"
 
 using hid::OpenGLRenderer;
 

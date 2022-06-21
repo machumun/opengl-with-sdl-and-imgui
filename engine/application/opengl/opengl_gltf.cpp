@@ -1,4 +1,4 @@
-#include "opengl-gltf.hpp"
+#include "opengl_gltf.hpp"
 
 using hid::OpenGLGLTF;
 

@@ -1,4 +1,4 @@
-#include "opengl-mesh.hpp"
+#include "opengl_mesh.hpp"
 #include "../../core/wrapper/glm_wrapper.hpp"
 #include <vector>
 
