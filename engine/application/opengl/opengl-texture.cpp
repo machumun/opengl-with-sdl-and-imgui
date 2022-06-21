@@ -38,29 +38,22 @@ namespace
         return textureId;
     }
 }
-struct OpenGLTexture::Internal
-{
-    const GLuint textureId;
-
-    Internal(const hid::Bitmap &bitmap)
-        : textureId(::createTexture(bitmap)) {}
-
-    ~Internal()
-    {
-        glDeleteTextures(1, &textureId);
-    }
-};
 
 OpenGLTexture::OpenGLTexture(const hid::Bitmap &bitmap)
-    : internal(hid::make_internal_ptr<Internal>(bitmap)) {}
+    : textureId(::createTexture(bitmap)) {}
+
+OpenGLTexture::~OpenGLTexture()
+{
+    // glDeleteTextures(1, &textureId);
+}
 
 void OpenGLTexture::bind() const
 {
-    glBindTexture(GL_TEXTURE_2D, internal->textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
     // shader.setInt(uniformName, internal->textureId);
 }
 
 GLuint OpenGLTexture::getTextureId() const
 {
-    return internal->textureId;
+    return textureId;
 };

@@ -10,12 +10,10 @@ namespace hid
 {
     struct OpenGLTexture
     {
+        const GLuint textureId;
         OpenGLTexture(const hid::Bitmap &bitmap);
+        ~OpenGLTexture();
         void bind() const;
         GLuint getTextureId() const;
-
-    private:
-        struct Internal;
-        hid::internal_ptr<Internal> internal;
     };
 }
