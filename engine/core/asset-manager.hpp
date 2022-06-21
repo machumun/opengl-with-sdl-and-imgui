@@ -1,6 +1,6 @@
 #pragma once
 
-#include "asset-inventory.hpp"
+#include "asset_inventory.hpp"
 #include <vector>
 #include <utility>
 

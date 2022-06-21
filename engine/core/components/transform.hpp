@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../glm-wrapper.hpp"
+#include "../wrapper/glm_wrapper.hpp"
 #include "../interfaces/IComponent.hpp"
 #include "../log.hpp"
 

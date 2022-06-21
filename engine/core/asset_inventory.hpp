@@ -36,7 +36,6 @@ namespace hid::assets
     };
 
     std::pair<std::string, std::string> resolvePipelinePath(const hid::assets::Pipeline &pipeline);
-    std::string resolveStaticMeshPath(const hid::assets::StaticMesh &staticMesh);
-    std::string resolveTexturePath(const hid::assets::Texture &texture);
+
     std::string resolveGLTFModelPath(const hid::assets::GLTF &gltf);
 }

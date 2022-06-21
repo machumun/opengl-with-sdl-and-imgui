@@ -2,7 +2,7 @@
 
 #include "../../core/bitmap.hpp"
 #include "../../core/internal-ptr.hpp"
-#include "../../core/graphics-wrapper.hpp"
+#include "../../core/wrapper/graphics_wrapper.hpp"
 
 #include "opengl-shader.hpp"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../engine/core/glm-wrapper.hpp"
 #include "../../engine/core/internal-ptr.hpp"
+#include "../../engine/core/wrapper/glm_wrapper.hpp"
 
 namespace hid
 {

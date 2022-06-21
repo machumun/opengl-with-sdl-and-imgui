@@ -1,10 +1,10 @@
 #pragma once
 
-#include "inspector-window.hpp"
+#include "inspector_window.hpp"
 
 #include "imgui.h"
 #include "../light-settings.hpp"
-#include "../glm-wrapper.hpp"
+#include "../wrapper/glm_wrapper.hpp"
 #include "../object.hpp"
 
 #include <memory>

@@ -1,6 +1,6 @@
 #include "opengl-shader.hpp"
 
-#include "../../core/assets.hpp"
+#include "../../core/asset_loader.hpp"
 #include "../../core/log.hpp"
 
 #include <stdexcept>

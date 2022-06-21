@@ -1,8 +1,8 @@
 #include "opengl-pipeline.hpp"
 #include "opengl-asset-manager.hpp"
 
-#include "../../core/assets.hpp"
-#include "../../core/graphics-wrapper.hpp"
+#include "../../core/asset_loader.hpp"
+#include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/log.hpp"
 
 #include "../../core/object.hpp"

@@ -2,8 +2,8 @@
 #include <emscripten.h>
 #endif
 
-#include "platform.hpp"
-#include "sdl-wrapper.hpp"
+#include "../platform/platform.hpp"
+#include "sdl_wrapper.hpp"
 
 namespace
 {

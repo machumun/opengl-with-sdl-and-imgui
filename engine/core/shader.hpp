@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "graphics-wrapper.hpp"
+#include "wrapper/graphics_wrapper.hpp"
 
 namespace hid
 {

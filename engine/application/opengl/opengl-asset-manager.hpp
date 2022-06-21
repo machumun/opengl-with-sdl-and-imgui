@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../core/asset-manager.hpp"
-#include "../../core/assets.hpp"
+#include "../../core/asset_loader.hpp"
 
 #include "opengl-mesh.hpp"
 #include "opengl-pipeline.hpp"

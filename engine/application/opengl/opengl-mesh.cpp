@@ -1,5 +1,5 @@
 #include "opengl-mesh.hpp"
-#include "../../core/glm-wrapper.hpp"
+#include "../../core/wrapper/glm_wrapper.hpp"
 #include <vector>
 
 using hid::OpenGLMesh;

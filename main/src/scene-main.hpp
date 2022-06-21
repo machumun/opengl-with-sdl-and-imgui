@@ -5,7 +5,7 @@
 
 #include "../../engine/core/light-settings.hpp"
 #include "../../engine/core/perspective-camera.hpp"
-#include "../../engine/core/sdl-wrapper.hpp"
+#include "../../engine/core/wrapper/sdl_wrapper.hpp"
 
 #include "player.hpp"
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "asset-inventory.hpp"
-#include "glm-wrapper.hpp"
-#include "graphics-wrapper.hpp"
+#include "asset_inventory.hpp"
+#include "wrapper/glm_wrapper.hpp"
+#include "wrapper/graphics_wrapper.hpp"
 
 #include <memory>
 

@@ -1,7 +1,7 @@
 #include "engine.hpp"
 
 #include "log.hpp"
-#include "sdl-wrapper.hpp"
+#include "wrapper/sdl_wrapper.hpp"
 #include <stdexcept>
 #include <string>
 

@@ -1,7 +1,7 @@
 #include "gltf.hpp"
-#include "assets.hpp"
+#include "asset_loader.hpp"
 #include "log.hpp"
-// #include "sdl-wrapper.hpp"
+// #include "wrapper/sdl_wrapper.hpp"
 
 using hid::GLTF;
 

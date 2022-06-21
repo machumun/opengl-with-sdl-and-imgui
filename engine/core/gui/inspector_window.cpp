@@ -1,4 +1,4 @@
-#include "inspector-window.hpp"
+#include "inspector_window.hpp"
 #include "imgui.h"
 
 #include "../interfaces/IComponent.hpp"

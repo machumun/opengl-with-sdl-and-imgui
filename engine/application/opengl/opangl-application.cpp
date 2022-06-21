@@ -1,8 +1,8 @@
 #include "opengl-application.hpp"
 
-#include "../../core/graphics-wrapper.hpp"
+#include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/log.hpp"
-#include "../../core/sdl-wrapper.hpp"
+#include "../../core/wrapper/sdl_wrapper.hpp"
 
 #include <iostream>
 

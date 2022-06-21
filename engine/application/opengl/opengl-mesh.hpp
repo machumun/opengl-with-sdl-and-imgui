@@ -1,5 +1,5 @@
 #pragma once
-#include "../../core/graphics-wrapper.hpp"
+#include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/mesh.hpp"
 
 namespace hid

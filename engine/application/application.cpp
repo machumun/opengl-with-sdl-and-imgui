@@ -2,7 +2,7 @@
 #include <emscripten.h>
 #endif
 
-#include "../core/sdl-wrapper.hpp"
+#include "../core/wrapper/sdl_wrapper.hpp"
 
 #include "application.hpp"
 
