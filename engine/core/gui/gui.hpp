@@ -1,5 +1,7 @@
 #pragma once
 
+#include "inspector-window.hpp"
+
 #include "imgui.h"
 #include "../light-settings.hpp"
 #include "../glm-wrapper.hpp"
@@ -26,6 +28,8 @@ namespace hid
         std::vector<std::unique_ptr<hid::Object>> objects;
 
         std::vector<hid::assets::GLTF> gltfs;
+
+        hid::InspectorWindow inspectorWindow;
 
         Gui() : isActive{true},
                 show_another_window{false},

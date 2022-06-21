@@ -57,28 +57,6 @@ void Gui::hierarchyWindow(bool *p_open)
 {
     ImGui::Begin("Main Scene", p_open);
 
-    // for (auto &StaticMeshInstance : staticMeshInstances)
-    // {
-    //     if (ImGui::TreeNode("GameObject"))
-    //     {
-    //         ImGui::SliderFloat3("position", (float *)&StaticMeshInstance->position, -10.0f, 10.0f);
-    //         ImGui::TreePop();
-    //     }
-    // }
-
-    // if (ImGui::TreeNode("GameObject"))
-    // {
-    //     ImGui::DragFloat3("position", (float *)&staticMeshInstances[0]->position, -10.0f, 10.0f);
-    //     ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
-    //     ImGui::TreePop();
-    // }
-    // if (ImGui::TreeNode("GameObject 1"))
-    // {
-    //     ImGui::SliderFloat3("position", (float *)&staticMeshInstances[1]->position, -10.0f, 10.0f);
-    //     ImGui::DragFloat3("scale", (float *)&staticMeshInstances[0]->scale, -10.0f, 10.0f);
-    //     ImGui::TreePop();
-    // }
-
     ImGui::End();
 }
 
@@ -90,6 +68,7 @@ void Gui::viewport()
     static bool opt_padding = false;
 
     static bool showDebug = true;
+    static bool showInspector = true;
     static bool showHierarchy = true;
     static bool showDemoWindow = false;
 
@@ -280,7 +259,10 @@ void Gui::viewport()
     }
 
     debugWindow(&showDebug);
+
     hierarchyWindow(&showHierarchy);
+
+    inspectorWindow.showWindow(&showInspector);
 
     ImGui::ShowDemoWindow(&showDemoWindow);
 

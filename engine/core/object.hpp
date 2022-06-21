@@ -44,6 +44,20 @@ namespace hid
             return *std::unique_ptr<T>(nullptr);
         }
 
+        template <class T>
+        bool hasComponent()
+        {
+            for (auto &&component : components)
+            {
+                if (component->IsClassType(T::Type))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         void update()
         {
             // const static std::string logTag{"component update"};
