@@ -1,6 +1,5 @@
 #pragma once
 
-#include "internal-ptr.hpp"
 #include "wrapper/sdl_wrapper.hpp"
 
 namespace hid

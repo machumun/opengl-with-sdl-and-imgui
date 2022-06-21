@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../engine/core/internal-ptr.hpp"
 #include "../../engine/core/wrapper/glm_wrapper.hpp"
 
 namespace hid

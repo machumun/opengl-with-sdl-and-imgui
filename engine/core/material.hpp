@@ -2,7 +2,6 @@
 
 #include "asset_inventory.hpp"
 #include "wrapper/glm_wrapper.hpp"
-#include "internal-ptr.hpp"
 
 namespace hid
 {

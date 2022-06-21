@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../core/shader.hpp"
-#include "../../core/internal-ptr.hpp"
 
 namespace hid
 {

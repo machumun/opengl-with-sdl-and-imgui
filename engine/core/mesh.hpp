@@ -1,6 +1,5 @@
 #pragma once
 
-#include "internal-ptr.hpp"
 #include "vertex.hpp"
 #include <vector>
 

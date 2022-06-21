@@ -2,7 +2,6 @@
 
 #include "opengl-shader.hpp"
 
-#include "../../core/internal-ptr.hpp"
 #include "../../core/light-settings.hpp"
 #include "../../core/gui/gui.hpp"
 #include "../../core/perspective-camera.hpp"

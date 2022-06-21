@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../core/internal-ptr.hpp"
 #include "../../core/renderer.hpp"
 #include "../../core/gui/gui.hpp"
 #include "opengl-asset-manager.hpp"

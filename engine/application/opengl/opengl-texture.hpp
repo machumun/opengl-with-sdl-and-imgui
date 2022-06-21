@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../core/bitmap.hpp"
-#include "../../core/internal-ptr.hpp"
+
 #include "../../core/wrapper/graphics_wrapper.hpp"
 
 #include "opengl-shader.hpp"
