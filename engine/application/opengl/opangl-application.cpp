@@ -1,15 +1,12 @@
 #include "opengl-application.hpp"
-#include "opengl-imgui.hpp"
 
 #include "../../core/graphics-wrapper.hpp"
 #include "../../core/log.hpp"
 #include "../../core/sdl-wrapper.hpp"
-#include "../../../main/src/scene-main.hpp"
-
-#include "opengl-asset-manager.hpp"
-#include "opengl-renderer.hpp"
 
 #include <iostream>
+
+using hid::OpenGLApplication;
 
 namespace
 {
@@ -46,7 +43,7 @@ namespace
 
     std::shared_ptr<hid::OpenGLAssetManager> createAssetManager()
     {
-        return std::make_shared<hid::OpenGLAssetManager>(hid::OpenGLAssetManager());
+        return std::make_shared<hid::OpenGLAssetManager>();
     }
 
     hid::OpenGLRenderer createRenderer(std::shared_ptr<hid::OpenGLAssetManager> assetManager)
@@ -62,9 +59,9 @@ namespace
         return scene;
     }
 
-    std::shared_ptr<hid::Gui> createUserData()
+    std::shared_ptr<hid::Gui> createLayout()
     {
-        return std::make_shared<hid::Gui>(hid::Gui());
+        return std::make_shared<hid::Gui>();
     }
 
     int32_t resizingEventWatcher(void *data, SDL_Event *event)
@@ -95,88 +92,55 @@ namespace
     }
 } // namespace
 
-struct hid::OpenGLApplication::Internal
+OpenGLApplication::OpenGLApplication() : Application(),
+                                         window(hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)),
+                                         context(::createContext(window)),
+                                         assetManager(::createAssetManager()),
+                                         layout(::createLayout()),
+                                         renderer(::createRenderer(assetManager)),
+                                         imgui(std::make_unique<hid::OpenGLImGui>())
 {
-    SDL_Window *window;
-    SDL_GLContext context;
-
-    std::unique_ptr<hid::OpenGLImGui> imgui;
-
-    const std::shared_ptr<hid::OpenGLAssetManager> assetManager;
-
-    // user data
-    std::shared_ptr<hid::Gui> data;
-
-    hid::OpenGLRenderer renderer;
-
-    std::unique_ptr<hid::Scene> scene;
-
-    Internal() : window(hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)),
-                 context(::createContext(window)),
-                 assetManager(::createAssetManager()),
-                 data(::createUserData()),
-                 renderer(::createRenderer(assetManager)),
-                 imgui(std::make_unique<hid::OpenGLImGui>())
-    {
-    }
-
-    void update(const float &delta)
-    {
-        getScene().update(delta);
-    }
-
-    void render()
-    {
-        SDL_GL_MakeCurrent(window, context);
-
-        imgui->loop(window);
-
-        getScene().render(renderer);
-        imgui->render();
-
-        SDL_GL_SwapWindow(window);
-    }
-
-    void init()
-    {
-        // SDL_AddEventWatch(::resizingEventWatcher, window);
-
-        if (!scene)
-        {
-            scene = ::createMainScene(*assetManager, data);
-        }
-        std::function<void()> userImGui = [&]() -> void
-        { return data->userImGui(); };
-
-        imgui->setup(window, context);
-        imgui->setUserImGui(userImGui);
-    }
-
-    hid::Scene &getScene()
-    {
-        return *scene;
-    }
-    ~Internal()
-    {
-        imgui->cleanUp();
-        SDL_GL_DeleteContext(context);
-        SDL_DestroyWindow(window);
-    }
-};
-
-hid::OpenGLApplication::OpenGLApplication() : internal(hid::make_internal_ptr<Internal>()) {}
-
-void hid::OpenGLApplication::render()
-{
-    internal->render();
 }
 
-void hid::OpenGLApplication::init()
+void OpenGLApplication::update(const float &delta)
 {
-    internal->init();
+    getScene().update(delta);
 }
 
-void hid::OpenGLApplication::update(const float &delta)
+void OpenGLApplication::render()
 {
-    internal->update(delta);
+    SDL_GL_MakeCurrent(window, context);
+
+    imgui->loop(window);
+
+    getScene().render(renderer);
+    imgui->render();
+
+    SDL_GL_SwapWindow(window);
+}
+
+void OpenGLApplication::init()
+{
+    // SDL_AddEventWatch(::resizingEventWatcher, window);
+
+    if (!scene)
+    {
+        scene = ::createMainScene(*assetManager, layout);
+    }
+    std::function<void()> viewport = [&]() -> void
+    { return layout->viewport(); };
+
+    imgui->setup(window, context);
+    imgui->setViewport(viewport);
+}
+
+hid::Scene &OpenGLApplication::getScene()
+{
+    return *scene;
+}
+OpenGLApplication::~OpenGLApplication()
+{
+    imgui->cleanUp();
+    SDL_GL_DeleteContext(context);
+    SDL_DestroyWindow(window);
 }

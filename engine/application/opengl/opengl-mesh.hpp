@@ -7,7 +7,23 @@ namespace hid
 
     struct OpenGLMesh
     {
+        // VAO
+        const GLuint bufferIdVAO;
+
+        // VBO
+        const GLuint bufferIdVBO;
+
+        // EBO
+        const GLuint bufferIdEBO;
+        const uint32_t numIndices;
+
+        const GLsizei offsetPositionTexCoord;
+        const GLsizei offsetTexCoord;
+        const GLsizei offsetPositionNormal;
+        const GLsizei stride;
+
         OpenGLMesh(const hid::Mesh &mesh);
+        ~OpenGLMesh();
 
         const GLuint &getVertexBufferId() const;
 
@@ -16,9 +32,5 @@ namespace hid
         const uint32_t &getNumIndices() const;
 
         void draw() const;
-
-    private:
-        struct Internal;
-        hid::internal_ptr<Internal> internal;
     };
 }

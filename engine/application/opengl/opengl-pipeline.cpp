@@ -177,7 +177,7 @@ OpenGLPipeline::OpenGLPipeline()
 
 void OpenGLPipeline::render(
     const hid::OpenGLAssetManager &assetManager,
-    const std::shared_ptr<hid::Gui> &userData,
+    const std::shared_ptr<hid::Gui> &sceneData,
     const hid::PerspectiveCamera &camera)
 {
 
@@ -201,22 +201,16 @@ void OpenGLPipeline::render(
     glActiveTexture(GL_TEXTURE0);
     shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
 
-    for (auto &object : userData->objects)
+    for (auto &object : sceneData->objects)
     {
         auto &meshRenderer = object->getComponent<hid::MeshRenderer>();
         auto &modelMatrix = object->getComponent<hid::Transform>().getModelMatrix();
 
         auto &material = meshRenderer.getMaterial();
 
-        // hid::log(logTag, "albedo : " + material.albedo);
-        // hid::log(logTag, "mesh : " + meshRenderer.getMesh());
-
         assetManager.getTexture(material.albedo).bind();
         shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
         assetManager.getStaticMesh(meshRenderer.getMesh()).draw();
-        // if (meshRenderer != nullptr)
-        // {
-        // }
     }
 
     // animationProgram.use();
@@ -245,8 +239,8 @@ void OpenGLPipeline::render(
     glDisable(GL_BLEND);
     glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
     defferedLightingProgram.use();
-    const hid::Light &pointLight = userData->lightSettings.pointLight;
-    const hid::Light &ambientLight = userData->lightSettings.ambientLight;
+    const hid::Light &pointLight = sceneData->lightSettings.pointLight;
+    const hid::Light &ambientLight = sceneData->lightSettings.ambientLight;
     defferedLightingProgram.setVec3("u_pointLight[0].position", &pointLight.position[0]);
     defferedLightingProgram.setVec3("u_pointLight[0].color", &pointLight.color[0]);
     defferedLightingProgram.setFloat("u_pointLight[0].intensity", pointLight.intensity);
@@ -298,8 +292,8 @@ void OpenGLPipeline::render(
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
 
-    framebufferProgram.setFloat("bloomIntensity", userData->lightSettings.bloomIntensity);
-    framebufferProgram.setBool("bloom", userData->lightSettings.bloom);
+    framebufferProgram.setFloat("bloomIntensity", sceneData->lightSettings.bloomIntensity);
+    framebufferProgram.setBool("bloom", sceneData->lightSettings.bloom);
     glBindVertexArray(framebufferVAO);
 
     glActiveTexture(GL_TEXTURE0);

@@ -23,10 +23,7 @@ namespace hid
 
         char text1[64] = "";
 
-        // std::vector<std::shared_ptr<hid::StaticMeshInstance>> staticMeshInstances;
-        // std::vector<std::shared_ptr<hid::AnimationPlane>> animationPlanes;
-
-        std::vector<std::shared_ptr<hid::Object>> objects;
+        std::vector<std::unique_ptr<hid::Object>> objects;
 
         std::vector<hid::assets::GLTF> gltfs;
 
@@ -51,7 +48,8 @@ namespace hid
 
         void init();
 
-        void userImGui();
+        // gui entry point
+        void viewport();
 
         void debugWindow(bool *);
         void hierarchyWindow(bool *);

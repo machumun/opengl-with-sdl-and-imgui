@@ -20,8 +20,10 @@ namespace hid
 
         void render(
             const hid::OpenGLAssetManager &assetManager,
-            const std::shared_ptr<hid::Gui> &userData,
+            const std::shared_ptr<hid::Gui> &sceneData,
             const hid::PerspectiveCamera &camera);
+
+        void setup();
 
     private:
         const hid::OpenGLShader shader;

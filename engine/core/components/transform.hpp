@@ -41,16 +41,6 @@ namespace hid
         {
         }
 
-        // auto get camera projection matrix...
-        // void update(const glm::mat4 &projectionViewMatrix)
-        // {
-
-        //     transformMatrix = projectionViewMatrix *
-        //                       glm::translate(identity, position) *
-        //                       glm::rotate(identity, glm::radians(rotationDegrees), rotationAxis) *
-        //                       glm::scale(identity, scale);
-        // }
-
         void update()
         {
             const static std::string logTag{"hid::Transform::update"};

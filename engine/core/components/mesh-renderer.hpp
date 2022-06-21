@@ -11,6 +11,7 @@ namespace hid
         virtual bool IsClassType(const std::size_t classType) const override;
 
         MeshRenderer() = default;
+
         MeshRenderer(
             const std::string &mesh,
             const hid::Material &material);

@@ -11,9 +11,9 @@ namespace hid
     {
 
         Object()
-            : components{std::make_shared<hid::Transform>()},
-              componentsIterator{components.begin()}
+            : componentsIterator{components.begin()}
         {
+            this->addComponent<hid::Transform>();
         }
 
         ~Object()
@@ -27,7 +27,7 @@ namespace hid
         template <class T, typename... Args>
         void addComponent(Args &&...params)
         {
-            components.emplace_back(std::make_shared<T>(std::forward<Args>(params)...));
+            components.emplace_back(std::make_unique<T>(std::forward<Args>(params)...));
         }
 
         template <class T>
@@ -41,7 +41,7 @@ namespace hid
                 }
             }
 
-            return *std::shared_ptr<T>(nullptr);
+            return *std::unique_ptr<T>(nullptr);
         }
 
         void update()
@@ -62,7 +62,7 @@ namespace hid
         }
 
     private:
-        std::vector<std::shared_ptr<hid::IComponent>> components;
-        std::vector<std::shared_ptr<hid::IComponent>>::iterator componentsIterator;
+        std::vector<std::unique_ptr<hid::IComponent>> components;
+        std::vector<std::unique_ptr<hid::IComponent>>::iterator componentsIterator;
     };
 }

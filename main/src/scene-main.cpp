@@ -78,10 +78,6 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
 
     assetManager.loadGLTFModels({hid::assets::GLTF::TestBox});
 
-    // std::shared_ptr<hid::Material> hamMaterial =
-    //     std::make_shared<hid::Material>("hamster",
-    //                                     glm::vec3{1.0f, 1.0f, 1.0f});
-
     hid::Material metalMaterial{"metal",
                                 glm::vec3{1.0f, 1.0f, 1.0f}};
 
@@ -94,10 +90,7 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     hid::Material pointLightMaterial{"empty",
                                      sceneData->lightSettings.pointLight.color};
 
-    const std::shared_ptr<hid::Object> obj1 = std::make_shared<hid::Object>();
-
-    // arg1: mesh string
-    // arg2: material
+    std::unique_ptr<hid::Object> obj1 = std::make_unique<hid::Object>();
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
-    sceneData->objects.emplace_back(obj1);
+    sceneData->objects.emplace_back(std::move(obj1));
 }

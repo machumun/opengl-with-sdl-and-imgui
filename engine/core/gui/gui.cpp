@@ -82,7 +82,7 @@ void Gui::hierarchyWindow(bool *p_open)
     ImGui::End();
 }
 
-void Gui::userImGui()
+void Gui::viewport()
 {
 
     static bool dockSpaceOpen = true;

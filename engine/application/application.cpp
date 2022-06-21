@@ -22,28 +22,20 @@ namespace
 #endif
 } // namespace
 
-struct Application::Internal
+Application::Application() : performanceFrequency(static_cast<float>(SDL_GetPerformanceFrequency())),
+                             currentTime(SDL_GetPerformanceCounter()),
+                             previousTime(currentTime) {}
+
+// delta time
+float Application::timeStep()
 {
-    const float performanceFrequency;
-    uint64_t currentTime;
-    uint64_t previousTime;
 
-    Internal() : performanceFrequency(static_cast<float>(SDL_GetPerformanceFrequency())),
-                 currentTime(SDL_GetPerformanceCounter()),
-                 previousTime(currentTime) {}
+    previousTime = currentTime;
+    currentTime = SDL_GetPerformanceCounter();
 
-    // delta time
-    float timeStep()
-    {
-
-        previousTime = currentTime;
-        currentTime = SDL_GetPerformanceCounter();
-
-        float elapsed{(currentTime - previousTime) * 1000.0f};
-        return (elapsed / performanceFrequency) * 0.001f;
-    }
-};
-Application::Application() : internal(hid::make_internal_ptr<Internal>()) {}
+    float elapsed{(currentTime - previousTime) * 1000.0f};
+    return (elapsed / performanceFrequency) * 0.001f;
+}
 
 void Application::startApplication()
 {
@@ -79,7 +71,7 @@ bool Application::runMainLoop()
             break;
         }
     }
-    update(internal->timeStep());
+    update(timeStep());
 
     render();
 

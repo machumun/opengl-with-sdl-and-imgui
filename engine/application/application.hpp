@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../core/internal-ptr.hpp"
 #include <functional>
 
-// template method
+// template method patern
 namespace hid
 {
     struct Application
@@ -13,8 +12,8 @@ namespace hid
         virtual ~Application() = default;
 
         void startApplication();
-
         bool runMainLoop();
+        float timeStep();
 
         virtual void init() = 0;
 
@@ -22,7 +21,8 @@ namespace hid
         virtual void render() = 0;
 
     private:
-        struct Internal;
-        hid::internal_ptr<Internal> internal;
+        const float performanceFrequency;
+        uint64_t currentTime;
+        uint64_t previousTime;
     };
 }

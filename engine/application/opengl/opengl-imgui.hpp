@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../core/internal-ptr.hpp"
 #include "../../core/sdl-wrapper.hpp"
 
 #include <functional>
@@ -15,10 +14,19 @@ namespace hid
         void cleanUp();
         void render();
 
-        void setUserImGui(std::function<void()>);
+        void setViewport(std::function<void()>);
 
     private:
-        struct Internal;
-        hid::internal_ptr<Internal> internal;
+#if defined(IMGUI_IMPL_OPENGL_ES2)
+        // GL ES 2.0 + GLSL 100
+        const char *glsl_version = "#version 100";
+#elif defined(__APPLE__)
+        // GL 3.2 Core + GLSL 150
+        const char *glsl_version = "#version 150";
+#else
+        // GL 3.3 + GLSL 330
+        const char *glsl_version = "#version 330";
+#endif
+        std::function<void()> viewport;
     };
 }
