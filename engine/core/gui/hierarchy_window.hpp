@@ -11,7 +11,8 @@ namespace hid
         std::shared_ptr<hid::SceneData> sceneData;
         HierarchyWindow(std::shared_ptr<hid::SceneData> sceneData)
             : sceneData{sceneData} {}
-        void drawObjects(const std::vector<hid::Object> &objects);
+
+        void drawObjects();
         void showWindow(bool *open) override;
     };
 }
