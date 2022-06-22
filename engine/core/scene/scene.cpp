@@ -2,7 +2,7 @@
 
 using hid::Scene;
 
-void Scene::instantiate(std::unique_ptr<hid::Object> object)
+void Scene::instantiate(std::shared_ptr<hid::Object> object)
 {
-    sceneData->objects.emplace_back(std::move(object));
+    sceneData->objects.emplace_back(object);
 }

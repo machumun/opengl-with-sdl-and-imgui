@@ -1,8 +1,6 @@
 #include "hierarchy_window.hpp"
 #include "imgui.h"
 
-#include <iostream>
-
 using hid::HierarchyWindow;
 
 void HierarchyWindow::drawObjects()
@@ -19,13 +17,15 @@ void HierarchyWindow::drawObjects()
     //         }
     //     }
     // }
-    for (auto &object : sceneData->objects)
+    uint32_t i = 0;
+    for (auto &object : parent->sceneData->objects)
     {
-        // if (ImGui::TreeNodeEx((void *)std::stoi(object->name), ImGuiTreeNodeFlags_Selected, object->name.c_str()))
-        // {
-        //     // ImGui::SliderFloat("Position", (float *)&transform.position, 10.f, -10.f);
-        //     ImGui::TreePop();
-        // }
+        if (ImGui::TreeNodeEx((void *)i, ImGuiTreeNodeFlags_Selected, object->name.c_str()))
+        {
+            // ImGui::SliderFloat("Position", (float *)&transform.position, 10.f, -10.f);
+            ImGui::TreePop();
+        }
+        ++i;
     }
 }
 

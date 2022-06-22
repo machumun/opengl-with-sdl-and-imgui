@@ -88,7 +88,7 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     hid::Material pointLightMaterial{"empty",
                                      sceneData->lightSettings.pointLight.color};
 
-    auto obj1{std::make_unique<hid::Object>("GameObject 1")};
+    auto obj1{std::make_shared<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
-    instantiate(std::move(obj1));
+    instantiate(obj1);
 }

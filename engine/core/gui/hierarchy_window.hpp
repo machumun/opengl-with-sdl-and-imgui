@@ -8,9 +8,8 @@ namespace hid
 {
     struct HierarchyWindow : public IWindow
     {
-        std::shared_ptr<hid::SceneData> sceneData;
-        HierarchyWindow(std::shared_ptr<hid::SceneData> sceneData)
-            : sceneData{sceneData} {}
+
+        HierarchyWindow() = default;
 
         void drawObjects();
         void showWindow(bool *open) override;

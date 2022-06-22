@@ -24,6 +24,6 @@ namespace hid
 
         virtual void render(hid::Renderer &renderer) = 0;
 
-        void instantiate(std::unique_ptr<hid::Object> object);
+        void instantiate(std::shared_ptr<hid::Object> object);
     };
 } // namespace usr

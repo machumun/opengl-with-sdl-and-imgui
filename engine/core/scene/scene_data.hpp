@@ -8,7 +8,7 @@ namespace hid
 {
     struct SceneData
     {
-        std::vector<std::unique_ptr<hid::Object>> objects;
+        std::vector<std::shared_ptr<hid::Object>> objects;
         hid::LightSettings lightSettings;
 
         SceneData() : lightSettings{

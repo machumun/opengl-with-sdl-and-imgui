@@ -13,7 +13,7 @@
 namespace hid
 {
 
-    struct Layout
+    struct Layout : public hid::IWindow
     {
         bool isActive;
         bool show_another_window;
@@ -32,14 +32,17 @@ namespace hid
         std::shared_ptr<hid::SceneData> sceneData;
 
         Layout(std::shared_ptr<hid::SceneData> sceneData)
-            : inspectorWindow{std::make_unique<hid::InspectorWindow>()},
-              hierarchyWindow{std::make_unique<hid::HierarchyWindow>(sceneData)},
+            : sceneData{sceneData},
+              inspectorWindow{std::make_unique<hid::InspectorWindow>()},
+              hierarchyWindow{std::make_unique<hid::HierarchyWindow>()},
               isActive{true},
               show_another_window{false},
               rotateSpeed{.0f},
               delta{.0f}
 
         {
+            inspectorWindow->setParentWindow(this);
+            hierarchyWindow->setParentWindow(this);
         }
 
         void init();
