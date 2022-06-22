@@ -1,6 +1,7 @@
 #pragma once
 
 #include "imgui.h"
+#include "misc/cpp/imgui_stdlib.h"
 
 #include <memory>
 #include <string>
@@ -29,6 +30,10 @@ namespace hid
 
         void showWindow(bool *open)
         {
+            // if (layout != nullptr)
+            // {
+            //     return;
+            // }
             ImGui::Begin(title.c_str(), open);
             contents();
             ImGui::End();

@@ -1,21 +1,52 @@
 #include "inspector_panel.hpp"
+#include "layout.hpp"
 
-#include "../interfaces/interface_component.hpp"
+#include "../components/mesh_renderer.hpp"
 
-using hid::InspectorWindow;
+using hid::InspectorPanel;
 
-void InspectorWindow::contents()
+void InspectorPanel::contents()
 {
-    // if (selectedObject != nullptr)
-    // {
-    //     if (selectedObject->hasComponent<hid::Transform>())
-    //     {
-    //         auto &transform = selectedObject->getComponent<Transform>();
-    //         if (ImGui::TreeNodeEx((void *)transform.Type, ImGuiTreeNodeFlags_Selected, "Transform"))
-    //         {
-    //             ImGui::SliderFloat("Position", (float *)&transform.position, 10.f, -10.f);
-    //             ImGui::TreePop();
-    //         }
-    //     }
-    // }
+
+    // const static std::string logTag{"hid::InspectorPanel"};
+    if (layout == nullptr)
+    {
+        return;
+    }
+
+    if (layout->selectedObjectIndex > -1)
+    {
+        auto &object = layout->sceneData->objects[layout->selectedObjectIndex];
+        // auto &object = layout->sceneData->objects[0];
+        // std::string s{"foo"};
+        ImGui::InputText("name", &object->name);
+        // for (auto &component : object->components)
+        // {
+        //     if (component->Type == Transform::Type)
+        //     {
+        //         auto &transform = object->getComponent<Transform>();
+        //         if (ImGui::TreeNodeEx((void *)component->Type,
+        //                               ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen,
+        //                               "Transform"))
+        //         {
+        //             ImGui::SliderFloat3("Position", (float *)&transform.position, 10.f, -10.f);
+        //             ImGui::TreePop();
+        //         }
+        //     }
+        //     else if (component->Type == MeshRenderer::Type)
+        //     {
+        //     }
+        // }
+
+        if (object->hasComponent<hid::Transform>())
+        {
+            auto &transform = object->getComponent<Transform>();
+            if (ImGui::TreeNodeEx((void *)transform.Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+            {
+                ImGui::SliderFloat3("Position", (float *)&transform.position, 10.f, -10.f);
+                ImGui::SliderFloat3("Scale", (float *)&transform.scale, 10.f, -10.f);
+                ImGui::TreePop();
+            }
+        }
+    }
 }

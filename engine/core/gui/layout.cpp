@@ -51,8 +51,7 @@ void Layout::viewport()
     static bool opt_padding = false;
 
     static bool showDebug = true;
-    static bool showInspector = true;
-    static bool showHierarchy = true;
+
     static bool showDemoWindow = false;
 
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
@@ -243,8 +242,8 @@ void Layout::viewport()
 
     debugWindow(&showDebug);
 
-    hierarchyWindow->showWindow(&showHierarchy);
-    inspectorWindow->showWindow(&showInspector);
+    hierarchyPanel->showWindow(&showHierarchy);
+    inspectorPanel->showWindow(&showInspector);
 
     ImGui::ShowDemoWindow(&showDemoWindow);
 

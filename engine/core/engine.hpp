@@ -12,7 +12,7 @@ namespace hid
     {
         Engine();
         ~Engine();
-        void init();
+        void setup();
         void run();
         std::unique_ptr<hid::Application> resolveApplication();
         const std::string classLogTag;

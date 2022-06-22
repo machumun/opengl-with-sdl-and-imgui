@@ -12,7 +12,7 @@ namespace hid
         std::string name;
 
         Object(const std::string &name)
-            : name{name},
+            : name{name.c_str()},
               componentsIterator{components.begin()}
         {
             this->addComponent<hid::Transform>();
@@ -77,7 +77,7 @@ namespace hid
             }
         }
 
-    private:
+        // private:
         std::vector<std::unique_ptr<hid::IComponent>> components;
         std::vector<std::unique_ptr<hid::IComponent>>::iterator componentsIterator;
     };

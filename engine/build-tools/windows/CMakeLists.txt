@@ -69,6 +69,8 @@ add_executable(
     ${IMGUI_SOURCE_DIR}/imgui_demo.cpp
     ${IMGUI_SOURCE_DIR}/imgui_tables.cpp
     ${IMGUI_SOURCE_DIR}/imgui_widgets.cpp
+    ${IMGUI_SOURCE_DIR}/misc/cpp/imgui_stdlib.h
+    ${IMGUI_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
     ${IMGUI_BACKENDS_SOURCE_DIR}/imgui_impl_sdl.cpp
     ${IMGUI_BACKENDS_SOURCE_DIR}/imgui_impl_opengl3.cpp
 )

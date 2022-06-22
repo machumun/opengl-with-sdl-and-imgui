@@ -28,13 +28,13 @@ std::unique_ptr<hid::Application> Engine::resolveApplication()
     throw std::runtime_error(logTag + " No applications can run in the current environment");
 }
 
-void Engine::init()
+void Engine::setup()
 {
-    static const std::string logTag{classLogTag + "init"};
+    static const std::string logTag{classLogTag + "setup"};
     hid::log(logTag, "Starting engine ...");
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
     application = resolveApplication();
-    application->init();
+    application->setup();
 }
 
 void Engine::run()

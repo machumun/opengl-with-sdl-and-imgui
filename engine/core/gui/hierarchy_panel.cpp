@@ -1,26 +1,45 @@
 #include "hierarchy_panel.hpp"
 #include "layout.hpp"
 
-using hid::HierarchyWindow;
+#include "../log.hpp"
 
-void HierarchyWindow::contents()
+#include <iostream>
+
+using hid::HierarchyPanel;
+
+void HierarchyPanel::contents()
 {
-    uint32_t i = 0;
+    static std::string logTag{"hid::Hierarchy::contents"};
+    static ImGuiTreeNodeFlags base_flags =
+        ImGuiTreeNodeFlags_OpenOnArrow |
+        ImGuiTreeNodeFlags_OpenOnDoubleClick |
+        ImGuiTreeNodeFlags_SpanAvailWidth;
+
     // parent;
-    if (layout != nullptr)
+    if (layout == nullptr)
     {
-        for (auto &object : layout->sceneData->objects)
+        return;
+    }
+
+    uint32_t objectsSize = layout->sceneData->objects.size();
+    for (uint32_t i = 0; i < objectsSize; ++i)
+    {
+        ImGuiTreeNodeFlags node_flags = base_flags;
+        if (layout->selectedObjectIndex == i)
         {
-            if (ImGui::TreeNodeEx((void *)(intptr_t)i, 0, object->name.c_str()))
-            {
-                // ImGui::PushID(i);
-                // if (ImGui::Selectable())
-                // {
-                // }
-                // ImGui::SliderFloat("Position", (float *)&transform.position, 10.f, -10.f);
-                ImGui::TreePop();
-            }
-            ++i;
+            node_flags |= ImGuiTreeNodeFlags_Selected;
+        }
+
+        if (ImGui::TreeNodeEx((void *)(intptr_t)i, node_flags, layout->sceneData->objects[i]->name.c_str()))
+        {
+            ImGui::PushID(i);
+
+            ImGui::PopID();
+            ImGui::TreePop();
+        }
+        if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+        {
+            layout->selectedObjectIndex = i;
         }
     }
 }

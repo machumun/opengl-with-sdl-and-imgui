@@ -1,7 +1,10 @@
 #include "scene_main.hpp"
 
+#include "../../engine/core/components/camera.hpp"
 #include "../../engine/core/components/mesh_renderer.hpp"
 #include "../../engine/core/object.hpp"
+
+#include "../../engine/core/wrapper/sdl_wrapper.hpp"
 
 using hid::SceneMain;
 
@@ -95,4 +98,9 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     plane->addComponent<MeshRenderer>("plane", metalMaterial);
     plane->getComponent<Transform>().setPosition(glm::vec3{.0f, -1.f, .0f});
     instantiate(plane);
+
+    auto camera{std::make_shared<hid::Object>("MainCamera")};
+    // std::pair<uint32_t, uint32_t> disp{hid::sdl::getDisplaySize()};
+    camera->addComponent<Camera>(800, 1200);
+    instantiate(camera);
 }

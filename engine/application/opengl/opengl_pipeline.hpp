@@ -22,7 +22,8 @@ namespace hid
             const std::shared_ptr<hid::SceneData> &sceneData,
             const hid::PerspectiveCamera &camera);
 
-        void setup();
+        // for batch
+        void setup(const std::shared_ptr<hid::SceneData> &sceneData);
 
     private:
         const hid::OpenGLShader shader;
@@ -57,5 +58,8 @@ namespace hid
         const int skipFrame = 8;
         int frameCount = 0;
         int animationCount = 0;
+
+        std::shared_ptr<hid::SceneData> sceneData;
+        std::shared_ptr<hid::Object> camera;
     };
 }

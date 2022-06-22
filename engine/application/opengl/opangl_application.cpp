@@ -112,7 +112,7 @@ void OpenGLApplication::render()
     SDL_GL_SwapWindow(window);
 }
 
-void OpenGLApplication::init()
+void OpenGLApplication::setup()
 {
     // SDL_AddEventWatch(::resizingEventWatcher, window);
 

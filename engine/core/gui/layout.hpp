@@ -15,9 +15,13 @@ namespace hid
     struct Layout
     {
         std::shared_ptr<hid::SceneData> sceneData;
+        int32_t selectedObjectIndex;
 
-        std::unique_ptr<hid::InspectorWindow> inspectorWindow;
-        std::unique_ptr<hid::HierarchyWindow> hierarchyWindow;
+        bool showInspector = true;
+        bool showHierarchy = true;
+
+        std::unique_ptr<hid::InspectorPanel> inspectorPanel;
+        std::unique_ptr<hid::HierarchyPanel> hierarchyPanel;
 
         bool isActive;
         bool show_another_window;
@@ -31,10 +35,13 @@ namespace hid
         // std::vector<hid::assets::GLTF> gltfs;
 
         Layout(std::shared_ptr<hid::SceneData> &sceneData)
-            : counter{0},
+            : selectedObjectIndex{-1},
+              counter{0},
               sceneData{sceneData},
-              inspectorWindow{std::make_unique<hid::InspectorWindow>(this)},
-              hierarchyWindow{std::make_unique<hid::HierarchyWindow>(this)},
+              showInspector{true},
+              showHierarchy{true},
+              inspectorPanel{std::make_unique<hid::InspectorPanel>(this)},
+              hierarchyPanel{std::make_unique<hid::HierarchyPanel>(this)},
               isActive{true},
               show_another_window{false},
               rotateSpeed{.0f},

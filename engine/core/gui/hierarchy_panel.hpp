@@ -5,10 +5,9 @@
 
 namespace hid
 {
-    struct HierarchyWindow : public IPanel
+    struct HierarchyPanel : public IPanel
     {
-        std::shared_ptr<hid::SceneData> sceneData;
-        HierarchyWindow(hid::Layout *layout)
+        HierarchyPanel(hid::Layout *layout)
             : IPanel("Hierarchy", layout) {}
 
         void contents() override;

@@ -8,6 +8,7 @@
 #include "../../core/object.hpp"
 
 #include "../../core/components/mesh_renderer.hpp"
+#include "../../core/components/camera.hpp"
 
 #include <stdexcept>
 #include <vector>
@@ -203,14 +204,17 @@ void OpenGLPipeline::render(
 
     for (auto &object : sceneData->objects)
     {
-        auto &meshRenderer = object->getComponent<hid::MeshRenderer>();
-        auto &modelMatrix = object->getComponent<hid::Transform>().getModelMatrix();
+        if (object->hasComponent<MeshRenderer>())
+        {
+            auto &meshRenderer = object->getComponent<hid::MeshRenderer>();
+            auto &modelMatrix = object->getComponent<hid::Transform>().getModelMatrix();
 
-        auto &material = meshRenderer.getMaterial();
+            auto &material = meshRenderer.getMaterial();
 
-        assetManager.getTexture(material.albedo).bind();
-        shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-        assetManager.getStaticMesh(meshRenderer.getMesh()).draw();
+            assetManager.getTexture(material.albedo).bind();
+            shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
+            assetManager.getStaticMesh(meshRenderer.getMesh()).draw();
+        }
     }
 
     // animationProgram.use();
@@ -302,6 +306,18 @@ void OpenGLPipeline::render(
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
+{
+    this->sceneData = sceneData;
+    for (auto &object : this->sceneData->objects)
+    {
+        if (object->hasComponent<hid::Camera>())
+        {
+            this->camera = object;
+        }
+    }
 }
 
 OpenGLPipeline::~OpenGLPipeline()

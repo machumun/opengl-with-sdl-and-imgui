@@ -19,7 +19,7 @@ namespace hid
         void update(const float &delta) override;
         void render() override;
 
-        void init() override;
+        void setup() override;
 
         hid::Scene &getScene();
 
