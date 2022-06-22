@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../wrapper/glm_wrapper.hpp"
-#include "../interfaces/IComponent.hpp"
+#include "../interfaces/interface_component.hpp"
 #include "../log.hpp"
 
 namespace hid

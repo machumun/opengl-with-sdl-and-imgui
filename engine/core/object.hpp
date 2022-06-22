@@ -1,7 +1,7 @@
 #pragma once
 
 #include "components/transform.hpp"
-#include "interfaces/IComponent.hpp"
+#include "interfaces/interface_component.hpp"
 
 // #include "log.hpp"
 

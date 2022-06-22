@@ -1,18 +1,8 @@
 #include "layout.hpp"
-#include "imgui.h"
 
 #include <string>
 
 using hid::Layout;
-
-namespace
-{
-    uint32_t counter = 0;
-}
-
-void Layout::init()
-{
-}
 
 void Layout::debugWindow(bool *p_open)
 {
@@ -39,11 +29,11 @@ void Layout::debugWindow(bool *p_open)
 
     if (ImGui::Button("Button"))
     {
-        ::counter++;
+        counter++;
     }
 
     ImGui::SameLine();
-    ImGui::Text("counter = %d", ::counter);
+    ImGui::Text("counter = %d", counter);
 
     ImGui::Text("delta between frames %.3f", &delta);
 

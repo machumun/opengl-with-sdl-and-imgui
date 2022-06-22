@@ -68,7 +68,6 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
                                    {"hamster", "assets/models/hamster.obj"},
                                    {"crate", "assets/models/crate.obj"}});
 
-    // to memory
     assetManager.loadTextures({{"hamster", "assets/textures/hamster.png"},
                                {"metal", "assets/textures/metal.png"},
                                {"chara", "assets/textures/chara.png"},
@@ -91,4 +90,9 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     auto obj1{std::make_shared<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
     instantiate(obj1);
+
+    auto plane{std::make_shared<hid::Object>("Plane")};
+    plane->addComponent<MeshRenderer>("plane", metalMaterial);
+    plane->getComponent<Transform>().setPosition(glm::vec3{.0f, -1.f, .0f});
+    instantiate(plane);
 }

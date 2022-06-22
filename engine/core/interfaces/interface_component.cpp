@@ -1,4 +1,4 @@
-#include "IComponent.hpp"
+#include "interface_component.hpp"
 
 using hid::IComponent;
 
