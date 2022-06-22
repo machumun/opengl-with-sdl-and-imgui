@@ -4,7 +4,7 @@
 
 #include "../../core/light_settings.hpp"
 #include "../../core/scene/scene_data.hpp"
-#include "../../core/perspective_camera.hpp"
+
 #include <string>
 #include <vector>
 
@@ -17,10 +17,7 @@ namespace hid
         OpenGLPipeline();
         ~OpenGLPipeline();
 
-        void render(
-            const hid::OpenGLAssetManager &assetManager,
-            const std::shared_ptr<hid::SceneData> &sceneData,
-            const hid::PerspectiveCamera &camera);
+        void render(const hid::OpenGLAssetManager &assetManager);
 
         // for batch
         void setup(const std::shared_ptr<hid::SceneData> &sceneData);

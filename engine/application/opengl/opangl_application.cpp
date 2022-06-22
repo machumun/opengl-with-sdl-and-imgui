@@ -88,9 +88,9 @@ OpenGLApplication::OpenGLApplication() : Application(),
                                          window{hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)},
                                          context{::createContext(window)},
                                          assetManager{std::make_shared<hid::OpenGLAssetManager>()},
-                                         scene{createMainScene(*assetManager)},
+                                         scene{::createMainScene(*assetManager)},
                                          layout{std::make_shared<hid::Layout>(scene->sceneData)},
-                                         renderer{::createRenderer(assetManager)},
+                                         renderer{hid::OpenGLRenderer(assetManager)},
                                          imgui{std::make_unique<hid::OpenGLImGui>()}
 {
 }
@@ -116,6 +116,8 @@ void OpenGLApplication::setup()
 {
     // SDL_AddEventWatch(::resizingEventWatcher, window);
 
+    // pointer delivery
+    renderer.setup(scene->sceneData);
     std::function<void()> viewport = [&]() -> void
     { return layout->viewport(); };
 

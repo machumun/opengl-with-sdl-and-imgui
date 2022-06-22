@@ -176,10 +176,7 @@ OpenGLPipeline::OpenGLPipeline()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void OpenGLPipeline::render(
-    const hid::OpenGLAssetManager &assetManager,
-    const std::shared_ptr<hid::SceneData> &sceneData,
-    const hid::PerspectiveCamera &camera)
+void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
 {
 
     const static std::string logTag{"hid::OpenGLPipeline::render"};
@@ -200,7 +197,7 @@ void OpenGLPipeline::render(
     // basecolor pass
     shader.use();
     glActiveTexture(GL_TEXTURE0);
-    shader.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
+    shader.setMat4("u_projectionMatrix", &camera->getComponent<hid::Camera>().getCameraMatrix()[0][0]);
 
     for (auto &object : sceneData->objects)
     {
@@ -315,7 +312,7 @@ void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
     {
         if (object->hasComponent<hid::Camera>())
         {
-            this->camera = object;
+            camera = object;
         }
     }
 }

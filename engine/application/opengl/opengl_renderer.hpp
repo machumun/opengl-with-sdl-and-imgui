@@ -13,9 +13,7 @@ namespace hid
 
         OpenGLRenderer(std::shared_ptr<hid::OpenGLAssetManager> assetManager);
 
-        void render(
-            const hid::assets::Pipeline &pipeline,
-            const std::shared_ptr<hid::SceneData> &sceneData,
-            const hid::PerspectiveCamera &camera) override;
+        void render(const hid::assets::Pipeline &pipeline) override;
+        void setup(std::shared_ptr<hid::SceneData> sceneData) override;
     };
 }

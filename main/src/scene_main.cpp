@@ -14,9 +14,7 @@ void SceneMain::update(const float& delta)
 {
     // user data ->
     input(delta);
-    camera.configure(player.getPosition(), player.getDirection());
-
-    const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
+    mainCamera->getComponent<hid::Camera>().configure(player.getPosition(), player.getDirection());
 
     for (auto& object : sceneData->objects)
     {
@@ -59,7 +57,7 @@ void SceneMain::input(const float& delta)
 
 void SceneMain::render(hid::Renderer& renderer)
 {
-    renderer.render(hid::assets::Pipeline::LitPass, sceneData, camera);
+    renderer.render(hid::assets::Pipeline::LitPass);
 }
 
 void SceneMain::prepare(hid::AssetManager& assetManager)
@@ -98,9 +96,4 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     plane->addComponent<MeshRenderer>("plane", metalMaterial);
     plane->getComponent<Transform>().setPosition(glm::vec3{.0f, -1.f, .0f});
     instantiate(plane);
-
-    auto camera{std::make_shared<hid::Object>("MainCamera")};
-    // std::pair<uint32_t, uint32_t> disp{hid::sdl::getDisplaySize()};
-    camera->addComponent<Camera>(800, 1200);
-    instantiate(camera);
 }

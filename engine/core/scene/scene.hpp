@@ -7,6 +7,16 @@
 
 #include "../object.hpp"
 
+#include "../components/camera.hpp"
+
+#include "../wrapper/sdl_wrapper.hpp"
+
+namespace
+{
+    static std::pair<uint32_t, uint32_t> displaySize{hid::sdl::getDisplaySize()};
+
+} // namespace
+
 namespace hid
 {
 
@@ -15,7 +25,15 @@ namespace hid
 
         std::shared_ptr<hid::SceneData> sceneData;
 
-        Scene() : sceneData{std::make_shared<hid::SceneData>()} {}
+        std::shared_ptr<hid::Object> mainCamera;
+
+        Scene() : sceneData{std::make_shared<hid::SceneData>()},
+                  mainCamera{std::make_shared<hid::Object>("MainCamera")}
+        {
+            mainCamera->addComponent<hid::Camera>(::displaySize.first, ::displaySize.second);
+            instantiate(mainCamera);
+        }
+
         virtual ~Scene() = default;
 
         virtual void prepare(hid::AssetManager &assetManager) = 0;

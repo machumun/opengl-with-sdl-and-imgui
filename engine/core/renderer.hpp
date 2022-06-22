@@ -2,7 +2,6 @@
 
 #include "asset_inventory.hpp"
 #include "scene/scene_data.hpp"
-#include "perspective_camera.hpp"
 
 #include <vector>
 
@@ -10,9 +9,7 @@ namespace hid
 {
     struct Renderer
     {
-        virtual void render(
-            const hid::assets::Pipeline &pipeline,
-            const std::shared_ptr<hid::SceneData> &sceneData,
-            const hid::PerspectiveCamera &camera) = 0;
+        virtual void render(const hid::assets::Pipeline &pipeline) = 0;
+        virtual void setup(std::shared_ptr<hid::SceneData> sceneData) = 0;
     };
 }
