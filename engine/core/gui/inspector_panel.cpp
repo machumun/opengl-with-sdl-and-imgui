@@ -22,7 +22,7 @@ void InspectorPanel::contents()
         ImGui::InputText("name", &object->name);
         for (auto &component : object->components)
         {
-            component->inspectorView();
+            component->inspector();
         }
 
         // if (object->hasComponent<hid::Transform>())

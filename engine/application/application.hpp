@@ -17,6 +17,7 @@ namespace hid
 
         virtual void setup() = 0;
 
+        virtual void start() = 0;
         virtual void update(const float &delta) = 0;
         virtual void render() = 0;
 

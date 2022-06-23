@@ -209,6 +209,7 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
             auto &material = meshRenderer.getMaterial();
 
             assetManager.getTexture(material.albedo).bind();
+            shader.setVec3("u_baseColor", &material.baseColor[0]);
             shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
             assetManager.getStaticMesh(meshRenderer.getMesh()).draw();
         }

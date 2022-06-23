@@ -28,6 +28,21 @@ namespace hid
 
         void update() override {}
 
+        void inspector()
+        {
+            if (ImGui::TreeNodeEx((void *)Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Mesh Renderer"))
+            {
+                ImGui::InputText("Mesh", &mesh);
+                if (ImGui::TreeNodeEx((void *)(Type + 1), ImGuiTreeNodeFlags_DefaultOpen, "Material"))
+                {
+                    ImGui::InputText("Albedo", &material.albedo);
+                    ImGui::ColorPicker3("BaseColor", (float *)&material.baseColor);
+                    ImGui::TreePop();
+                }
+                ImGui::TreePop();
+            }
+        }
+
     private:
         std::string mesh;
         hid::Material material;

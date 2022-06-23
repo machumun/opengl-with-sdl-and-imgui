@@ -2,6 +2,7 @@
 
 #include "../../engine/core/components/camera.hpp"
 #include "../../engine/core/components/mesh_renderer.hpp"
+#include "../../engine/core/components/player_controller.hpp"
 #include "../../engine/core/object.hpp"
 
 #include "../../engine/core/wrapper/sdl_wrapper.hpp"
@@ -12,46 +13,11 @@ using hid::SceneMain;
 
 void SceneMain::update(const float& delta)
 {
-    // user data ->
-    input(delta);
-    mainCamera->getComponent<hid::Camera>().configure(player.getPosition(), player.getDirection());
+    playerController->input(delta);
 
     for (auto& object : sceneData->objects)
     {
         object->update();
-    }
-}
-
-void SceneMain::input(const float& delta)
-{
-    if (keyboardState[SDL_SCANCODE_UP])
-    {
-        player.moveForward(delta);
-    }
-
-    if (keyboardState[SDL_SCANCODE_DOWN])
-    {
-        player.moveBackward(delta);
-    }
-
-    if (keyboardState[SDL_SCANCODE_A])
-    {
-        player.moveUp(delta);
-    }
-
-    if (keyboardState[SDL_SCANCODE_Z])
-    {
-        player.moveDown(delta);
-    }
-
-    if (keyboardState[SDL_SCANCODE_LEFT])
-    {
-        player.turnLeft(delta);
-    }
-
-    if (keyboardState[SDL_SCANCODE_RIGHT])
-    {
-        player.turnRight(delta);
     }
 }
 
@@ -60,6 +26,7 @@ void SceneMain::render(hid::Renderer& renderer)
     renderer.render(hid::assets::Pipeline::LitPass);
 }
 
+// like awake ?
 void SceneMain::prepare(hid::AssetManager& assetManager)
 {
 
@@ -96,4 +63,8 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     plane->addComponent<MeshRenderer>("plane", metalMaterial);
     plane->getComponent<Transform>().setPosition(glm::vec3{.0f, -1.f, .0f});
     instantiate(plane);
+
+    mainCamera->addComponent<PlayerController>(.0f);
+    mainCamera->getComponent<Transform>().position = glm::vec3{.0f, .0f, 2.f};
+    playerController = &mainCamera->getComponent<PlayerController>();
 }

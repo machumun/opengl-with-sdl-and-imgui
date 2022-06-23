@@ -29,7 +29,9 @@ namespace hid
         template <class T, typename... Args>
         void addComponent(Args &&...params)
         {
-            components.emplace_back(std::make_unique<T>(std::forward<Args>(params)...));
+            std::unique_ptr<T> component = std::make_unique<T>(std::forward<Args>(params)...);
+            component->parent = this;
+            components.emplace_back(std::move(component));
         }
 
         template <class T>
@@ -69,11 +71,11 @@ namespace hid
             }
         }
 
-        void draw()
+        void start()
         {
             for (auto &&component : components)
             {
-                component->draw();
+                component->start();
             }
         }
 

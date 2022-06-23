@@ -38,6 +38,14 @@ namespace hid
 
         virtual void prepare(hid::AssetManager &assetManager) = 0;
 
+        virtual void start()
+        {
+            for (auto &object : sceneData->objects)
+            {
+                object->start();
+            }
+        };
+
         virtual void update(const float &delta) = 0;
 
         virtual void render(hid::Renderer &renderer) = 0;

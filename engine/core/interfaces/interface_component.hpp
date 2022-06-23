@@ -9,9 +9,13 @@
 
 namespace hid
 {
+    struct Object;
+
     struct IComponent
     {
         static const std::size_t Type;
+        hid::Object *parent;
+
         virtual bool IsClassType(const std::size_t classType) const
         {
             return classType == Type;
@@ -20,8 +24,8 @@ namespace hid
         virtual ~IComponent() = default;
         virtual void update() {}
         virtual void start() {}
-        virtual void draw() {}
+        // virtual void draw() {}
 
-        virtual void inspectorView(){};
+        virtual void inspector() {}
     };
 }

@@ -117,12 +117,17 @@ void OpenGLApplication::setup()
     // SDL_AddEventWatch(::resizingEventWatcher, window);
 
     // pointer delivery
-    renderer.setup(scene->sceneData);
+    renderer.setup(scene->sceneData); // <- bad setup position
     std::function<void()> viewport = [&]() -> void
     { return layout->viewport(); };
 
     imgui->setup(window, context);
     imgui->setViewport(viewport);
+}
+
+void OpenGLApplication::start()
+{
+    scene->start();
 }
 
 hid::Scene &OpenGLApplication::getScene()

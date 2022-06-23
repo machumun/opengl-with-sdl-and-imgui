@@ -6,27 +6,20 @@
 
 #include "../../engine/core/wrapper/sdl_wrapper.hpp"
 
-#include "player.hpp"
+#include "../../core/components/player_controller.hpp"
 
 namespace hid
 {
     struct SceneMain : public hid::Scene
     {
 
-        hid::Player player;
+        hid::PlayerController* playerController;
 
-        const uint8_t* keyboardState;
-
-        SceneMain::SceneMain()
-            : player(hid::Player(glm::vec3{0.0f, 0.0f, 2.0f}, 0.0f)),
-              keyboardState(SDL_GetKeyboardState(nullptr)) {}
+        SceneMain() = default;
 
         void prepare(hid::AssetManager& assetManager) override;
-
         void update(const float& delta) override;
 
         void render(hid::Renderer& renderer) override;
-
-        void input(const float& delta);
     };
 } // namespace hid

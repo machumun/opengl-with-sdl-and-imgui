@@ -42,6 +42,7 @@ void Application::startApplication()
 #ifdef __EMSCRIPTEN__
     emscripten_set_main_loop_arg((em_arg_callback_func)::emscriptenMainLoop, this, 60, 1);
 #else
+    start();
     while (runMainLoop())
     {
         // Just waiting for the main loop to end.
