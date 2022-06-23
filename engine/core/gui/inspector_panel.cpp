@@ -20,33 +20,20 @@ void InspectorPanel::contents()
         // auto &object = layout->sceneData->objects[0];
         // std::string s{"foo"};
         ImGui::InputText("name", &object->name);
-        // for (auto &component : object->components)
+        for (auto &component : object->components)
+        {
+            component->inspectorView();
+        }
+
+        // if (object->hasComponent<hid::Transform>())
         // {
-        //     if (component->Type == Transform::Type)
+        //     auto &transform = object->getComponent<Transform>();
+        //     if (ImGui::TreeNodeEx((void *)transform.Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
         //     {
-        //         auto &transform = object->getComponent<Transform>();
-        //         if (ImGui::TreeNodeEx((void *)component->Type,
-        //                               ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen,
-        //                               "Transform"))
-        //         {
-        //             ImGui::SliderFloat3("Position", (float *)&transform.position, 10.f, -10.f);
-        //             ImGui::TreePop();
-        //         }
-        //     }
-        //     else if (component->Type == MeshRenderer::Type)
-        //     {
+        //         ImGui::SliderFloat3("Position", (float *)&transform.position, 10.f, -10.f);
+        //         ImGui::SliderFloat3("Scale", (float *)&transform.scale, 10.f, -10.f);
+        //         ImGui::TreePop();
         //     }
         // }
-
-        if (object->hasComponent<hid::Transform>())
-        {
-            auto &transform = object->getComponent<Transform>();
-            if (ImGui::TreeNodeEx((void *)transform.Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
-            {
-                ImGui::SliderFloat3("Position", (float *)&transform.position, 10.f, -10.f);
-                ImGui::SliderFloat3("Scale", (float *)&transform.scale, 10.f, -10.f);
-                ImGui::TreePop();
-            }
-        }
     }
 }

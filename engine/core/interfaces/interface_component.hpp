@@ -1,5 +1,8 @@
 #pragma once
 
+#include "imgui.h"
+#include "misc/cpp/imgui_stdlib.h"
+
 #include <string>
 #include <memory>
 #include <vector>
@@ -18,5 +21,7 @@ namespace hid
         virtual void update() {}
         virtual void start() {}
         virtual void draw() {}
+
+        virtual void inspectorView(){};
     };
 }

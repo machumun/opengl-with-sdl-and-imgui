@@ -59,6 +59,16 @@ namespace hid
                           glm::scale(identity, scale);
         }
 
+        void inspectorView()
+        {
+            if (ImGui::TreeNodeEx((void *)Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+            {
+                ImGui::SliderFloat3("Position", (float *)&position, 10.f, -10.f);
+                ImGui::SliderFloat3("Scale", (float *)&scale, 10.f, -10.f);
+                ImGui::TreePop();
+            }
+        }
+
         void rotateBy(const float &degrees)
         {
             rotationDegrees += degrees;
