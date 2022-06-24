@@ -5,7 +5,7 @@
 #include "../wrapper/glm_wrapper.hpp"
 #include "../wrapper/sdl_wrapper.hpp"
 
-#include "../interfaces/interface_component.hpp"
+#include "interface_component.hpp"
 
 #include "../object.hpp"
 

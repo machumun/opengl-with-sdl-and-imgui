@@ -197,7 +197,7 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     // basecolor pass
     shader.use();
     glActiveTexture(GL_TEXTURE0);
-    shader.setMat4("u_projectionMatrix", &camera->getComponent<hid::Camera>().getCameraMatrix()[0][0]);
+    shader.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
 
     for (auto &object : sceneData->objects)
     {
@@ -241,13 +241,18 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     glDisable(GL_BLEND);
     glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
     defferedLightingProgram.use();
-    const hid::Light &pointLight = sceneData->lightSettings.pointLight;
-    const hid::Light &ambientLight = sceneData->lightSettings.ambientLight;
-    defferedLightingProgram.setVec3("u_pointLight[0].position", &pointLight.position[0]);
-    defferedLightingProgram.setVec3("u_pointLight[0].color", &pointLight.color[0]);
-    defferedLightingProgram.setFloat("u_pointLight[0].intensity", pointLight.intensity);
-    defferedLightingProgram.setVec3("u_ambientLight.color", &ambientLight.color[0]);
-    defferedLightingProgram.setFloat("u_ambientLight.intensity", ambientLight.intensity);
+
+    const size_t &lightNum = pointLights.size();
+
+    for (GLuint i = 0; i < lightNum; ++i)
+    {
+        defferedLightingProgram.setVec3("u_pointLight[" + std::to_string(i) + "].position", &pointLights[i]->transform->position[0]);
+        defferedLightingProgram.setVec3("u_pointLight[" + std::to_string(i) + "].color", &pointLights[i]->color[0]);
+        defferedLightingProgram.setFloat("u_pointLight[" + std::to_string(i) + "].intensity", pointLights[i]->intensity);
+    }
+
+    defferedLightingProgram.setVec3("u_ambientLight.color", &sceneData->environmentalSettings->ambientColor[0]);
+    defferedLightingProgram.setFloat("u_ambientLight.intensity", sceneData->environmentalSettings->ambientIntencity);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, positionTextureId);
@@ -261,31 +266,35 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     // blur effect pass
     bool firstIteration = true;
     bool horizontal = true;
-    blurProgram.use();
-    for (int i = 0; i < pingpongAmount; ++i)
+
+    if (sceneData->environmentalSettings->postProcessing)
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
-        blurProgram.setInt("horizontal", horizontal);
-        // for tatamikomi kawase
-        blurProgram.setFloat("loopNum", (float)i + 1.0f);
-
-        glActiveTexture(GL_TEXTURE0);
-        if (firstIteration)
+        blurProgram.use();
+        for (int i = 0; i < pingpongAmount; ++i)
         {
-            glBindTexture(GL_TEXTURE_2D, bloomTextureId);
-            firstIteration = false;
+            glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
+            blurProgram.setInt("horizontal", horizontal);
+            // for tatamikomi kawase
+            blurProgram.setFloat("loopNum", (float)i + 1.0f);
+
+            glActiveTexture(GL_TEXTURE0);
+            if (firstIteration)
+            {
+                glBindTexture(GL_TEXTURE_2D, bloomTextureId);
+                firstIteration = false;
+            }
+            else
+            {
+                glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
+            }
+
+            defferedLightingProgram.setInt("u_bloomTexture", 0);
+
+            glBindVertexArray(framebufferVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            horizontal = !horizontal;
         }
-        else
-        {
-            glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
-        }
-
-        defferedLightingProgram.setInt("u_bloomTexture", 0);
-
-        glBindVertexArray(framebufferVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        horizontal = !horizontal;
     }
 
     // framebuffer program
@@ -294,8 +303,8 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
 
-    framebufferProgram.setFloat("bloomIntensity", sceneData->lightSettings.bloomIntensity);
-    framebufferProgram.setBool("bloom", sceneData->lightSettings.bloom);
+    framebufferProgram.setFloat("bloomIntensity", sceneData->environmentalSettings->bloomStrength);
+    framebufferProgram.setBool("bloom", sceneData->environmentalSettings->postProcessing);
     glBindVertexArray(framebufferVAO);
 
     glActiveTexture(GL_TEXTURE0);
@@ -308,12 +317,22 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
 
 void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
 {
+    static std::string logTag{"hid::OpenGLPipeline::setup"};
+
     this->sceneData = sceneData;
     for (auto &object : this->sceneData->objects)
     {
         if (object->hasComponent<hid::Camera>())
         {
-            camera = object;
+            camera = &object->getComponent<Camera>();
+        }
+        if (object->hasComponent<Light>())
+        {
+            if (object->getComponent<Light>().lightType == hid::LightType::Point)
+            {
+                hid::log(logTag, "Point Light was found.");
+                pointLights.emplace_back(&object->getComponent<Light>());
+            }
         }
     }
 }

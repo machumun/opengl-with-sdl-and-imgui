@@ -2,7 +2,7 @@
 
 #include "transform.hpp"
 
-#include "../interfaces/interface_component.hpp"
+#include "interface_component.hpp"
 #include "../material.hpp"
 
 #include "../object.hpp"

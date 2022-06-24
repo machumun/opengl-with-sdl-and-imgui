@@ -244,6 +244,7 @@ void Layout::viewport()
 
     hierarchyPanel->showWindow(&showHierarchy);
     inspectorPanel->showWindow(&showInspector);
+    environmentalSettingsPanel->showWindow(&showEnvironmentalSettings);
 
     ImGui::ShowDemoWindow(&showDemoWindow);
 

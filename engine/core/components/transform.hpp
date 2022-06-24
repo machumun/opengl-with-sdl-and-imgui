@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../wrapper/glm_wrapper.hpp"
-#include "../interfaces/interface_component.hpp"
+#include "interface_component.hpp"
 #include "../log.hpp"
 
 namespace
@@ -90,8 +90,8 @@ namespace hid
         {
             if (ImGui::TreeNodeEx((void *)Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
             {
-                ImGui::SliderFloat3("Position", (float *)&position, 10.f, -10.f);
-                ImGui::SliderFloat3("Scale", (float *)&scale, 10.f, -10.f);
+                ImGui::DragFloat3("Position", (float *)&position, 10.f, -10.f);
+                ImGui::DragFloat3("Scale", (float *)&scale, 10.f, -10.f);
                 ImGui::TreePop();
             }
         }

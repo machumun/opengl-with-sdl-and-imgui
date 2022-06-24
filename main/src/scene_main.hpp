@@ -2,8 +2,6 @@
 
 #include "../../engine/core/scene/scene.hpp"
 
-#include "../../engine/core/light_settings.hpp"
-
 #include "../../engine/core/wrapper/sdl_wrapper.hpp"
 
 #include "../../core/components/player_controller.hpp"

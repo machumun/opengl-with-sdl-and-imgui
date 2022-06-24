@@ -1,7 +1,7 @@
 #pragma once
 
 #include "components/transform.hpp"
-#include "interfaces/interface_component.hpp"
+#include "components/interface_component.hpp"
 
 // #include "log.hpp"
 
@@ -10,12 +10,14 @@ namespace hid
     struct Object
     {
         std::string name;
+        hid::Transform *transform;
 
         Object(const std::string &name)
             : name{name.c_str()},
               componentsIterator{components.begin()}
         {
             this->addComponent<hid::Transform>();
+            transform = &getComponent<Transform>();
         }
 
         ~Object()

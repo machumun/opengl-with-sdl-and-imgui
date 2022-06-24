@@ -1,6 +1,7 @@
 #pragma once
 #include "inspector_panel.hpp"
 #include "hierarchy_panel.hpp"
+#include "environmental_settings_panel.hpp"
 
 #include "../scene/scene_data.hpp"
 
@@ -19,9 +20,11 @@ namespace hid
 
         bool showInspector = true;
         bool showHierarchy = true;
+        bool showEnvironmentalSettings = true;
 
         std::unique_ptr<hid::InspectorPanel> inspectorPanel;
         std::unique_ptr<hid::HierarchyPanel> hierarchyPanel;
+        std::unique_ptr<hid::EnvironmentalSettingsPanel> environmentalSettingsPanel;
 
         bool isActive;
         bool show_another_window;
@@ -42,6 +45,7 @@ namespace hid
               showHierarchy{true},
               inspectorPanel{std::make_unique<hid::InspectorPanel>(this)},
               hierarchyPanel{std::make_unique<hid::HierarchyPanel>(this)},
+              environmentalSettingsPanel{std::make_unique<hid::EnvironmentalSettingsPanel>(this)},
               isActive{true},
               show_another_window{false},
               rotateSpeed{.0f},

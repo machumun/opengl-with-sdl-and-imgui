@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../interfaces/interface_panel.hpp"
+#include "interface_panel.hpp"
 #include "../scene/scene_data.hpp"
 
 namespace hid

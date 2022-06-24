@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../interfaces/interface_component.hpp"
+#include "interface_component.hpp"
 #include "../material.hpp"
 
 namespace hid

@@ -2,7 +2,10 @@
 
 #include "opengl_shader.hpp"
 
-#include "../../core/light_settings.hpp"
+#include "../../core/components/camera.hpp"
+#include "../../core/components/mesh_renderer.hpp"
+#include "../../core/components/light.hpp"
+
 #include "../../core/scene/scene_data.hpp"
 
 #include <string>
@@ -57,6 +60,10 @@ namespace hid
         int animationCount = 0;
 
         std::shared_ptr<hid::SceneData> sceneData;
-        std::shared_ptr<hid::Object> camera;
+        // std::shared_ptr<hid::Object> camera;
+
+        hid::Camera *camera;
+        std::vector<hid::MeshRenderer *> meshRenderers;
+        std::vector<hid::Light *> pointLights;
     };
 }

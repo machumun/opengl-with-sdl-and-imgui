@@ -2,7 +2,7 @@
 
 #include "json.hpp"
 #include "mesh.hpp"
-#include "interfaces/interface_component.hpp"
+#include "components/interface_component.hpp"
 #include "asset_manager.hpp"
 
 using nlohmann::json;
