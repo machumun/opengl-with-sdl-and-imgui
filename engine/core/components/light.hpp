@@ -51,7 +51,7 @@ namespace hid
 
         void start() override
         {
-            transform = &parent->getComponent<hid::Transform>();
+            transform = parent->transform;
         }
 
         void inspector() override

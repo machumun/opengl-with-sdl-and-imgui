@@ -42,7 +42,7 @@ namespace hid
 
         void start() override
         {
-            transform = &parent->getComponent<Transform>();
+            transform = parent->transform;
         }
 
         void update() override

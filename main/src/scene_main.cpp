@@ -1,9 +1,6 @@
 #include "scene_main.hpp"
 
-#include "../../engine/core/components/camera.hpp"
-#include "../../engine/core/components/light.hpp"
-#include "../../engine/core/components/mesh_renderer.hpp"
-#include "../../engine/core/components/player_controller.hpp"
+#include "../../engine/core/components/simple_components.hpp"
 
 #include "../../engine/core/object.hpp"
 
@@ -60,6 +57,13 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     auto obj1{std::make_shared<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
     instantiate(obj1);
+
+    // const std::vector<uint32_t>*animationFrame,
+    //     const uint32_t &animationInterval,
+    //     const uint32_t &spriteWidth,
+    //     const uint32_t &spriteHeight auto obj1{std::make_shared<hid::Object>("GameObject 1")};
+    // obj1->addComponent<AnimationPlane>("chara", {});
+    // instantiate(obj1);
 
     auto plane{std::make_shared<hid::Object>("Plane")};
     plane->addComponent<MeshRenderer>("plane", metalMaterial);

@@ -32,5 +32,10 @@ namespace hid
               speculer(speculer)
         {
         }
+
+        void setBaseColor(const glm::vec3 &color)
+        {
+            baseColor = color;
+        };
     };
 }

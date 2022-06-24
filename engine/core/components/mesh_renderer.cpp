@@ -30,11 +30,6 @@ void MeshRenderer::setMesh(const std::string &mesh)
     this->mesh = mesh;
 }
 
-void MeshRenderer::setBaseColor(const glm::vec3 &color)
-{
-    material.baseColor = color;
-};
-
 hid::Material MeshRenderer::getMaterial() const
 {
     return material;

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "transform.hpp"
-
 #include "interface_component.hpp"
 #include "../material.hpp"
 
@@ -29,8 +27,6 @@ namespace hid
         float angleOfView;
         float nearfar[2];
 
-        hid::Transform *transform;
-
         Camera(const float &width, const float &height)
             : projectionMatrix{glm::mat4{1.f}},
               cameraSize{width, height},
@@ -44,7 +40,9 @@ namespace hid
 
         glm::mat4 Camera::getViewMatrix() const
         {
-            return glm::lookAt(transform->position, transform->position - transform->forward, transform->up);
+            return glm::lookAt(parent->transform->position,
+                               parent->transform->position - parent->transform->forward,
+                               parent->transform->up);
         }
 
         glm::mat4 Camera::getCameraMatrix() const
@@ -65,7 +63,6 @@ namespace hid
 
         void start() override
         {
-            transform = &parent->getComponent<Transform>();
         }
 
         void update() override

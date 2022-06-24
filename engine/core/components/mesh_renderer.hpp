@@ -20,8 +20,6 @@ namespace hid
 
         void setMesh(const std::string &mesh);
 
-        void setBaseColor(const glm::vec3 &color);
-
         hid::Material getMaterial() const;
 
         void setMaterial(const hid::Material &material);
