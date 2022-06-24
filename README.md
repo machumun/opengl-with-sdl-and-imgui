@@ -10,6 +10,9 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 ``VisualStudio 2022``
 
 # DEMO
+## ・Component System  
+![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/engine_sample.gif)
+
 ## ・Deffered Lighting  
 ![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/readme2.gif)
 
