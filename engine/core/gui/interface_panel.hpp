@@ -21,7 +21,7 @@ namespace hid
 
         ~IPanel() = default;
 
-        virtual void contents() {}
+        virtual void contents() = 0;
 
         // void setParentWindow(hid::IPanel *window)
         // {
@@ -37,6 +37,15 @@ namespace hid
             ImGui::Begin(title.c_str(), open);
             contents();
             ImGui::End();
+        }
+
+        void showWindowWithNoPadding(bool *open)
+        {
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
+            ImGui::Begin(title.c_str(), open);
+            contents();
+            ImGui::End();
+            ImGui::PopStyleVar();
         }
     };
 }

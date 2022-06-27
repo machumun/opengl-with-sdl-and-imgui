@@ -245,6 +245,7 @@ void Layout::viewport()
     hierarchyPanel->showWindow(&showHierarchy);
     inspectorPanel->showWindow(&showInspector);
     environmentalSettingsPanel->showWindow(&showEnvironmentalSettings);
+    gameViewPanel->showWindowWithNoPadding(&showGameView);
 
     ImGui::ShowDemoWindow(&showDemoWindow);
 

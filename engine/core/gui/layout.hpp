@@ -2,6 +2,7 @@
 #include "inspector_panel.hpp"
 #include "hierarchy_panel.hpp"
 #include "environmental_settings_panel.hpp"
+#include "game_view_panel.hpp"
 
 #include "../scene/scene_data.hpp"
 
@@ -18,13 +19,15 @@ namespace hid
         std::shared_ptr<hid::SceneData> sceneData;
         int32_t selectedObjectIndex;
 
-        bool showInspector = true;
-        bool showHierarchy = true;
-        bool showEnvironmentalSettings = true;
+        bool showInspector;
+        bool showHierarchy;
+        bool showEnvironmentalSettings;
+        bool showGameView;
 
         std::unique_ptr<hid::InspectorPanel> inspectorPanel;
         std::unique_ptr<hid::HierarchyPanel> hierarchyPanel;
         std::unique_ptr<hid::EnvironmentalSettingsPanel> environmentalSettingsPanel;
+        std::unique_ptr<hid::GameViewPanel> gameViewPanel;
 
         bool isActive;
         bool show_another_window;
@@ -43,9 +46,12 @@ namespace hid
               sceneData{sceneData},
               showInspector{true},
               showHierarchy{true},
+              showEnvironmentalSettings{true},
+              showGameView{true},
               inspectorPanel{std::make_unique<hid::InspectorPanel>(this)},
               hierarchyPanel{std::make_unique<hid::HierarchyPanel>(this)},
               environmentalSettingsPanel{std::make_unique<hid::EnvironmentalSettingsPanel>(this)},
+              gameViewPanel{std::make_unique<hid::GameViewPanel>(this)},
               isActive{true},
               show_another_window{false},
               rotateSpeed{.0f},

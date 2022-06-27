@@ -36,7 +36,7 @@ void OpenGLImGui::loop(SDL_Window *window)
     ImGui_ImplSDL2_NewFrame(window);
     ImGui::NewFrame();
 
-    if (!(viewport == nullptr))
+    if (viewport != nullptr)
     {
         viewport();
     }

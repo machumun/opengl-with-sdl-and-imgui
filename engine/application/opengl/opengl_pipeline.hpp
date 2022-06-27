@@ -22,6 +22,8 @@ namespace hid
 
         void render(const hid::OpenGLAssetManager &assetManager);
 
+        void resize(const GLuint &width, const GLuint &height);
+
         // for batch
         void setup(const std::shared_ptr<hid::SceneData> &sceneData);
 
@@ -34,6 +36,10 @@ namespace hid
 
         // screen rect mesh vao
         const GLuint framebufferVAO;
+
+        // for imgui viewport
+        const GLuint renderFBO;
+        const GLuint renderTextureId;
 
         // g buffer
         const GLuint baseFBO;

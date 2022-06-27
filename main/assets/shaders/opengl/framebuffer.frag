@@ -2,6 +2,8 @@ uniform sampler2D u_screenTexture; //GL_COLOR_ATTACHMENT0
 uniform sampler2D u_bloomTexture; //GL_COLOR_ATTACHMENT1
 
 out vec4 FragColor;
+layout (location = 0) out vec4 u_renderTexture;
+
 in vec2 v_texCoord;
 
 uniform float bloomIntensity;
@@ -39,6 +41,7 @@ void main()
 
         FragColor = vec4(frag + blur*bloomIntensity, 1.0f);
         
+        
         // FragColor = color;
         //  FragColor = texture2D(u_bloomTexture, v_texCoord);
         // FragColor = vec4(frag, 1.0f);
@@ -48,5 +51,6 @@ void main()
          FragColor = vec4(frag, 1.0f);
     }
 
+    u_renderTexture = FragColor;
 
 }

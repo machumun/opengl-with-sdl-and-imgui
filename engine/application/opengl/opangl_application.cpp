@@ -103,11 +103,15 @@ void OpenGLApplication::update(const float &delta)
 void OpenGLApplication::render()
 {
     SDL_GL_MakeCurrent(window, context);
-
+#ifndef HAM_RELEASE
     imgui->loop(window);
+#endif
 
     getScene().render(renderer);
+
+#ifndef HAM_RELEASE
     imgui->render();
+#endif
 
     SDL_GL_SwapWindow(window);
 }
@@ -117,7 +121,7 @@ void OpenGLApplication::setup()
     // SDL_AddEventWatch(::resizingEventWatcher, window);
 
     // pointer delivery
-    renderer.setup(scene->sceneData); // <- bad setup position
+    renderer.setup(scene->sceneData);
     std::function<void()> viewport = [&]() -> void
     { return layout->viewport(); };
 

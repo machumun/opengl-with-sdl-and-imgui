@@ -30,6 +30,7 @@ namespace
     {
 
         static const std::string logTag{"hid::OpenGLApplication::createFramebufferTexture"};
+
         GLuint textureId;
         glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         glGenTextures(1, &textureId);
@@ -124,7 +125,8 @@ OpenGLPipeline::OpenGLPipeline()
       framebufferProgram{hid::OpenGLShader("framebuffer", "framebuffer")},
       animationProgram{hid::OpenGLShader("lit", "animation")},
       framebufferVAO{::createFramebufferVAO()},
-
+      renderFBO{::createFBO()},
+      renderTextureId(::createFramebufferTexture(renderFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)),
       baseFBO{::createFBO()},
       positionTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)),
       normalTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT1)),
@@ -137,6 +139,10 @@ OpenGLPipeline::OpenGLPipeline()
 
       pingpongAmount{8}
 {
+    // const GLuint renderAttatchments[1] = {GL_COLOR_ATTACHMENT0};
+    // glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
+    // glDrawBuffers(1, renderAttatchments);
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // tell opengl use this attachment
     const GLuint baseAttatchments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
@@ -145,6 +151,7 @@ OpenGLPipeline::OpenGLPipeline()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     defferedLightingProgram.use();
+    // in uniforms
     defferedLightingProgram.setInt("u_positionTexture", 0);
     defferedLightingProgram.setInt("u_normalTexture", 1);
     defferedLightingProgram.setInt("u_albedoTexture", 2);
@@ -153,6 +160,7 @@ OpenGLPipeline::OpenGLPipeline()
     blurProgram.setInt("u_bloomTexture", 0);
 
     framebufferProgram.use();
+    // in uniforms
     framebufferProgram.setInt("u_screenTexture", 0);
     framebufferProgram.setInt("u_bloomTexture", 1);
 
@@ -172,7 +180,7 @@ OpenGLPipeline::OpenGLPipeline()
         return;
     }
 
-    // frame buffer bind clear
+    // frame buffer bind to default
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -234,7 +242,6 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     //         animationCount = 0;
     //     }
     // }
-    // assetManager;
 
     // deffered shading pass
     glDisable(GL_DEPTH_TEST);
@@ -254,6 +261,7 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     defferedLightingProgram.setVec3("u_ambientLight.color", &sceneData->environmentalSettings->ambientColor[0]);
     defferedLightingProgram.setFloat("u_ambientLight.intensity", sceneData->environmentalSettings->ambientIntencity);
 
+    // in uniforms
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, positionTextureId);
     glActiveTexture(GL_TEXTURE1);
@@ -297,22 +305,27 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
         }
     }
 
-    // framebuffer program
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // default framebuffer program
+    glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
     framebufferProgram.use();
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
 
     framebufferProgram.setFloat("bloomIntensity", sceneData->environmentalSettings->bloomStrength);
     framebufferProgram.setBool("bloom", sceneData->environmentalSettings->postProcessing);
-    glBindVertexArray(framebufferVAO);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, baseTextureId);
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, pingpongBufferTexture[!horizontal]);
+
+    glBindVertexArray(framebufferVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // glBindVertexArray(framebufferVAO);
+    // glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
@@ -340,4 +353,12 @@ void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
 OpenGLPipeline::~OpenGLPipeline()
 {
     shader.release();
+    defferedLightingProgram.release();
+    blurProgram.release();
+    framebufferProgram.release();
+    animationProgram.release();
+}
+
+void OpenGLPipeline::resize(const GLuint &width, const GLuint &height)
+{
 }
