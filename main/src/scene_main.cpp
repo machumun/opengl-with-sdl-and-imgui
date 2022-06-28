@@ -42,6 +42,8 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
 
     assetManager.loadGLTFModels({hid::assets::GLTF::TestBox});
 
+    // planning load shaders
+
     hid::Material metalMaterial{"metal",
                                 glm::vec3{1.0f, 1.0f, 1.0f}};
 
@@ -51,19 +53,9 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     hid::Material characterMaterial{"chara",
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    // hid::Material pointLightMaterial{"empty",
-    //                                  sceneData->lightSettings.pointLight.color};
-
     auto obj1{std::make_shared<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
     instantiate(obj1);
-
-    // const std::vector<uint32_t>*animationFrame,
-    //     const uint32_t &animationInterval,
-    //     const uint32_t &spriteWidth,
-    //     const uint32_t &spriteHeight auto obj1{std::make_shared<hid::Object>("GameObject 1")};
-    // obj1->addComponent<AnimationPlane>("chara", {});
-    // instantiate(obj1);
 
     auto plane{std::make_shared<hid::Object>("Plane")};
     plane->addComponent<MeshRenderer>("plane", metalMaterial);
@@ -84,11 +76,8 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
         1.f,
     };
     instantiate(pointLight);
-    // const hid::Material &material,
-    //     const std::vector<uint32_t>*animationFrame,
-    //     const uint32_t &animationInterval,
-    //     const float &spriteWidth,
-    //     const float &spriteHeight
+
+    // character
     auto character{std::make_shared<hid::Object>("Charactor")};
     std::vector<uint32_t> animationFrame{0, 1, 2, 1};
     character->addComponent<AnimationPlane>(

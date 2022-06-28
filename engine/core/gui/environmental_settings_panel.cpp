@@ -21,6 +21,7 @@ void EnvironmentalSettingsPanel::contents()
         ImGuiTreeNodeFlags_SpanAvailWidth;
 
     ImGui::Checkbox("Post Processing", &layout->sceneData->environmentalSettings->postProcessing);
+    ImGui::SliderFloat("Bloom Threshold", &layout->sceneData->environmentalSettings->bloomThreshold, .0f, 1.f);
     ImGui::ColorPicker3("Ambient Color", &layout->sceneData->environmentalSettings->ambientColor[0]);
     ImGui::DragFloat("Ambient Intencity", &layout->sceneData->environmentalSettings->ambientIntencity);
 }

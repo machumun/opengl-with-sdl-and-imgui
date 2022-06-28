@@ -1,7 +1,8 @@
 // in
 uniform sampler2D u_bloomTexture; //GL_COLOR_ATTACHMENT0
 uniform bool horizontal = true;
-uniform float loopNum = 1;
+uniform float loopNum = 1.f;
+
 in vec2 v_texCoord;
 
 layout (location = 0) out vec4 FragColor;

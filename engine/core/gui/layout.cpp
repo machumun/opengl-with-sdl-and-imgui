@@ -40,6 +40,7 @@ void Layout::debugWindow(bool *p_open)
     ImGui::InputText("textbox 1", text1, sizeof(text1));
 
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
     ImGui::End();
 }
 

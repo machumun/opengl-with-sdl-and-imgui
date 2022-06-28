@@ -6,7 +6,6 @@ in vec3 v_vertexPosition;
 in vec3 v_normal;
 in vec2 v_texCoord;
 
-
 // out
 layout (location = 0) out vec4 u_positionTexture; // framebuffer attachment 0
 layout (location = 1) out vec4 u_normalTexture; // framebuffer attachment 1

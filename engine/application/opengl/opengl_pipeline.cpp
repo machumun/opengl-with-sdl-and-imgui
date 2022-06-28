@@ -125,9 +125,9 @@ OpenGLPipeline::OpenGLPipeline()
       renderFBO{::createFBO()},
       renderTextureId(::createFramebufferTexture(renderFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)),
       baseFBO{::createFBO()},
-      positionTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)),
-      normalTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT1)),
-      albedoTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT2)),
+      positionTextureId(::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)),
+      normalTextureId(::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)),
+      albedoTextureId(::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT2)),
       depthRenderBufferId{::createRenderBuffer(baseFBO)},
 
       defferedLightingFBO(::createFBO()),
@@ -169,8 +169,8 @@ OpenGLPipeline::OpenGLPipeline()
     // pinpongFBO
     pingpongFBO[0] = ::createFBO();
     pingpongFBO[1] = ::createFBO();
-    pingpongBufferTexture[0] = ::createFramebufferTexture(pingpongFBO[0], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
-    pingpongBufferTexture[1] = ::createFramebufferTexture(pingpongFBO[1], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
+    pingpongBufferTexture[0] = ::createFramebufferTexture(pingpongFBO[0], GL_RGB16F, GL_COLOR_ATTACHMENT0);
+    pingpongBufferTexture[1] = ::createFramebufferTexture(pingpongFBO[1], GL_RGB16F, GL_COLOR_ATTACHMENT0);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
@@ -189,8 +189,8 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     glBindFramebuffer(GL_FRAMEBUFFER, baseFBO);
 
     // glClearColor(.8f, .8f, .8f, 1.0f);
-    glClearColor(.0f, .0f, .0f, 1.0f);
-    // glClearColor(.2f, .2f, .2f, 1.0f);
+    // glClearColor(.0f, .0f, .0f, 1.0f);
+    glClearColor(.2f, .2f, .2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glEnable(GL_BLEND);
@@ -254,7 +254,7 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
 
     defferedLightingProgram.setVec3("u_ambientLight.color", &sceneData->environmentalSettings->ambientColor[0]);
     defferedLightingProgram.setFloat("u_ambientLight.intensity", sceneData->environmentalSettings->ambientIntencity);
-
+    defferedLightingProgram.setFloat("u_threshold", sceneData->environmentalSettings->bloomThreshold);
     // in uniforms
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, positionTextureId);

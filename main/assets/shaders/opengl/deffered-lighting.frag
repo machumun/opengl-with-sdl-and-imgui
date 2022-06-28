@@ -25,6 +25,8 @@ struct PointLight{
 uniform AmbientLight u_ambientLight;
 uniform PointLight u_pointLight[POINT_LIGHT_NUM];
 
+uniform float u_threshold = .0f;
+
 float near = 0.01f;
 float far = 100.0f;
 
@@ -48,11 +50,6 @@ void main(){
 
     vec4 albedoTexture = texture2D(u_albedoTexture, v_texCoord);
     
-    
-
-    
-
-   
     if(albedoTexture.a > .0f){
         vec3 ambient = u_ambientLight.intensity*u_ambientLight.color;
 
@@ -74,8 +71,15 @@ void main(){
 
         vec4 result = vec4(ambient + diffuse, 1.f) * albedoTexture;
         o_color = result;
+
         float brightness = dot(result.rgb, vec3(0.2126f, 0.7152f, 0.0722f));
-        o_bloom = vec4(o_color.rgb * brightness, 1.f);
+
+        if(brightness > u_threshold){
+            o_bloom = vec4(o_color.rgb * brightness, 1.f);
+        }else{
+            o_bloom = vec4(.0f, .0f, .0f, 1.f);
+        }
+        
 
         // o_color = normalTexture;
     } else {
