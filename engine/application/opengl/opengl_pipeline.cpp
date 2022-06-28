@@ -7,9 +7,6 @@
 
 #include "../../core/object.hpp"
 
-#include "../../core/components/mesh_renderer.hpp"
-#include "../../core/components/camera.hpp"
-
 #include <stdexcept>
 #include <vector>
 
@@ -207,41 +204,38 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     glActiveTexture(GL_TEXTURE0);
     shader.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
 
-    for (auto &object : sceneData->objects)
+    for (auto &meshRenderer : meshRenderers)
     {
-        if (object->hasComponent<MeshRenderer>())
-        {
-            auto &meshRenderer = object->getComponent<hid::MeshRenderer>();
-            auto &modelMatrix = object->getComponent<hid::Transform>().getModelMatrix();
+        // if (object->hasComponent<MeshRenderer>())
+        // {
 
-            auto &material = meshRenderer.getMaterial();
+        const auto &modelMatrix = meshRenderer->parent->transform->getModelMatrix();
+        const auto &material = meshRenderer->getMaterial();
 
-            assetManager.getTexture(material.albedo).bind();
-            shader.setVec3("u_baseColor", &material.baseColor[0]);
-            shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-            assetManager.getStaticMesh(meshRenderer.getMesh()).draw();
-        }
+        assetManager.getTexture(material.albedo).bind();
+        shader.setVec3("u_baseColor", &material.baseColor[0]);
+        shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
+        assetManager.getStaticMesh(meshRenderer->getMesh()).draw();
+        // }
     }
 
-    // animationProgram.use();
-    // glActiveTexture(GL_TEXTURE0);
-    // animationProgram.setMat4("u_projectionMatrix", &camera.getCameraMatrix()[0][0]);
-    // animationProgram.setMat4("u_modelMatrix", &staticMeshInstances[4].getModelMatrix()[0][0]);
+    animationProgram.use();
+    glActiveTexture(GL_TEXTURE0);
+    animationProgram.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
 
-    // animationProgram.setInt("u_animationFrameX", animationFrame[animationCount]);
-    // if (frameCount < skipFrame)
-    // {
-    //     ++frameCount;
-    // }
-    // else
-    // {
-    //     frameCount = 0;
-    //     ++animationCount;
-    //     if (animationCount >= 4)
-    //     {
-    //         animationCount = 0;
-    //     }
-    // }
+    for (auto &animationPlane : animationPlanes)
+    {
+        const auto &modelMatrix = animationPlane->parent->transform->getModelMatrix();
+
+        const auto &material = animationPlane->getMaterial();
+
+        assetManager.getTexture(material.albedo).bind();
+        animationProgram.setVec3("u_baseColor", &material.baseColor[0]);
+        animationProgram.setMat4("u_modelMatrix", &modelMatrix[0][0]);
+        animationProgram.setVec2("u_currentOffsetUV", &animationPlane->getCurrentOffsetUV()[0]);
+        animationProgram.setVec2("u_spliteNum", &animationPlane->getSpriteUnits()[0]);
+        assetManager.getStaticMesh("plane").draw();
+    }
 
     // deffered shading pass
     glDisable(GL_DEPTH_TEST);
@@ -346,6 +340,15 @@ void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
                 hid::log(logTag, "Point Light was found.");
                 pointLights.emplace_back(&object->getComponent<Light>());
             }
+        }
+        if (object->hasComponent<MeshRenderer>())
+        {
+            meshRenderers.emplace_back(&object->getComponent<MeshRenderer>());
+        }
+
+        if (object->hasComponent<AnimationPlane>())
+        {
+            animationPlanes.emplace_back(&object->getComponent<AnimationPlane>());
         }
     }
 }

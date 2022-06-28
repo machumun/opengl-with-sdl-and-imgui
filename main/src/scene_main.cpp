@@ -84,4 +84,25 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
         1.f,
     };
     instantiate(pointLight);
+    // const hid::Material &material,
+    //     const std::vector<uint32_t>*animationFrame,
+    //     const uint32_t &animationInterval,
+    //     const float &spriteWidth,
+    //     const float &spriteHeight
+    auto character{std::make_shared<hid::Object>("Charactor")};
+    std::vector<uint32_t> animationFrame{0, 1, 2, 1};
+    character->addComponent<AnimationPlane>(
+        characterMaterial,
+        animationFrame,
+        10,
+        6,
+        4);
+    character->transform->rotationAxis = glm::vec3{1.f, .0f, .0f};
+    character->transform->rotationDegrees = 90.f;
+    character->transform->scale = glm::vec3{
+        .2f,
+        .2f,
+        .2f};
+    character->transform->position.x = 1.f;
+    instantiate(character);
 }
