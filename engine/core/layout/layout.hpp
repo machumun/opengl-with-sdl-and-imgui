@@ -41,7 +41,7 @@ namespace hid
         // std::vector<hid::assets::GLTF> gltfs;
 
         Layout(std::shared_ptr<hid::SceneData> &sceneData)
-            : selectedObjectIndex{-1},
+            : selectedObjectIndex{0},
               counter{0},
               sceneData{sceneData},
               showInspector{true},

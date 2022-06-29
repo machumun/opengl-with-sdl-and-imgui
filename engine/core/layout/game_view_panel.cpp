@@ -10,6 +10,7 @@ void GameViewPanel::contents()
         return;
     }
     // ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
+    ImGui::SliderInt("Texture ID", &textureId, 1, 10);
     static std::string logTag{"hid::GameView::contents"};
     ImVec2 wsize = ImGui::GetWindowSize();
     ImVec2 renderImageSize;
@@ -31,6 +32,6 @@ void GameViewPanel::contents()
         }
     }
 
-    ImGui::Image((ImTextureID)1, renderImageSize, ImVec2(0, 1), ImVec2(1, 0));
+    ImGui::Image((ImTextureID)textureId, renderImageSize, ImVec2(0, 1), ImVec2(1, 0));
     // ImGui::PopStyleVar();
 }

@@ -25,6 +25,8 @@ struct PointLight{
 uniform AmbientLight u_ambientLight;
 uniform PointLight u_pointLight[POINT_LIGHT_NUM];
 
+uniform vec4 u_backgroundColor;
+
 uniform float u_threshold = .0f;
 
 float near = 0.01f;
@@ -77,13 +79,13 @@ void main(){
         if(brightness > u_threshold){
             o_bloom = vec4(o_color.rgb * brightness, 1.f);
         }else{
-            o_bloom = vec4(.0f, .0f, .0f, 1.f);
+            o_bloom = vec4(.0f, .0f, .0f, 0.f);
         }
         
 
         // o_color = normalTexture;
     } else {
-        o_color = vec4(.0f, .0f, .0f, 0.f);
+        o_color = u_backgroundColor;
         o_bloom = vec4(.0f, .0f, .0f, 0.f);
     }
     

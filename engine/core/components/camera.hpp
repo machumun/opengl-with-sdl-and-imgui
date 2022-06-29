@@ -27,11 +27,20 @@ namespace hid
         float angleOfView;
         float nearfar[2];
 
+        glm::vec4 background;
+
         Camera(const float &width, const float &height)
             : projectionMatrix{glm::mat4{1.f}},
               cameraSize{width, height},
               angleOfView{60.f},
-              nearfar{.01f, 100.f} {}
+              nearfar{.01f, 100.f},
+              background{glm::vec4{
+                  .0f,
+                  .0f,
+                  .0f,
+                  1.f}}
+        {
+        }
 
         glm::mat4 Camera::getProjectionMatrix() const
         {
@@ -57,6 +66,7 @@ namespace hid
                 ImGui::DragFloat2("View Size", cameraSize, 100.f, 2000.f);
                 ImGui::DragFloat("Angle Of View", &angleOfView, 10.f, 180.f);
                 ImGui::DragFloat2("Near Far", nearfar, .0f, 180.f);
+                ImGui::ColorPicker4("Background Color", (float *)&background);
                 ImGui::TreePop();
             }
         }

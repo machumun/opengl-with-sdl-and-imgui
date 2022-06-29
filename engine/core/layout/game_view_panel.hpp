@@ -7,8 +7,10 @@ namespace hid
 {
     struct GameViewPanel : public IPanel
     {
+        int textureId;
         GameViewPanel(hid::Layout *layout)
-            : IPanel("Game View (16 : 10)", layout) {}
+            : textureId{1},
+              IPanel("Game View (16 : 10)", layout) {}
 
         void contents() override;
     };
