@@ -53,32 +53,31 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
     hid::Material characterMaterial{"chara",
                                     glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    auto obj1{std::make_shared<hid::Object>("GameObject 1")};
+    auto obj1{std::make_unique<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
-    instantiate(obj1);
+    instantiate(std::move(obj1));
 
-    auto plane{std::make_shared<hid::Object>("Plane")};
+    auto plane{std::make_unique<hid::Object>("Plane")};
     plane->addComponent<MeshRenderer>("plane", metalMaterial);
     plane->getComponent<Transform>().setPosition(glm::vec3{.0f, -1.f, .0f});
-    instantiate(plane);
+    instantiate(std::move(plane));
 
-    mainCamera->addComponent<PlayerController>(.0f);
-    mainCamera->getComponent<Transform>().position = glm::vec3{.0f, .0f, 2.f};
-    playerController = &mainCamera->getComponent<PlayerController>();
+    sceneData->objects[0]->addComponent<PlayerController>(.0f);
+    sceneData->objects[0]->getComponent<Transform>().position = glm::vec3{.0f, .0f, 2.f};
+    playerController = &sceneData->objects[0]->getComponent<PlayerController>();
 
-    auto pointLight{std::make_shared<hid::Object>("Point Light")};
+    auto pointLight{std::make_unique<hid::Object>("Point Light")};
     pointLight->addComponent<Light>(hid::LightType::Point,
                                     glm::vec3{216.f / 255.f, 218.f / 255.f, 192.f / 255.f},
                                     5.093f);
     pointLight->transform->position = glm::vec3{
         1.f,
         1.f,
-        1.f,
-    };
-    instantiate(pointLight);
+        1.f};
+    instantiate(std::move(pointLight));
 
     // character
-    auto character{std::make_shared<hid::Object>("Charactor")};
+    auto character{std::make_unique<hid::Object>("Charactor")};
     std::vector<uint32_t> animationFrame{0, 1, 2, 1};
     character->addComponent<AnimationPlane>(
         characterMaterial,
@@ -93,5 +92,5 @@ void SceneMain::prepare(hid::AssetManager& assetManager)
         .2f,
         .2f};
     character->transform->position.x = 1.f;
-    instantiate(character);
+    instantiate(std::move(character));
 }

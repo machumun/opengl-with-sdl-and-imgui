@@ -25,13 +25,11 @@ namespace hid
 
         std::shared_ptr<hid::SceneData> sceneData;
 
-        std::shared_ptr<hid::Object> mainCamera;
-
-        Scene() : sceneData{std::make_shared<hid::SceneData>()},
-                  mainCamera{std::make_shared<hid::Object>("MainCamera")}
+        Scene() : sceneData{std::make_shared<hid::SceneData>()}
         {
-            mainCamera->addComponent<hid::Camera>(::displaySize.first, ::displaySize.second);
-            instantiate(mainCamera);
+            auto mainCamera{std::make_unique<hid::Object>("Main Camera")};
+            mainCamera->addComponent<Camera>(::displaySize.first, ::displaySize.second);
+            instantiate(std::move(mainCamera));
         }
 
         virtual ~Scene() = default;
@@ -50,6 +48,6 @@ namespace hid
 
         virtual void render(hid::Renderer &renderer) = 0;
 
-        void instantiate(std::shared_ptr<hid::Object> object);
+        void instantiate(std::unique_ptr<hid::Object> &&object);
     };
 } // namespace usr

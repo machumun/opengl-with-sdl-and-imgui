@@ -7,7 +7,7 @@
 #include "../../../main/src/scene_main.hpp"
 #include "../application.hpp"
 
-#include "../../core/gui/layout.hpp"
+#include "../../core/layout/layout.hpp"
 
 namespace hid
 {

@@ -5,7 +5,7 @@
 #include "../../core/wrapper/sdl_wrapper.hpp"
 #include "../../core/scene/scene_data.hpp"
 
-#include "../../core/gui/layout.hpp"
+#include "../../core/layout/layout.hpp"
 
 #include <iostream>
 

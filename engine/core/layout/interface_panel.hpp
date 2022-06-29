@@ -12,12 +12,16 @@ namespace hid
 
     struct IPanel
     {
-        std::string title;
+        std::string titleString;
+        const char *title;
         hid::Layout *layout;
 
         IPanel(const std::string &title, hid::Layout *layout)
-            : title{title},
-              layout{layout} {}
+            : titleString{title},
+              title{titleString.c_str()},
+              layout{layout}
+        {
+        }
 
         ~IPanel() = default;
 
@@ -30,11 +34,7 @@ namespace hid
 
         void showWindow(bool *open)
         {
-            // if (layout != nullptr)
-            // {
-            //     return;
-            // }
-            ImGui::Begin(title.c_str(), open);
+            ImGui::Begin(title, open);
             contents();
             ImGui::End();
         }
@@ -42,7 +42,7 @@ namespace hid
         void showWindowWithNoPadding(bool *open)
         {
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-            ImGui::Begin(title.c_str(), open);
+            ImGui::Begin(title, open);
             contents();
             ImGui::End();
             ImGui::PopStyleVar();
