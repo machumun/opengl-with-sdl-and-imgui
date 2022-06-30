@@ -26,6 +26,11 @@ namespace hid
 
         void update() override {}
 
+        void draw() override
+        {
+            material.shader;
+        }
+
         void inspector()
         {
             if (ImGui::TreeNodeEx((void *)Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Mesh Renderer"))
