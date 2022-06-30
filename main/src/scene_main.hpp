@@ -15,7 +15,7 @@ namespace hid
 
         SceneMain() = default;
 
-        void prepare(hid::AssetManager& assetManager) override;
+        void prepare() override;
         void update(const float& delta) override;
 
         void render(hid::Renderer& renderer) override;

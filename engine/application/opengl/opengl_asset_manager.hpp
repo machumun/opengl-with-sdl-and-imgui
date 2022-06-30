@@ -16,21 +16,6 @@ namespace hid
     {
         OpenGLAssetManager() = default;
 
-        void loadPipelines(const std::vector<hid::assets::Pipeline> &pipelines) override
-        {
-            for (const auto &pipeline : pipelines)
-            {
-
-                if (pipelineCache.count(pipeline) == 0)
-                {
-                    std::pair<std::string, std::string> pass = hid::assets::resolvePipelinePath(pipeline);
-                    pipelineCache.insert(std::make_pair(
-                        pipeline,
-                        std::make_unique<hid::OpenGLPipeline>()));
-                }
-            }
-        }
-
         void loadStaticMeshes(const std::vector<std::pair<std::string, std::string>> &staticMeshPairs) override
         {
             for (const auto &staticMesh : staticMeshPairs)
@@ -73,9 +58,19 @@ namespace hid
             }
         }
 
-        std::unique_ptr<hid::OpenGLPipeline> &getPipeline(const hid::assets::Pipeline &pipeline)
+        void loadShader(const std::string &key, const std::pair<std::string, std::string> &shader) override
         {
-            return pipelineCache.at(pipeline);
+            static const std::string logTag{"hid::OpenGLAssetManager::loadShader"};
+            if (shaderCache.count(key) == 0)
+            {
+                shaderCache.insert(std::pair(
+                    key,
+                    hid::OpenGLShader(shader.first, shader.second)));
+            }
+            else
+            {
+                hid::log(logTag, "This shader has already been loaded.");
+            }
         }
 
         const hid::OpenGLMesh &getStaticMesh(const std::string &staticMesh) const
@@ -94,9 +89,10 @@ namespace hid
         }
 
     private:
-        std::unordered_map<hid::assets::Pipeline, std::unique_ptr<hid::OpenGLPipeline>> pipelineCache;
         std::unordered_map<std::string, hid::OpenGLMesh> staticMeshCache;
         std::unordered_map<std::string, hid::OpenGLTexture> textureCache;
+        std::unordered_map<std::string, hid::OpenGLShader> shaderCache;
+
         std::unordered_map<hid::assets::GLTF, hid::OpenGLGLTF *> gltfCache;
     };
 }

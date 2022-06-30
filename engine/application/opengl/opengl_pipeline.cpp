@@ -116,21 +116,20 @@ namespace
 
 OpenGLPipeline::OpenGLPipeline()
 
-    : shader{hid::OpenGLShader("lit", "lit")},
-      defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered-lighting")},
+    : defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered-lighting")},
       blurProgram{hid::OpenGLShader("framebuffer", "blur")},
       framebufferProgram{hid::OpenGLShader("framebuffer", "framebuffer")},
-      animationProgram{hid::OpenGLShader("lit", "animation")},
+
       framebufferVAO{::createFramebufferVAO()},
       renderFBO{::createFBO()},
       renderTextureId(::createFramebufferTexture(renderFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)),
       baseFBO{::createFBO()},
-      positionTextureId(::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)),
-      normalTextureId(::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)),
-      albedoTextureId(::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT2)),
+      positionTextureId{::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)},
+      normalTextureId{::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)},
+      albedoTextureId{::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT2)},
       depthRenderBufferId{::createRenderBuffer(baseFBO)},
 
-      defferedLightingFBO(::createFBO()),
+      defferedLightingFBO{::createFBO()},
       baseTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)},
       bloomTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)},
 
@@ -181,7 +180,7 @@ OpenGLPipeline::OpenGLPipeline()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
+void OpenGLPipeline::render()
 {
 
     const static std::string logTag{"hid::OpenGLPipeline::render"};
@@ -204,42 +203,50 @@ void OpenGLPipeline::render(const hid::OpenGLAssetManager &assetManager)
     glDepthFunc(GL_LESS);
 
     // basecolor pass
-    shader.use();
-    glActiveTexture(GL_TEXTURE0);
-    shader.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
-
-    for (auto &meshRenderer : meshRenderers)
+    for (auto &&object : sceneData->objects)
     {
-        // if (object->hasComponent<MeshRenderer>())
-        // {
-
-        const auto &modelMatrix = meshRenderer->parent->transform->getModelMatrix();
-        const auto &material = meshRenderer->getMaterial();
-
-        assetManager.getTexture(material.albedo).bind();
-        shader.setVec3("u_baseColor", &material.baseColor[0]);
-        shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-        assetManager.getStaticMesh(meshRenderer->getMesh()).draw();
-        // }
+        for (auto &&component : object->components)
+        {
+            component->draw();
+        }
     }
 
-    animationProgram.use();
-    glActiveTexture(GL_TEXTURE0);
-    animationProgram.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
+    // shader.use();
+    // glActiveTexture(GL_TEXTURE0);
+    // shader.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
 
-    for (auto &animationPlane : animationPlanes)
-    {
-        const auto &modelMatrix = animationPlane->parent->transform->getModelMatrix();
+    // for (auto &meshRenderer : meshRenderers)
+    // {
+    //     // if (object->hasComponent<MeshRenderer>())
+    //     // {
 
-        const auto &material = animationPlane->getMaterial();
+    //     const auto &modelMatrix = meshRenderer->parent->transform->getModelMatrix();
+    //     const auto &material = meshRenderer->getMaterial();
 
-        assetManager.getTexture(material.albedo).bind();
-        animationProgram.setVec3("u_baseColor", &material.baseColor[0]);
-        animationProgram.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-        animationProgram.setVec2("u_currentOffsetUV", &animationPlane->getCurrentOffsetUV()[0]);
-        animationProgram.setVec2("u_spliteNum", &animationPlane->getSpriteUnits()[0]);
-        assetManager.getStaticMesh("plane").draw();
-    }
+    //     sceneData->assetManager->getTexture(material.albedo).bind();
+    //     shader.setVec3("u_baseColor", &material.baseColor[0]);
+    //     shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
+    //     sceneData->assetManager->getStaticMesh(meshRenderer->getMesh()).draw();
+    //     // }
+    // }
+
+    // animationProgram.use();
+    // glActiveTexture(GL_TEXTURE0);
+    // animationProgram.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
+
+    // for (auto &animationPlane : animationPlanes)
+    // {
+    //     const auto &modelMatrix = animationPlane->parent->transform->getModelMatrix();
+
+    //     const auto &material = animationPlane->getMaterial();
+
+    //     sceneData->assetManager->(material.albedo).bind();
+    //     animationProgram.setVec3("u_baseColor", &material.baseColor[0]);
+    //     animationProgram.setMat4("u_modelMatrix", &modelMatrix[0][0]);
+    //     animationProgram.setVec2("u_currentOffsetUV", &animationPlane->getCurrentOffsetUV()[0]);
+    //     animationProgram.setVec2("u_spliteNum", &animationPlane->getSpriteUnits()[0]);
+    //     sceneData->assetManager->getStaticMesh("plane").draw();
+    // }
 
     // deffered shading pass
     glDisable(GL_DEPTH_TEST);
@@ -362,11 +369,9 @@ void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
 
 OpenGLPipeline::~OpenGLPipeline()
 {
-    shader.release();
     defferedLightingProgram.release();
     blurProgram.release();
     framebufferProgram.release();
-    animationProgram.release();
 }
 
 void OpenGLPipeline::resize(const GLuint &width, const GLuint &height)

@@ -26,9 +26,8 @@ namespace hid
     private:
         SDL_Window *window;
         SDL_GLContext context;
-        const std::shared_ptr<hid::OpenGLAssetManager> assetManager;
 
-        std::shared_ptr<hid::Scene> scene;
+        std::unique_ptr<hid::Scene> scene;
         std::shared_ptr<hid::Layout> layout;
         hid::OpenGLRenderer renderer;
         std::unique_ptr<hid::OpenGLImGui> imgui;

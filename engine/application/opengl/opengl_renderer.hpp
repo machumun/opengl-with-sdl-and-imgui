@@ -9,9 +9,10 @@ namespace hid
 {
     struct OpenGLRenderer : public hid::Renderer
     {
-        const std::shared_ptr<hid::OpenGLAssetManager> assetManager;
+        std::unique_ptr<hid::OpenGLPipeline> standardPipeline;
 
-        OpenGLRenderer(std::shared_ptr<hid::OpenGLAssetManager> assetManager);
+        OpenGLRenderer()
+            : standardPipeline{std::make_unique<hid::OpenGLPipeline>()} {}
 
         void render(const hid::assets::Pipeline &pipeline) override;
         void setup(std::shared_ptr<hid::SceneData> sceneData) override;

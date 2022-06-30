@@ -34,7 +34,7 @@ namespace hid
 
         virtual ~Scene() = default;
 
-        virtual void prepare(hid::AssetManager &assetManager) = 0;
+        virtual void prepare() = 0;
 
         virtual void start()
         {

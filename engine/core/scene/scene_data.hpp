@@ -1,9 +1,11 @@
 #pragma once
 
 #include "environmental_settings.hpp"
+#include "../asset_manager.hpp"
+
+#include "../wrapper/glm_wrapper.hpp"
 
 #include "../object.hpp"
-#include "../wrapper/glm_wrapper.hpp"
 
 namespace hid
 {
@@ -11,6 +13,7 @@ namespace hid
     {
         std::vector<std::unique_ptr<hid::Object>> objects;
         std::unique_ptr<hid::EnvironmentalSettings> environmentalSettings;
+        std::unique_ptr<hid::AssetManager> assetManager;
         // std::pair<uint32_t, uint32_t> gameViewSize;
         SceneData()
             : environmentalSettings{std::make_unique<hid::EnvironmentalSettings>()} {}

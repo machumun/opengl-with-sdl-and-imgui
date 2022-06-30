@@ -18,7 +18,7 @@ namespace hid
         OpenGLPipeline();
         ~OpenGLPipeline();
 
-        void render(const hid::OpenGLAssetManager &assetManager);
+        void render();
 
         void resize(const GLuint &width, const GLuint &height);
 
@@ -26,11 +26,9 @@ namespace hid
         void setup(const std::shared_ptr<hid::SceneData> &sceneData);
 
     private:
-        const hid::OpenGLShader shader;
         const hid::OpenGLShader defferedLightingProgram;
         const hid::OpenGLShader blurProgram;
         const hid::OpenGLShader framebufferProgram;
-        const hid::OpenGLShader animationProgram;
 
         // screen rect mesh vao
         const GLuint framebufferVAO;

@@ -13,6 +13,8 @@ namespace hid
 
     struct Material
     {
+        std::string shader;
+
         std::string albedo;
         std::string normal;
         std::string metaric;
@@ -20,16 +22,18 @@ namespace hid
 
         glm::vec3 baseColor;
 
-        Material(const std::string &albedo = "empty",
+        Material(const std::string &shader = "lit",
+                 const std::string &albedo = "empty",
                  const glm::vec3 &baseColor = glm::vec3{1.0f, 1.0f, 1.0f},
                  const std::string &normal = "empty",
                  const std::string &metaric = "empty",
                  const std::string &speculer = "empty")
-            : albedo{albedo},
+            : shader{shader},
+              albedo{albedo},
               baseColor{baseColor},
-              normal(normal),
-              metaric(metaric),
-              speculer(speculer)
+              normal{normal},
+              metaric{metaric},
+              speculer{speculer}
         {
         }
 

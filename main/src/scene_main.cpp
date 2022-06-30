@@ -26,32 +26,36 @@ void SceneMain::render(hid::Renderer& renderer)
 }
 
 // like awake ?
-void SceneMain::prepare(hid::AssetManager& assetManager)
+void SceneMain::prepare()
 {
+    sceneData->assetManager->loadStaticMeshes({{"plane", "assets/models/plane.obj"},
+                                               {"hamster", "assets/models/hamster.obj"},
+                                               {"crate", "assets/models/crate.obj"}});
 
-    assetManager.loadPipelines({hid::assets::Pipeline::LitPass});
+    sceneData->assetManager->loadTextures({{"hamster", "assets/textures/hamster.png"},
+                                           {"metal", "assets/textures/metal.png"},
+                                           {"chara", "assets/textures/chara.png"},
+                                           {"empty", "assets/textures/empty.png"}});
 
-    assetManager.loadStaticMeshes({{"plane", "assets/models/plane.obj"},
-                                   {"hamster", "assets/models/hamster.obj"},
-                                   {"crate", "assets/models/crate.obj"}});
+    sceneData->assetManager->loadGLTFModels({hid::assets::GLTF::TestBox});
 
-    assetManager.loadTextures({{"hamster", "assets/textures/hamster.png"},
-                               {"metal", "assets/textures/metal.png"},
-                               {"chara", "assets/textures/chara.png"},
-                               {"empty", "assets/textures/empty.png"}});
+    // name {vert, frag}
+    sceneData->assetManager->loadShader("lit", {"lit", "lit"});
 
-    assetManager.loadGLTFModels({hid::assets::GLTF::TestBox});
+    hid::Material metalMaterial{
+        "lit",
+        "metal",
+        glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    // planning load shaders
+    hid::Material hamMaterial{
+        "lit",
+        "hamster",
+        glm::vec3{1.0f, 1.0f, 1.0f}};
 
-    hid::Material metalMaterial{"metal",
-                                glm::vec3{1.0f, 1.0f, 1.0f}};
-
-    hid::Material hamMaterial{"hamster",
-                              glm::vec3{1.0f, 1.0f, 1.0f}};
-
-    hid::Material characterMaterial{"chara",
-                                    glm::vec3{1.0f, 1.0f, 1.0f}};
+    hid::Material characterMaterial{
+        "animation",
+        "chara",
+        glm::vec3{1.0f, 1.0f, 1.0f}};
 
     auto obj1{std::make_unique<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);

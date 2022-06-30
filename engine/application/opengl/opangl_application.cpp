@@ -44,15 +44,16 @@ namespace
         return context;
     }
 
-    hid::OpenGLRenderer createRenderer(std::shared_ptr<hid::OpenGLAssetManager> assetManager)
+    hid::OpenGLRenderer createRenderer()
     {
-        return hid::OpenGLRenderer(assetManager);
+        return hid::OpenGLRenderer();
     }
 
-    std::shared_ptr<hid::Scene> createMainScene(hid::AssetManager &assetManager)
+    std::unique_ptr<hid::Scene> createMainScene()
     {
-        std::shared_ptr<hid::Scene> scene{std::make_shared<hid::SceneMain>()};
-        scene->prepare(assetManager);
+        std::unique_ptr<hid::Scene> scene{std::make_unique<hid::SceneMain>()};
+        scene->sceneData->assetManager = std::make_unique<hid::OpenGLAssetManager>();
+        scene->prepare();
         return scene;
     }
 
@@ -87,10 +88,9 @@ namespace
 OpenGLApplication::OpenGLApplication() : Application(),
                                          window{hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)},
                                          context{::createContext(window)},
-                                         assetManager{std::make_shared<hid::OpenGLAssetManager>()},
-                                         scene{::createMainScene(*assetManager)},
+                                         scene{std::move(::createMainScene())},
                                          layout{std::make_shared<hid::Layout>(scene->sceneData)},
-                                         renderer{hid::OpenGLRenderer(assetManager)},
+                                         renderer{hid::OpenGLRenderer()},
                                          imgui{std::make_unique<hid::OpenGLImGui>()}
 {
 }

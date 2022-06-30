@@ -7,6 +7,8 @@
 
 namespace hid
 {
+    struct Scene;
+
     struct Object
     {
         std::string name;
@@ -81,10 +83,10 @@ namespace hid
             }
         }
 
-        // private:
         std::vector<std::unique_ptr<hid::IComponent>> components;
         std::vector<std::unique_ptr<hid::Object>> children;
         std::unique_ptr<hid::Object> parent;
+        hid::Scene *scene;
         std::vector<std::unique_ptr<hid::IComponent>>::iterator componentsIterator;
     };
 }
