@@ -25,29 +25,26 @@ namespace hid
 
         void setMaterial(const hid::Material &material);
 
-        void update() override {}
+        void update() override
+        {
+        }
 
+        // for application update
         void draw() override
         {
-            parent->scene;
+            // scene->sceneData->assetManager;
+            // //
             // shader.use();
             // glActiveTexture(GL_TEXTURE0);
-            // shader.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
+            // shader.setMat4("u_projectionMatrix", &scene->getCameraMatrix()[0][0]);
 
-            // for (auto &meshRenderer : meshRenderers)
-            // {
-            //     // if (object->hasComponent<MeshRenderer>())
-            //     // {
+            // const auto &modelMatrix = meshRenderer->parent->transform->getModelMatrix();
+            // const auto &material = meshRenderer->getMaterial();
 
-            //     const auto &modelMatrix = meshRenderer->parent->transform->getModelMatrix();
-            //     const auto &material = meshRenderer->getMaterial();
-
-            //     sceneData->assetManager->getTexture(material.albedo).bind();
-            //     shader.setVec3("u_baseColor", &material.baseColor[0]);
-            //     shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-            //     sceneData->assetManager->getStaticMesh(meshRenderer->getMesh()).draw();
-            //     // }
-            // }
+            // sceneData->assetManager->getTexture(material.albedo).bind();
+            // shader.setVec3("u_baseColor", &material.baseColor[0]);
+            // shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
+            // sceneData->assetManager->getStaticMesh(meshRenderer->getMesh()).draw();
         }
 
         void inspector()
@@ -65,9 +62,17 @@ namespace hid
             }
         }
 
+        void start() override
+        {
+            scene = object->scene;
+        }
+
     private:
         std::string mesh;
         hid::Material material;
+        // hid::Shader *shader;
+        hid::AssetManager *assetManager;
+        hid::Scene *scene;
     };
 
 }
