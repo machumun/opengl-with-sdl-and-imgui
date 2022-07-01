@@ -146,16 +146,16 @@ OpenGLPipeline::OpenGLPipeline()
     glDrawBuffers(3, baseAttatchments);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    defferedLightingProgram.use();
+    defferedLightingProgram.useProgram();
     // in uniforms
     defferedLightingProgram.setInt("u_positionTexture", 0);
     defferedLightingProgram.setInt("u_normalTexture", 1);
     defferedLightingProgram.setInt("u_albedoTexture", 2);
 
-    blurProgram.use();
+    blurProgram.useProgram();
     blurProgram.setInt("u_bloomTexture", 0);
 
-    framebufferProgram.use();
+    framebufferProgram.useProgram();
     // in uniforms
     framebufferProgram.setInt("u_screenTexture", 0);
     framebufferProgram.setInt("u_bloomTexture", 1);
@@ -252,7 +252,7 @@ void OpenGLPipeline::render()
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
-    defferedLightingProgram.use();
+    defferedLightingProgram.useProgram();
 
     const size_t &lightNum = pointLights.size();
 
@@ -285,7 +285,7 @@ void OpenGLPipeline::render()
 
     if (sceneData->environmentalSettings->postProcessing)
     {
-        blurProgram.use();
+        blurProgram.useProgram();
         for (int i = 0; i < pingpongAmount; ++i)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO[horizontal]);
@@ -315,7 +315,7 @@ void OpenGLPipeline::render()
 
     // default framebuffer program
     glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
-    framebufferProgram.use();
+    framebufferProgram.useProgram();
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
 

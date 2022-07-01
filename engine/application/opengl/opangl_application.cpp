@@ -9,6 +9,7 @@
 
 #include <iostream>
 
+using hid::Application;
 using hid::OpenGLApplication;
 
 namespace
@@ -44,32 +45,9 @@ namespace
         return context;
     }
 
-    hid::OpenGLRenderer createRenderer()
-    {
-        return hid::OpenGLRenderer();
-    }
-
-    std::unique_ptr<hid::Scene> createMainScene()
-    {
-        std::unique_ptr<hid::Scene> scene{std::make_unique<hid::SceneMain>()};
-        scene->sceneData->assetManager = std::make_unique<hid::OpenGLAssetManager>();
-        scene->prepare();
-        return scene;
-    }
-
     int32_t resizingEventWatcher(void *data, SDL_Event *event)
     {
         static const std::string logTag{"hid::OpenGLApplication::resizingEventWatcher"};
-
-        // if (event->type == SDL_WINDOWEVENT &&
-        //     event->window.event == SDL_WINDOWEVENT_RESIZED)
-        // {
-        //     SDL_Window *win = SDL_GetWindowFromID(event->window.windowID);
-        //     if (win == (SDL_Window *)data)
-        //     {
-        //         hid::log(logTag, "Window is resizing");
-        //     }
-        // }
 
         if (event->type == SDL_WINDOWEVENT &&
             event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
@@ -88,16 +66,16 @@ namespace
 OpenGLApplication::OpenGLApplication() : Application(),
                                          window{hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)},
                                          context{::createContext(window)},
-                                         scene{std::move(::createMainScene())},
-                                         layout{std::make_shared<hid::Layout>(scene->sceneData)},
-                                         renderer{hid::OpenGLRenderer()},
+                                         renderer{std::make_unique<hid::OpenGLRenderer>()},
+                                         scene{std::make_unique<hid::SceneMain>()},
+                                         layout{std::make_unique<hid::Layout>(scene->sceneData)},
                                          imgui{std::make_unique<hid::OpenGLImGui>()}
 {
 }
 
 void OpenGLApplication::update(const float &delta)
 {
-    getScene().update(delta);
+    scene->update(delta);
 }
 
 void OpenGLApplication::render()
@@ -107,7 +85,7 @@ void OpenGLApplication::render()
     imgui->loop(window);
 #endif
 
-    getScene().render(renderer);
+    renderer->render();
 
 #ifndef HAM_RELEASE
     imgui->render();
@@ -119,9 +97,12 @@ void OpenGLApplication::render()
 void OpenGLApplication::setup()
 {
     // SDL_AddEventWatch(::resizingEventWatcher, window);
+    Application::assetManager = std::make_unique<hid::OpenGLAssetManager>();
+
+    scene->prepare();
 
     // pointer delivery
-    renderer.setup(scene->sceneData);
+    renderer->setup(scene->sceneData);
     std::function<void()> viewport = [&]() -> void
     { return layout->viewport(); };
 
@@ -134,10 +115,6 @@ void OpenGLApplication::start()
     scene->start();
 }
 
-hid::Scene &OpenGLApplication::getScene()
-{
-    return *scene;
-}
 OpenGLApplication::~OpenGLApplication()
 {
     imgui->cleanUp();

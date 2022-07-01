@@ -1,11 +1,12 @@
 #include "scene_main.hpp"
-
+#include "../../engine/application/application.hpp"
 #include "../../engine/core/components/simple_components.hpp"
 
 #include "../../engine/core/object.hpp"
 
 #include "../../engine/core/wrapper/sdl_wrapper.hpp"
 
+using hid::Application;
 using hid::SceneMain;
 
 #include <iostream>
@@ -20,27 +21,29 @@ void SceneMain::update(const float& delta)
     }
 }
 
-void SceneMain::render(hid::Renderer& renderer)
+void SceneMain::render(const hid::Renderer& renderer)
 {
-    renderer.render(hid::assets::Pipeline::LitPass);
+    renderer.render();
 }
 
 // like awake ?
+
 void SceneMain::prepare()
 {
-    sceneData->assetManager->loadStaticMeshes({{"plane", "assets/models/plane.obj"},
-                                               {"hamster", "assets/models/hamster.obj"},
-                                               {"crate", "assets/models/crate.obj"}});
+    Application::assetManager->loadStaticMeshes({{"plane", "assets/models/plane.obj"},
+                                                 {"hamster", "assets/models/hamster.obj"},
+                                                 {"crate", "assets/models/crate.obj"}});
 
-    sceneData->assetManager->loadTextures({{"hamster", "assets/textures/hamster.png"},
-                                           {"metal", "assets/textures/metal.png"},
-                                           {"chara", "assets/textures/chara.png"},
-                                           {"empty", "assets/textures/empty.png"}});
+    Application::assetManager->loadTextures({{"hamster", "assets/textures/hamster.png"},
+                                             {"metal", "assets/textures/metal.png"},
+                                             {"chara", "assets/textures/chara.png"},
+                                             {"empty", "assets/textures/empty.png"}});
 
-    sceneData->assetManager->loadGLTFModels({hid::assets::GLTF::TestBox});
+    // assetManager->loadGLTFModels({hid::assets::GLTF::TestBox});
 
     // name {vert, frag}
-    sceneData->assetManager->loadShader("lit", {"lit", "lit"});
+    Application::assetManager->loadShader("lit", {"lit", "lit"});
+    Application::assetManager->loadShader("animation", {"lit", "animation"});
 
     hid::Material metalMaterial{
         "lit",
@@ -66,6 +69,7 @@ void SceneMain::prepare()
     plane->getComponent<Transform>().setPosition(glm::vec3{.0f, -1.f, .0f});
     instantiate(std::move(plane));
 
+    // for camera controller
     sceneData->objects[0]->addComponent<PlayerController>(.0f);
     sceneData->objects[0]->getComponent<Transform>().position = glm::vec3{.0f, .0f, 2.f};
     playerController = &sceneData->objects[0]->getComponent<PlayerController>();

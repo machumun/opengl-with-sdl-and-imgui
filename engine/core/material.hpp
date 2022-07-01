@@ -1,6 +1,5 @@
 #pragma once
 
-#include "asset_inventory.hpp"
 #include "wrapper/glm_wrapper.hpp"
 
 namespace hid

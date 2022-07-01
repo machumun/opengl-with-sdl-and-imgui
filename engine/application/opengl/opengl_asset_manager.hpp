@@ -24,7 +24,7 @@ namespace hid
                 {
                     staticMeshCache.insert(std::make_pair(
                         staticMesh.first,
-                        hid::OpenGLMesh(hid::assets::loadOBJFile(staticMesh.second))));
+                        std::make_unique<hid::OpenGLMesh>(hid::assets::loadOBJFile(staticMesh.second))));
                 }
             }
         }
@@ -37,26 +37,26 @@ namespace hid
                 {
                     textureCache.insert(std::pair(
                         texture.first,
-                        hid::OpenGLTexture(hid::assets::loadBitmap(texture.second))));
+                        std::make_unique<hid::OpenGLTexture>(hid::assets::loadBitmap(texture.second))));
                 }
             }
         }
 
-        void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs) override
-        {
-            for (const auto &gltf : gltfs)
-            {
-                hid::OpenGLGLTF openglGLTF = hid::OpenGLGLTF(hid::assets::loadGLTF(hid::assets::resolveGLTFModelPath(gltf)));
-                // loadTextures(openglGLTF.gltf.textures);
+        // void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs) override
+        // {
+        //     for (const auto &gltf : gltfs)
+        //     {
+        //         hid::OpenGLGLTF openglGLTF = hid::OpenGLGLTF(hid::assets::loadGLTF(hid::assets::resolveGLTFModelPath(gltf)));
+        //         // loadTextures(openglGLTF.gltf.textures);
 
-                if (gltfCache.count(gltf) == 0)
-                {
-                    gltfCache.insert(std::pair(
-                        gltf,
-                        &openglGLTF));
-                }
-            }
-        }
+        //         if (gltfCache.count(gltf) == 0)
+        //         {
+        //             gltfCache.insert(std::pair(
+        //                 gltf,
+        //                 &openglGLTF));
+        //         }
+        //     }
+        // }
 
         void loadShader(const std::string &key, const std::pair<std::string, std::string> &shader) override
         {
@@ -65,7 +65,7 @@ namespace hid
             {
                 shaderCache.insert(std::pair(
                     key,
-                    hid::OpenGLShader(shader.first, shader.second)));
+                    std::make_unique<hid::OpenGLShader>(shader.first, shader.second)));
             }
             else
             {
@@ -73,26 +73,31 @@ namespace hid
             }
         }
 
-        const hid::OpenGLMesh &getStaticMesh(const std::string &staticMesh) const
+        hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const override
         {
-            return staticMeshCache.at(staticMesh);
+            return staticMeshCache.at(staticMesh).get();
         }
 
-        const hid::OpenGLTexture &getTexture(const std::string &texture) const
+        hid::Texture *getTexture(const std::string &texture) const override
         {
-            return textureCache.at(texture);
+            return textureCache.at(texture).get();
         }
 
-        const hid::OpenGLGLTF *getGLTF(const hid::assets::GLTF &gltf) const
+        hid::Shader *getShader(const std::string &shader) const override
         {
-            return gltfCache.at(gltf);
+            return shaderCache.at(shader).get();
         }
+
+        // const hid::OpenGLGLTF *getGLTF(const hid::assets::GLTF &gltf) const
+        // {
+        //     return gltfCache.at(gltf);
+        // }
 
     private:
-        std::unordered_map<std::string, hid::OpenGLMesh> staticMeshCache;
-        std::unordered_map<std::string, hid::OpenGLTexture> textureCache;
-        std::unordered_map<std::string, hid::OpenGLShader> shaderCache;
+        std::unordered_map<std::string, std::unique_ptr<hid::OpenGLMesh>> staticMeshCache;
+        std::unordered_map<std::string, std::unique_ptr<hid::OpenGLTexture>> textureCache;
+        std::unordered_map<std::string, std::unique_ptr<hid::OpenGLShader>> shaderCache;
 
-        std::unordered_map<hid::assets::GLTF, hid::OpenGLGLTF *> gltfCache;
+        // std::unordered_map<hid::assets::GLTF, hid::OpenGLGLTF *> gltfCache;
     };
 }

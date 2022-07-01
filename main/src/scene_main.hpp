@@ -18,6 +18,6 @@ namespace hid
         void prepare() override;
         void update(const float& delta) override;
 
-        void render(hid::Renderer& renderer) override;
+        void render(const hid::Renderer& renderer) override;
     };
 } // namespace hid

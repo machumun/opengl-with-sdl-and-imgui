@@ -3,8 +3,11 @@
 #endif
 
 #include "../core/wrapper/sdl_wrapper.hpp"
+#include "../core/renderer.hpp"
 
 #include "application.hpp"
+
+#include "opengl/opengl_application.hpp"
 
 #include "imgui_impl_sdl.h"
 
@@ -22,9 +25,13 @@ namespace
 #endif
 } // namespace
 
+std::unique_ptr<hid::AssetManager> Application::assetManager = nullptr;
+
 Application::Application() : performanceFrequency(static_cast<float>(SDL_GetPerformanceFrequency())),
                              currentTime(SDL_GetPerformanceCounter()),
-                             previousTime(currentTime) {}
+                             previousTime(currentTime)
+{
+}
 
 // delta time
 float Application::timeStep()

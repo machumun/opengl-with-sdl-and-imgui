@@ -14,7 +14,7 @@ namespace
         GLuint textureId;
         glGenTextures(1, &textureId);
 
-        hid::log(logTag, "Created Bitmap Texture... " + std::to_string(textureId));
+        hid::log(logTag, "Created bitmap texture... TextureId : " + std::to_string(textureId));
         glBindTexture(GL_TEXTURE_2D, textureId);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -33,7 +33,7 @@ namespace
         glGenerateMipmap(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, 0);
 
-        hid::log(logTag, "Created Bitmap !! " + std::to_string(textureId));
+        // hid::log(logTag, "Created Bitmap !! " + std::to_string(textureId));
 
         return textureId;
     }
@@ -50,7 +50,6 @@ OpenGLTexture::~OpenGLTexture()
 void OpenGLTexture::bind() const
 {
     glBindTexture(GL_TEXTURE_2D, textureId);
-    // shader.setInt(uniformName, internal->textureId);
 }
 
 GLuint OpenGLTexture::getTextureId() const

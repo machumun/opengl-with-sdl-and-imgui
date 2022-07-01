@@ -1,6 +1,7 @@
 #pragma once
 
-#include <functional>
+#include "../../core/asset_manager.hpp"
+#include <memory>
 
 // template method patern
 namespace hid
@@ -20,6 +21,9 @@ namespace hid
         virtual void start() = 0;
         virtual void update(const float &delta) = 0;
         virtual void render() = 0;
+
+        // for singletong
+        static std::unique_ptr<hid::AssetManager> assetManager;
 
     private:
         const float performanceFrequency;

@@ -1,10 +1,15 @@
 #include "opengl_shader.hpp"
+#include "opengl_texture.hpp"
+
+#include "../application.hpp"
 
 #include "../../core/asset_loader.hpp"
+
 #include "../../core/log.hpp"
 
 #include <stdexcept>
 
+using hid::Application;
 using hid::OpenGLShader;
 
 namespace
@@ -38,7 +43,7 @@ namespace
     GLuint createShaderProgram(const std::string &vertShaderName, const std::string &fragShaderName)
     {
         const std::string logTag("hid::OpenGLShader::createShaderProgram");
-        hid::log(logTag, "Creating pipeline for '" + vertShaderName + "->" + fragShaderName + "'");
+        hid::log(logTag, "Creating shader program for '" + vertShaderName + "->" + fragShaderName + "'");
 
         const std::string vertexShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + vertShaderName + ".vert")};
         const std::string fragmentShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + fragShaderName + ".frag")};
@@ -85,7 +90,7 @@ namespace
 OpenGLShader::OpenGLShader(const std::string &vertShaderName, const std::string &fragShaderName)
     : shaderProgramId(::createShaderProgram(vertShaderName, fragShaderName)) {}
 
-void OpenGLShader::use() const
+void OpenGLShader::useProgram() const
 {
     glUseProgram(shaderProgramId);
 };
@@ -129,4 +134,10 @@ void OpenGLShader::setVec4(const std::string &name, const float *value) const
 void OpenGLShader::setMat4(const std::string &name, const float *value) const
 {
     glUniformMatrix4fv(resolveUniformLocation(name), 1, GL_FALSE, value);
+}
+
+void OpenGLShader::setTexture(const std::string &texture) const
+{
+    glActiveTexture(GL_TEXTURE0);
+    Application::assetManager->getTexture(texture)->bind();
 }

@@ -21,15 +21,13 @@ namespace hid
         void start() override;
         void setup() override;
 
-        hid::Scene &getScene();
-
     private:
         SDL_Window *window;
         SDL_GLContext context;
 
         std::unique_ptr<hid::Scene> scene;
-        std::shared_ptr<hid::Layout> layout;
-        hid::OpenGLRenderer renderer;
+        std::unique_ptr<hid::Layout> layout;
+        std::unique_ptr<hid::OpenGLRenderer> renderer;
         std::unique_ptr<hid::OpenGLImGui> imgui;
     };
 }

@@ -1,4 +1,7 @@
 #include "engine.hpp"
+#include "renderer.hpp"
+
+#include "../application/opengl/opengl_application.hpp"
 
 #include "log.hpp"
 #include "wrapper/sdl_wrapper.hpp"
@@ -15,16 +18,24 @@ std::unique_ptr<hid::Application> Engine::resolveApplication()
 {
     static const std::string logTag{classLogTag + "resolveApplication"};
 
-    try
+    switch (hid::RendererAPI::getAPI())
     {
-        hid::log(logTag, "Creating OpenGL application ...");
+    case RendererAPI::API::None:
+        throw std::runtime_error(logTag + " No applications can run in the current environment");
+        break;
+    case RendererAPI::API::OpenGL:
+        try
+        {
+            hid::log(logTag, "Creating OpenGL application ...");
+            return std::make_unique<hid::OpenGLApplication>();
+        }
+        catch (const std::exception &error)
+        {
+            hid::log(logTag, "OpenGL application failed to initialize.", error);
+        }
+        break;
+    }
 
-        return std::make_unique<hid::OpenGLApplication>();
-    }
-    catch (const std::exception &error)
-    {
-        hid::log(logTag, "OpenGL application failed to initialize.", error);
-    }
     throw std::runtime_error(logTag + " No applications can run in the current environment");
 }
 

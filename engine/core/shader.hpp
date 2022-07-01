@@ -8,7 +8,8 @@ namespace hid
     struct Shader
     {
 
-        virtual void use() const = 0;
+        virtual void useProgram() const = 0;
+
         virtual void setBool(const std::string &name, bool value) const = 0;
         virtual void setInt(const std::string &name, int value) const = 0;
         virtual void setFloat(const std::string &name, float value) const = 0;
@@ -17,6 +18,8 @@ namespace hid
         virtual void setVec3(const std::string &name, const float *value) const = 0;
         virtual void setVec4(const std::string &name, const float *value) const = 0;
         virtual void setMat4(const std::string &name, const float *value) const = 0;
+
+        virtual void setTexture(const std::string &texture) const = 0;
 
         virtual void release() const = 0;
 

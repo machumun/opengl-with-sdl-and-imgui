@@ -14,7 +14,7 @@ namespace hid
     struct IComponent
     {
         static const std::size_t Type;
-        hid::Object *parent;
+        hid::Object *object;
 
         virtual bool IsClassType(const std::size_t classType) const
         {

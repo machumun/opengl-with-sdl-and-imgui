@@ -2,7 +2,7 @@
 
 using hid::OpenGLRenderer;
 
-void OpenGLRenderer::render(const hid::assets::Pipeline &pipeline)
+const void OpenGLRenderer::render() const
 {
     standardPipeline->render();
 }

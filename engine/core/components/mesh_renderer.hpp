@@ -1,8 +1,16 @@
 #pragma once
 
 #include "interface_component.hpp"
+
+#include "camera.hpp"
+
+#include "../../application/application.hpp"
+
 #include "../material.hpp"
-#include "../scene/scene_data.hpp"
+#include "../shader.hpp"
+#include "../static_mesh.hpp"
+
+#include "../scene/scene.hpp"
 
 namespace hid
 {
@@ -32,19 +40,17 @@ namespace hid
         // for application update
         void draw() override
         {
-            // scene->sceneData->assetManager;
-            // //
-            // shader.use();
+            shaderReference->useProgram();
+
             // glActiveTexture(GL_TEXTURE0);
-            // shader.setMat4("u_projectionMatrix", &scene->getCameraMatrix()[0][0]);
+            shaderReference->setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
 
-            // const auto &modelMatrix = meshRenderer->parent->transform->getModelMatrix();
-            // const auto &material = meshRenderer->getMaterial();
+            const auto &modelMatrix = object->transform->getModelMatrix();
 
-            // sceneData->assetManager->getTexture(material.albedo).bind();
-            // shader.setVec3("u_baseColor", &material.baseColor[0]);
-            // shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-            // sceneData->assetManager->getStaticMesh(meshRenderer->getMesh()).draw();
+            shaderReference->setTexture(material.albedo);
+            shaderReference->setVec3("u_baseColor", &material.baseColor[0]);
+            shaderReference->setMat4("u_modelMatrix", &modelMatrix[0][0]);
+            staticMesh->draw();
         }
 
         void inspector()
@@ -64,15 +70,25 @@ namespace hid
 
         void start() override
         {
-            scene = object->scene;
+            camera = object->scene->mainCameraReference;
+            transform = object->transform;
+            shaderReference = Application::assetManager->getShader(material.shader);
+            staticMesh = Application::assetManager->getStaticMesh(mesh);
+        }
+
+        void setStaticMesh(const std::string &newMesh)
+        {
+            mesh = newMesh;
+            staticMesh = Application::assetManager->getStaticMesh(mesh);
         }
 
     private:
         std::string mesh;
         hid::Material material;
-        // hid::Shader *shader;
-        hid::AssetManager *assetManager;
-        hid::Scene *scene;
+        hid::Shader *shaderReference;
+        hid::StaticMesh *staticMesh;
+        hid::Camera *camera;
+        hid::Transform *transform;
     };
 
 }

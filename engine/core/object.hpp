@@ -34,7 +34,7 @@ namespace hid
         void addComponent(Args &&...params)
         {
             std::unique_ptr<T> component = std::make_unique<T>(std::forward<Args>(params)...);
-            component->parent = this;
+            component->object = this;
             components.emplace_back(std::move(component));
         }
 

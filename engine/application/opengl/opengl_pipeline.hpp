@@ -55,16 +55,11 @@ namespace hid
 
         const int pingpongAmount;
 
-        // animation test
-        // const int animationFrame[4] = {0, 1, 2, 1};
-        // const int skipFrame = 8;
-        // int frameCount = 0;
-        // int animationCount = 0;
-
         std::shared_ptr<hid::SceneData> sceneData;
-        // std::shared_ptr<hid::Object> camera;
 
         hid::Camera *camera;
+
+        // for batch..?
         std::vector<hid::MeshRenderer *> meshRenderers;
         std::vector<hid::AnimationPlane *> animationPlanes;
         std::vector<hid::Light *> pointLights;

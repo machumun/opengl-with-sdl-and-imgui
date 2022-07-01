@@ -29,6 +29,8 @@ namespace hid
 
         glm::vec4 background;
 
+        hid::Transform *transform;
+
         Camera(const float &width, const float &height)
             : projectionMatrix{glm::mat4{1.f}},
               cameraSize{width, height},
@@ -49,9 +51,9 @@ namespace hid
 
         glm::mat4 Camera::getViewMatrix() const
         {
-            return glm::lookAt(parent->transform->position,
-                               parent->transform->position - parent->transform->forward,
-                               parent->transform->up);
+            return glm::lookAt(transform->position,
+                               transform->position - transform->forward,
+                               transform->up);
         }
 
         glm::mat4 Camera::getCameraMatrix() const
@@ -73,6 +75,7 @@ namespace hid
 
         void start() override
         {
+            transform = object->transform;
         }
 
         void update() override

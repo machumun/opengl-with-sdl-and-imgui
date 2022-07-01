@@ -1,11 +1,12 @@
 #pragma once
 #include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/mesh.hpp"
+#include "../../core/static_mesh.hpp"
 
 namespace hid
 {
 
-    struct OpenGLMesh
+    struct OpenGLMesh : public hid::StaticMesh
     {
         // VAO
         const GLuint bufferIdVAO;
@@ -25,12 +26,6 @@ namespace hid
         OpenGLMesh(const hid::Mesh &mesh);
         ~OpenGLMesh();
 
-        const GLuint &getVertexBufferId() const;
-
-        const GLuint &getIndexBufferId() const;
-
-        const uint32_t &getNumIndices() const;
-
-        void draw() const;
+        void draw() const override;
     };
 }

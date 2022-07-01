@@ -6,10 +6,10 @@ namespace hid
 {
     struct OpenGLShader : public hid::Shader
     {
-        const GLuint shaderProgramId;
+
         OpenGLShader(const std::string &vertShaderName, const std::string &fragShaderName);
 
-        void use() const override;
+        void useProgram() const override;
         void release() const override;
 
         void setBool(const std::string &name, bool value) const override;
@@ -21,7 +21,12 @@ namespace hid
         void setVec3(const std::string &name, const float *value) const override;
         void setVec4(const std::string &name, const float *value) const override;
 
+        void setTexture(const std::string &texture) const override;
+
         GLuint getShaderProgramId() const;
         GLuint resolveUniformLocation(const std::string &name) const;
+
+    private:
+        const GLuint shaderProgramId;
     };
 }

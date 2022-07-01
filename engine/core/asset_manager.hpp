@@ -1,6 +1,10 @@
 #pragma once
 
-#include "asset_inventory.hpp"
+#include "shader.hpp"
+#include "texture.hpp"
+#include "static_mesh.hpp"
+
+#include <string>
 #include <vector>
 #include <utility>
 
@@ -12,8 +16,12 @@ namespace hid
 
         virtual void loadTextures(const std::vector<std::pair<std::string, std::string>> &texturePairs) = 0;
 
-        virtual void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs) = 0;
+        // virtual void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs) = 0;
 
         virtual void loadShader(const std::string &key, const std::pair<std::string, std::string> &shader) = 0;
+
+        virtual hid::Shader *getShader(const std::string &shader) const = 0;
+        virtual hid::Texture *getTexture(const std::string &texture) const = 0;
+        virtual hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const = 0;
     };
 }

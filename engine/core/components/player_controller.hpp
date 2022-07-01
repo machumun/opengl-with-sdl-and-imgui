@@ -42,7 +42,7 @@ namespace hid
 
         void start() override
         {
-            transform = parent->transform;
+            transform = object->transform;
         }
 
         void update() override
