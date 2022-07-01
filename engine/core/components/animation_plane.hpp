@@ -1,9 +1,16 @@
 #pragma once
 
+#include "camera.hpp"
+#include "../shader.hpp"
+#include "../static_mesh.hpp"
+#include "../../application/application.hpp"
+
 #include "interface_component.hpp"
 #include "../material.hpp"
 
 #include "../object.hpp"
+
+#include "../scene/scene.hpp"
 
 #include <utility>
 
@@ -36,6 +43,11 @@ namespace hid
 
         uint32_t frameCount;     // for frame
         uint32_t animationCount; // for animation
+
+        hid::Shader *shaderReference;
+        hid::StaticMesh *staticMesh;
+        hid::Camera *camera;
+        hid::Transform *transform;
 
         AnimationPlane(
             const hid::Material &material,
@@ -93,6 +105,14 @@ namespace hid
 
                 ImGui::TreePop();
             }
+        }
+
+        void start() override
+        {
+            camera = object->scene->mainCameraReference;
+            transform = object->transform;
+            shaderReference = Application::assetManager->getShader(material.shader);
+            staticMesh = Application::assetManager->getStaticMesh(mesh);
         }
     };
 }

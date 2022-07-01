@@ -211,25 +211,6 @@ void OpenGLPipeline::render()
         }
     }
 
-    // shader.use();
-    // glActiveTexture(GL_TEXTURE0);
-    // shader.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
-
-    // for (auto &meshRenderer : meshRenderers)
-    // {
-    //     // if (object->hasComponent<MeshRenderer>())
-    //     // {
-
-    //     const auto &modelMatrix = meshRenderer->parent->transform->getModelMatrix();
-    //     const auto &material = meshRenderer->getMaterial();
-
-    //     sceneData->assetManager->getTexture(material.albedo).bind();
-    //     shader.setVec3("u_baseColor", &material.baseColor[0]);
-    //     shader.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-    //     sceneData->assetManager->getStaticMesh(meshRenderer->getMesh()).draw();
-    //     // }
-    // }
-
     // animationProgram.use();
     // glActiveTexture(GL_TEXTURE0);
     // animationProgram.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
