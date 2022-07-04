@@ -188,11 +188,11 @@ void OpenGLPipeline::render()
     glBindFramebuffer(GL_FRAMEBUFFER, baseFBO);
 
     // glClearColor(.8f, .8f, .8f, 1.0f);
-    glClearColor(.0f, .0f, .0f, 0.f);
-    // glClearColor(camera->background.r,
-    //              camera->background.g,
-    //              camera->background.b,
-    //              camera->background.a);
+    // glClearColor(.3f, .3f, .3f, 1.f);
+    glClearColor(camera->background.r,
+                 camera->background.g,
+                 camera->background.b,
+                 0.f);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -335,15 +335,6 @@ void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
                 hid::log(logTag, "Point Light was found.");
                 pointLights.emplace_back(&object->getComponent<Light>());
             }
-        }
-        if (object->hasComponent<MeshRenderer>())
-        {
-            meshRenderers.emplace_back(&object->getComponent<MeshRenderer>());
-        }
-
-        if (object->hasComponent<AnimationPlane>())
-        {
-            animationPlanes.emplace_back(&object->getComponent<AnimationPlane>());
         }
     }
 }

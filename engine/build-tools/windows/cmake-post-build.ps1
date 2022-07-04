@@ -18,6 +18,10 @@ if (!(Test-Path "zlib1.dll")) {
     Copy-Item -Path "..\..\..\third-party\sdl-image-windows\lib\x64\zlib1.dll"
 }
 
+# if (!(Test-Path "nfd.lib")) {
+#     Copy-Item -Path "..\..\..\third-party\nfd\lib\x64\nfd.dll"
+# }
+
 # If there is no 'assets' folder in our output we need to create a new symlink for it
 if (!(Test-Path "assets")) {
 	cmd.exe /c 'mklink /d assets ..\..\..\..\main\assets'

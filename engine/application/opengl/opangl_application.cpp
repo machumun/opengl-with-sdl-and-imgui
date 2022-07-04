@@ -76,20 +76,15 @@ OpenGLApplication::OpenGLApplication() : Application(),
 void OpenGLApplication::update(const float &delta)
 {
     scene->update(delta);
+    imgui->update(window);
 }
 
 void OpenGLApplication::render()
 {
     SDL_GL_MakeCurrent(window, context);
-#ifndef HAM_RELEASE
-    imgui->loop(window);
-#endif
 
-    renderer->render();
-
-#ifndef HAM_RELEASE
     imgui->render();
-#endif
+    renderer->render();
 
     SDL_GL_SwapWindow(window);
 }

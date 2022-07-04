@@ -60,8 +60,6 @@ namespace hid
         hid::Camera *camera;
 
         // for batch..?
-        std::vector<hid::MeshRenderer *> meshRenderers;
-        std::vector<hid::AnimationPlane *> animationPlanes;
         std::vector<hid::Light *> pointLights;
     };
 }

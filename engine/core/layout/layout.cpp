@@ -1,6 +1,10 @@
 #include "layout.hpp"
+#include "../log.hpp"
+
+#include <nfd.h>
 
 #include <string>
+#include <iostream>
 
 using hid::Layout;
 
@@ -46,14 +50,19 @@ void Layout::debugWindow(bool *p_open)
 
 void Layout::viewport()
 {
-
+    static const std::string logTag{"hid::Layout::viewport"};
     static bool dockSpaceOpen = true;
     static bool opt_fullscreen = true;
     static bool opt_padding = false;
 
     static bool showDebug = true;
 
-    static bool showDemoWindow = false;
+    static bool showDemoWindow = true;
+
+    static bool showInspector = true;
+    static bool showHierarchy = true;
+    static bool showEnvironmentalSettings = true;
+    static bool showGameView = true;
 
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 
@@ -125,6 +134,22 @@ void Layout::viewport()
             }
             if (ImGui::MenuItem("Save", "Ctrl+S"))
             {
+
+                nfdchar_t *outPath = new nfdchar_t;
+                nfdresult_t result = NFD_OpenDialog("png,jpg;pdf", NULL, &outPath);
+                if (result == NFD_OKAY)
+                {
+                    // hid::log(logTag, "NFD::Open" + outPath);
+                    std::cout << outPath << std::endl;
+                    delete outPath;
+                }
+                // do error handling
+
+                if (ImGui::MenuItem("Save", "CTRL+S"))
+                { /* do something */
+                }
+
+                // ImGui::EndMenu();
             }
             if (ImGui::MenuItem("Save As.."))
             {
@@ -165,7 +190,6 @@ void Layout::viewport()
 
             if (ImGui::BeginMenu("Options")) // <-- Append!
             {
-
                 static bool b = true;
                 ImGui::Checkbox("SomeOption", &b);
                 ImGui::EndMenu();

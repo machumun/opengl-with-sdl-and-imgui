@@ -27,7 +27,7 @@ namespace hid
         float angleOfView;
         float nearfar[2];
 
-        glm::vec4 background;
+        glm::vec3 background;
 
         hid::Transform *transform;
 
@@ -36,11 +36,10 @@ namespace hid
               cameraSize{width, height},
               angleOfView{60.f},
               nearfar{.01f, 100.f},
-              background{glm::vec4{
-                  .0f,
-                  .0f,
-                  .0f,
-                  1.f}}
+              background{glm::vec3{
+                  .3f,
+                  .3f,
+                  .3f}}
         {
         }
 
@@ -68,7 +67,7 @@ namespace hid
                 ImGui::DragFloat2("View Size", cameraSize, 100.f, 2000.f);
                 ImGui::DragFloat("Angle Of View", &angleOfView, 10.f, 180.f);
                 ImGui::DragFloat2("Near Far", nearfar, .0f, 180.f);
-                ImGui::ColorPicker4("Background Color", (float *)&background);
+                ImGui::ColorPicker3("Background Color", (float *)&background);
                 ImGui::TreePop();
             }
         }

@@ -23,5 +23,5 @@ void EnvironmentalSettingsPanel::contents()
     ImGui::Checkbox("Post Processing", &layout->sceneData->environmentalSettings->postProcessing);
     ImGui::SliderFloat("Bloom Threshold", &layout->sceneData->environmentalSettings->bloomThreshold, .0f, 1.f);
     ImGui::ColorPicker3("Ambient Color", &layout->sceneData->environmentalSettings->ambientColor[0]);
-    ImGui::DragFloat("Ambient Intencity", &layout->sceneData->environmentalSettings->ambientIntencity);
+    ImGui::SliderFloat("Ambient Intencity", &layout->sceneData->environmentalSettings->ambientIntencity, .0f, 1.f);
 }

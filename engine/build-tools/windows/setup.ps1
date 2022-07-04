@@ -96,5 +96,18 @@ if (!(Test-Path "..\..\third-party\imgui")) {
     Pop-Location
 }
 
+# NFD
+if (!(Test-Path "..\..\third-party\nfd")) {
+    Write-Host "Downloading NFD library into third party folder nfd ..."
+   
+    Invoke-WebRequest -Uri "https://github.com/mlabbe/nativefiledialog/archive/refs/tags/release_116.zip" -OutFile "..\..\third-party\nfd.zip"
+    Push-Location -Path "..\..\third-party"
+        Write-Host "Unzipping NFD library into third-party\nfd ..."
+        cmd.exe /c 'tar -xf nfd.zip'
+        Move-Item -Path nativefiledialog-release_116 -Destination nfd
+        Remove-Item -Path nfd.zip
+    Pop-Location
+}
+
 # vert,frag->spir-v compile
 .\compile_shaders.ps1

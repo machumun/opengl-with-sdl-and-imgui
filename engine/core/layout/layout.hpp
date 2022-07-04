@@ -19,11 +19,6 @@ namespace hid
         std::shared_ptr<hid::SceneData> sceneData;
         int32_t selectedObjectIndex;
 
-        bool showInspector;
-        bool showHierarchy;
-        bool showEnvironmentalSettings;
-        bool showGameView;
-
         std::unique_ptr<hid::InspectorPanel> inspectorPanel;
         std::unique_ptr<hid::HierarchyPanel> hierarchyPanel;
         std::unique_ptr<hid::EnvironmentalSettingsPanel> environmentalSettingsPanel;
@@ -44,10 +39,6 @@ namespace hid
             : selectedObjectIndex{0},
               counter{0},
               sceneData{sceneData},
-              showInspector{true},
-              showHierarchy{true},
-              showEnvironmentalSettings{true},
-              showGameView{true},
               inspectorPanel{std::make_unique<hid::InspectorPanel>(this)},
               hierarchyPanel{std::make_unique<hid::HierarchyPanel>(this)},
               environmentalSettingsPanel{std::make_unique<hid::EnvironmentalSettingsPanel>(this)},

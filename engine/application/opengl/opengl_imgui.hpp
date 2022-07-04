@@ -10,7 +10,7 @@ namespace hid
         {
                 OpenGLImGui();
                 void setup(SDL_Window *, SDL_GLContext);
-                void loop(SDL_Window *);
+                void update(SDL_Window *);
                 void cleanUp();
                 void render();
 

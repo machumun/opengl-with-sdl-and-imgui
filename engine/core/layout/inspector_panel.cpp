@@ -1,6 +1,6 @@
 #include "inspector_panel.hpp"
 #include "layout.hpp"
-
+#include "../log.hpp"
 #include "../components/mesh_renderer.hpp"
 
 using hid::InspectorPanel;

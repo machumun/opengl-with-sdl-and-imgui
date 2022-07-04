@@ -30,7 +30,7 @@ void OpenGLImGui::setup(SDL_Window *window, SDL_GLContext context)
     ImGui::StyleColorsLight();
 }
 
-void OpenGLImGui::loop(SDL_Window *window)
+void OpenGLImGui::update(SDL_Window *window)
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
