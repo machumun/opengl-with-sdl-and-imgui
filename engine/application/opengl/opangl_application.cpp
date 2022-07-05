@@ -83,8 +83,8 @@ void OpenGLApplication::render()
 {
     SDL_GL_MakeCurrent(window, context);
 
-    imgui->render();
     renderer->render();
+    imgui->render();
 
     SDL_GL_SwapWindow(window);
 }
@@ -93,7 +93,11 @@ void OpenGLApplication::setup()
 {
     // SDL_AddEventWatch(::resizingEventWatcher, window);
     Application::assetManager = std::make_unique<hid::OpenGLAssetManager>();
+}
 
+void OpenGLApplication::start()
+{
+    // use to load assets
     scene->prepare();
 
     // pointer delivery
@@ -103,10 +107,7 @@ void OpenGLApplication::setup()
 
     imgui->setup(window, context);
     imgui->setViewport(viewport);
-}
 
-void OpenGLApplication::start()
-{
     scene->start();
 }
 

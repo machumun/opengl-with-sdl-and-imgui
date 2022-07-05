@@ -7,7 +7,7 @@
 
 int main(int, char*[])
 {
-    const std::unique_ptr<hid::Engine> engine = std::make_unique<hid::Engine>();
+    const std::unique_ptr<hid::Engine> engine{std::make_unique<hid::Engine>()};
     engine->setup();
     engine->run();
     return 0;

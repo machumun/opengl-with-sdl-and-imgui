@@ -11,5 +11,7 @@ namespace hid
             : IPanel("Hierarchy", layout) {}
 
         void contents() override;
+
+        void treeNode(hid::Object *object, const ImGuiTreeNodeFlags &flags);
     };
 }

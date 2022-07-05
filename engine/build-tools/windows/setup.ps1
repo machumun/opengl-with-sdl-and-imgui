@@ -1,11 +1,12 @@
 $ErrorActionPreference = "Stop"
 
-# third-party
-Push-Location -Path "..\..\"
-if (!(Test-Path "third-party")) {
-    New-Item -ItemType Directory -Path "third-party"
+
+if (!(Test-Path "..\..\third-party")) {
+    Push-Location -Path "..\..\"
+        New-Item -ItemType Directory -Path "third-party"
+    Pop-Location
 }
-Pop-Location
+
 
 # sdl
 if (!(Test-Path "..\..\third-party\sdl-windows")) {
@@ -98,14 +99,27 @@ if (!(Test-Path "..\..\third-party\imgui")) {
 
 # NFD
 if (!(Test-Path "..\..\third-party\nfd")) {
-    Write-Host "Downloading NFD library into third party folder nfd ..."
+    Write-Host "Downloading native file dialog library into third party folder nfd ..."
    
     Invoke-WebRequest -Uri "https://github.com/mlabbe/nativefiledialog/archive/refs/tags/release_116.zip" -OutFile "..\..\third-party\nfd.zip"
     Push-Location -Path "..\..\third-party"
-        Write-Host "Unzipping NFD library into third-party\nfd ..."
+        Write-Host "Unzipping native file dialog library into third-party\nfd ..."
         cmd.exe /c 'tar -xf nfd.zip'
         Move-Item -Path nativefiledialog-release_116 -Destination nfd
         Remove-Item -Path nfd.zip
+    Pop-Location
+}
+
+#cerial
+if (!(Test-Path "..\..\third-party\cerial")) {
+    Write-Host "Downloading cereal into third party folder cereal ..."
+   
+    Invoke-WebRequest -Uri "https://github.com/USCiLab/cereal/archive/v1.3.2.zip" -OutFile "..\..\third-party\cereal.zip"
+    Push-Location -Path "..\..\third-party"
+        Write-Host "Unzipping cereal library into third-party\cereal ..."
+        cmd.exe /c 'tar -xf cereal.zip'
+        Move-Item -Path "cereal-1.3.2" -Destination cereal
+        Remove-Item -Path cereal.zip
     Pop-Location
 }
 

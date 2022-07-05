@@ -34,17 +34,22 @@ namespace hid
 
         void showWindow(bool *open)
         {
-            ImGui::Begin(title, open);
-            contents();
-            ImGui::End();
+            if (ImGui::Begin(title, open))
+            {
+                contents();
+                ImGui::End();
+            }
         }
 
         void showWindowWithNoPadding(bool *open)
         {
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-            ImGui::Begin(title, open);
-            contents();
-            ImGui::End();
+            if (ImGui::Begin(title, open))
+            {
+                contents();
+                ImGui::End();
+            }
+
             ImGui::PopStyleVar();
         }
     };

@@ -28,6 +28,13 @@ void OpenGLImGui::setup(SDL_Window *window, SDL_GLContext context)
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     ImGui::StyleColorsLight();
+
+    // ImGuiStyle &style = ImGui::GetStyle();
+    // style.Alpha = .3f;
+
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.f, 1.f, 1.f, .3f));
+
+    static ImGuiColorEditFlags alpha_flags = ImGuiColorEditFlags_AlphaPreview;
 }
 
 void OpenGLImGui::update(SDL_Window *window)

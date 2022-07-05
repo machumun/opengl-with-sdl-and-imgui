@@ -14,26 +14,14 @@ void InspectorPanel::contents()
         return;
     }
 
-    if (layout->selectedObjectIndex > -1)
+    if (layout->selectedObject == nullptr)
     {
-        auto &object = layout->sceneData->objects[layout->selectedObjectIndex];
-        // auto &object = layout->sceneData->objects[0];
-        // std::string s{"foo"};
-        ImGui::InputText("name", &object->name);
-        for (auto &component : object->components)
-        {
-            component->inspector();
-        }
+        return;
+    }
 
-        // if (object->hasComponent<hid::Transform>())
-        // {
-        //     auto &transform = object->getComponent<Transform>();
-        //     if (ImGui::TreeNodeEx((void *)transform.Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
-        //     {
-        //         ImGui::SliderFloat3("Position", (float *)&transform.position, 10.f, -10.f);
-        //         ImGui::SliderFloat3("Scale", (float *)&transform.scale, 10.f, -10.f);
-        //         ImGui::TreePop();
-        //     }
-        // }
+    ImGui::InputText("name", &layout->selectedObject->name);
+    for (auto &component : layout->selectedObject->components)
+    {
+        component->inspector();
     }
 }

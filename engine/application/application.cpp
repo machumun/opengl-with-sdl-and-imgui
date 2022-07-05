@@ -26,6 +26,7 @@ namespace
 } // namespace
 
 std::unique_ptr<hid::AssetManager> Application::assetManager = nullptr;
+std::unique_ptr<hid::FileManager> Application::fileManager{std::make_unique<hid::FileManager>()};
 
 Application::Application() : performanceFrequency(static_cast<float>(SDL_GetPerformanceFrequency())),
                              currentTime(SDL_GetPerformanceCounter()),
@@ -74,6 +75,12 @@ bool Application::runMainLoop()
             {
                 return false;
             }
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+
+            break;
+        case SDL_MOUSEBUTTONUP:
+
             break;
         default:
             break;

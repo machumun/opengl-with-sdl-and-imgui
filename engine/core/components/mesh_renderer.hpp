@@ -38,18 +38,16 @@ namespace hid
         }
 
         // for application update
-        void draw() override
+        void drawRuntime() override
         {
             shaderReference->useProgram();
 
             // glActiveTexture(GL_TEXTURE0);
             shaderReference->setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
 
-            const auto &modelMatrix = object->transform->getModelMatrix();
-
             shaderReference->setTexture(material.albedo);
             shaderReference->setVec3("u_baseColor", &material.baseColor[0]);
-            shaderReference->setMat4("u_modelMatrix", &modelMatrix[0][0]);
+            shaderReference->setMat4("u_modelMatrix", &transform->getModelMatrix()[0][0]);
             staticMesh->draw();
         }
 
@@ -82,6 +80,7 @@ namespace hid
             staticMesh = Application::assetManager->getStaticMesh(mesh);
         }
 
+        // caches
     private:
         std::string mesh;
         hid::Material material;

@@ -17,7 +17,8 @@ namespace hid
     struct Layout
     {
         std::shared_ptr<hid::SceneData> sceneData;
-        int32_t selectedObjectIndex;
+
+        hid::Object *selectedObject;
 
         std::unique_ptr<hid::InspectorPanel> inspectorPanel;
         std::unique_ptr<hid::HierarchyPanel> hierarchyPanel;
@@ -36,7 +37,7 @@ namespace hid
         // std::vector<hid::assets::GLTF> gltfs;
 
         Layout(std::shared_ptr<hid::SceneData> &sceneData)
-            : selectedObjectIndex{0},
+            : selectedObject{nullptr},
               counter{0},
               sceneData{sceneData},
               inspectorPanel{std::make_unique<hid::InspectorPanel>(this)},

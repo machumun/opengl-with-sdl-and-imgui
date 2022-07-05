@@ -1,6 +1,8 @@
 #pragma once
 
 #include "components/transform.hpp"
+#include "components/rect_transform.hpp"
+
 #include "components/interface_component.hpp"
 
 // #include "log.hpp"
@@ -14,12 +16,39 @@ namespace hid
         std::string name;
         hid::Transform *transform;
 
+        uint32_t id;
+
+        std::vector<std::unique_ptr<hid::IComponent>> components;
+        std::vector<std::unique_ptr<hid::Object>> children;
+
+        // paretnt : some children = 1 : n
+        hid::Object *parent;
+
+        hid::Scene *scene;
+        std::vector<std::unique_ptr<hid::IComponent>>::iterator componentsIterator;
+
         Object(const std::string &name)
             : name{name.c_str()},
               componentsIterator{components.begin()}
         {
             this->addComponent<hid::Transform>();
             transform = &getComponent<Transform>();
+        }
+
+        Object(const std::string &name, const bool &isCanvasSpace)
+            : name{name.c_str()},
+              componentsIterator{components.begin()}
+        {
+            if (isCanvasSpace)
+            {
+                this->addComponent<hid::RectTransform>();
+                // transform = &getComponent<RectTransform>();
+            }
+            else
+            {
+                this->addComponent<hid::Transform>();
+                transform = &getComponent<Transform>();
+            }
         }
 
         ~Object()
@@ -66,12 +95,29 @@ namespace hid
             return false;
         }
 
+        const void drawRuntime() const
+        {
+            for (auto &&component : components)
+            {
+                component->drawRuntime();
+            }
+
+            for (auto &&child : children)
+            {
+                child->drawRuntime();
+            }
+        }
+
         void update()
         {
             // const static std::string logTag{"component update"};
             for (auto &&component : components)
             {
                 component->update();
+            }
+            for (auto &&child : children)
+            {
+                child->update();
             }
         }
 
@@ -81,12 +127,25 @@ namespace hid
             {
                 component->start();
             }
+            for (auto &&child : children)
+            {
+                child->start();
+            }
         }
 
-        std::vector<std::unique_ptr<hid::IComponent>> components;
-        std::vector<std::unique_ptr<hid::Object>> children;
-        std::unique_ptr<hid::Object> parent;
-        hid::Scene *scene;
-        std::vector<std::unique_ptr<hid::IComponent>>::iterator componentsIterator;
+        void addChild(std::unique_ptr<hid::Object> &&child)
+        {
+            children.emplace_back(std::move(child));
+        }
+
+        void setId(const uint32_t &hash)
+        {
+            id = hash;
+        }
+
+        bool operator==(const Object &obj)
+        {
+            return id == obj.id;
+        }
     };
 }

@@ -24,7 +24,10 @@ namespace hid
         virtual ~IComponent() = default;
         virtual void update() {}
         virtual void start() {}
-        virtual void draw() {}
+
+        virtual void drawEditor() {}
+        virtual void drawRuntime() {}
+
         // virtual void draw() {}
 
         virtual void inspector() {}

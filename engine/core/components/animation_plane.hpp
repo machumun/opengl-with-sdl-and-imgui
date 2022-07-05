@@ -95,6 +95,19 @@ namespace hid
 
         void update() override;
 
+        void drawRuntime() override
+        {
+            shaderReference->useProgram();
+            shaderReference->setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
+            shaderReference->setTexture(material.albedo);
+            shaderReference->setVec3("u_baseColor", &material.baseColor[0]);
+            shaderReference->setMat4("u_modelMatrix", &transform->getModelMatrix()[0][0]);
+            shaderReference->setVec2("u_currentOffsetUV", &getCurrentOffsetUV()[0]);
+            shaderReference->setVec2("u_spliteNum", &getSpriteUnits()[0]);
+
+            staticMesh->draw();
+        }
+
         void inspector() override
         {
             if (ImGui::TreeNodeEx((void *)Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Animation Plane"))

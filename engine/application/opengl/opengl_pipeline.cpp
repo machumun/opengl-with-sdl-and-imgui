@@ -205,29 +205,8 @@ void OpenGLPipeline::render()
     // basecolor pass
     for (auto &&object : sceneData->objects)
     {
-        for (auto &&component : object->components)
-        {
-            component->draw();
-        }
+        object->drawRuntime();
     }
-
-    // animationProgram.use();
-    // glActiveTexture(GL_TEXTURE0);
-    // animationProgram.setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
-
-    // for (auto &animationPlane : animationPlanes)
-    // {
-    //     const auto &modelMatrix = animationPlane->parent->transform->getModelMatrix();
-
-    //     const auto &material = animationPlane->getMaterial();
-
-    //     sceneData->assetManager->(material.albedo).bind();
-    //     animationProgram.setVec3("u_baseColor", &material.baseColor[0]);
-    //     animationProgram.setMat4("u_modelMatrix", &modelMatrix[0][0]);
-    //     animationProgram.setVec2("u_currentOffsetUV", &animationPlane->getCurrentOffsetUV()[0]);
-    //     animationProgram.setVec2("u_spliteNum", &animationPlane->getSpriteUnits()[0]);
-    //     sceneData->assetManager->getStaticMesh("plane").draw();
-    // }
 
     // deffered shading pass
     glDisable(GL_DEPTH_TEST);
@@ -295,7 +274,8 @@ void OpenGLPipeline::render()
     }
 
     // default framebuffer program
-    glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
+    // glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     framebufferProgram.useProgram();
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
@@ -312,7 +292,7 @@ void OpenGLPipeline::render()
     glBindVertexArray(framebufferVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
     // glBindVertexArray(framebufferVAO);
     // glDrawArrays(GL_TRIANGLES, 0, 6);
 }
@@ -322,6 +302,8 @@ void OpenGLPipeline::setup(const std::shared_ptr<hid::SceneData> &sceneData)
     static std::string logTag{"hid::OpenGLPipeline::setup"};
 
     this->sceneData = sceneData;
+
+    // for runtime
     for (auto &object : this->sceneData->objects)
     {
         if (object->hasComponent<hid::Camera>())

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../core/asset_manager.hpp"
+#include "../../core/file_manager.hpp"
+
 #include <memory>
 
 // template method patern
@@ -24,6 +26,7 @@ namespace hid
 
         // for singletong
         static std::unique_ptr<hid::AssetManager> assetManager;
+        static std::unique_ptr<hid::FileManager> fileManager;
 
     private:
         const float performanceFrequency;

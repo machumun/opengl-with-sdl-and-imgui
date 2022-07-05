@@ -45,6 +45,8 @@ void SceneMain::prepare()
     Application::assetManager->loadShader("lit", {"lit", "lit"});
     Application::assetManager->loadShader("animation", {"lit", "animation"});
 
+    Application::assetManager->loadShader("ui", {"unlit", "ui"});
+
     hid::Material metalMaterial{
         "lit",
         "metal",
@@ -64,9 +66,15 @@ void SceneMain::prepare()
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
     instantiate(std::move(obj1));
 
+    // plane group
     auto plane{std::make_unique<hid::Object>("Plane")};
     plane->addComponent<MeshRenderer>("plane", metalMaterial);
     plane->getComponent<Transform>().setPosition(glm::vec3{.0f, -1.f, .0f});
+
+    auto plane_child{std::make_unique<hid::Object>("Plane Child")};
+    plane_child->addComponent<MeshRenderer>("plane", metalMaterial);
+    // plane->addChild(std::move(plane_child));
+    instantiate(std::move(plane_child), plane);
     instantiate(std::move(plane));
 
     // for camera controller
@@ -101,4 +109,13 @@ void SceneMain::prepare()
         .2f};
     character->transform->position.x = 1.f;
     instantiate(std::move(character));
+
+    auto canvas{std::make_unique<hid::Object>("Canvas", true)};
+    canvas->addComponent<Canvas>();
+
+    auto button{std::make_unique<hid::Object>("Test SDL Button", true)};
+    // button->addComponent<Button>();
+
+    instantiate(std::move(button), canvas);
+    instantiate(std::move(canvas));
 }

@@ -145,9 +145,9 @@ void Layout::viewport()
                 }
                 // do error handling
 
-                if (ImGui::MenuItem("Save", "CTRL+S"))
-                { /* do something */
-                }
+                // if (ImGui::MenuItem("Save", "CTRL+S"))
+                // { /* do something */
+                // }
 
                 // ImGui::EndMenu();
             }
@@ -270,9 +270,9 @@ void Layout::viewport()
     hierarchyPanel->showWindow(&showHierarchy);
     inspectorPanel->showWindow(&showInspector);
     environmentalSettingsPanel->showWindow(&showEnvironmentalSettings);
-    gameViewPanel->showWindowWithNoPadding(&showGameView);
 
-    ImGui::ShowDemoWindow(&showDemoWindow);
+    // gameViewPanel->showWindowWithNoPadding(&showGameView);
+    // ImGui::ShowDemoWindow(&showDemoWindow);
 
     ImGui::End();
 }
