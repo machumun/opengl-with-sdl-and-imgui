@@ -37,6 +37,8 @@ include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/json)
 include_directories(${THIRD_PARTY_DIR}/sdl-image-windows/include)
 include_directories(${THIRD_PARTY_DIR}/vulkan-windows/Include)
+include_directories(${THIRD_PARTY_DIR}/vulkan-windows/Include)
+
 
 file(GLOB_RECURSE MAIN_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
 file(GLOB_RECURSE MAIN_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
