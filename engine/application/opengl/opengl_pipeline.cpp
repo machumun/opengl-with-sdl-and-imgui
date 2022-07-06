@@ -116,7 +116,7 @@ namespace
 
 OpenGLPipeline::OpenGLPipeline()
 
-    : defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered-lighting")},
+    : defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered_lighting")},
       blurProgram{hid::OpenGLShader("framebuffer", "blur")},
       framebufferProgram{hid::OpenGLShader("framebuffer", "framebuffer")},
 
@@ -202,14 +202,13 @@ void OpenGLPipeline::render()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    // basecolor pass
-    // runtime pass
+    // as a g buffer pass
     for (auto &&object : sceneData->objects)
     {
         object->draw();
     }
 
-    // deffered shading pass
+    // deffered lighting pass
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);

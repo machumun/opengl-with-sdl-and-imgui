@@ -62,9 +62,9 @@ void Application::startApplication()
 bool Application::runMainLoop()
 {
     SDL_Event event;
+  
     while (SDL_PollEvent(&event))
     {
-
         ImGui_ImplSDL2_ProcessEvent(&event);
 
         switch (event.type)
@@ -76,12 +76,6 @@ bool Application::runMainLoop()
             {
                 return false;
             }
-            break;
-        case SDL_MOUSEBUTTONDOWN:
-            // inputManager->mousePress();
-            break;
-        case SDL_MOUSEBUTTONUP:
-            // inputManager->mouseButtonReleased();
             break;
         default:
             break;

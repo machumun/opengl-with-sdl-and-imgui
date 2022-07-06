@@ -34,7 +34,9 @@ namespace hid
 
         // uint32_t x, y;
         // std::pair<uint32_t, uint32_t> hid::sdl::getDisplaySize();
-        Canvas() : renderMode{RenderMode::SCREEN_SPACE} {}
+        Canvas() : renderMode{RenderMode::SCREEN_SPACE}
+        {
+        }
 
         void start() override
         {

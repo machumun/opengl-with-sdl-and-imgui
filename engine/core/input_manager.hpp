@@ -58,17 +58,9 @@ namespace hid
         bool keyPressed(SDL_Scancode scanCode);
         bool keyReleased(SDL_Scancode scanCode);
 
-        void mousePress();
-        void mouseUp();
-
         bool mouseButtonPressed(const MouseButtons &button);
         bool mouseButtonDown(const MouseButtons &button);
         bool mouseButtonReleased(const MouseButtons &button);
-
-        bool clearInput()
-        {
-            mouseState = 0;
-        }
 
         glm::vec2 getMousePos()
         {

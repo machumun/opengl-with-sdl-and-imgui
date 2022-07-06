@@ -37,28 +37,30 @@ void SceneMain::prepare()
     Application::assetManager->loadTextures({{"hamster", "assets/textures/hamster.png"},
                                              {"metal", "assets/textures/metal.png"},
                                              {"chara", "assets/textures/chara.png"},
-                                             {"empty", "assets/textures/empty.png"}});
+                                             {"empty", "assets/textures/empty.png"},
+                                             {"button_test", "assets/textures/button_art.png"}});
 
     // name {vert, frag}
     Application::assetManager->loadShader("lit", {"lit", "lit"});
     Application::assetManager->loadShader("animation", {"lit", "animation"});
 
-    Application::assetManager->loadShader("ui", {"unlit", "ui"});
+    Application::assetManager->loadShader("ui", {"ui", "ui"});
 
     hid::Material metalMaterial{
         "lit",
-        "metal",
-        glm::vec3{1.0f, 1.0f, 1.0f}};
+        "metal"};
 
     hid::Material hamMaterial{
         "lit",
-        "hamster",
-        glm::vec3{1.0f, 1.0f, 1.0f}};
+        "hamster"};
 
     hid::Material characterMaterial{
         "animation",
-        "chara",
-        glm::vec3{1.0f, 1.0f, 1.0f}};
+        "chara"};
+
+    hid::Material uiMaterial{
+        "ui",
+        "button_test"};
 
     auto obj1{std::make_unique<hid::Object>("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
@@ -112,7 +114,7 @@ void SceneMain::prepare()
     canvas->addComponent<Canvas>();
 
     auto button{std::make_unique<hid::Object>("Test SDL Button", true)};
-    // button->addComponent<Button>();
+    button->addComponent<UIButton>(50.f, 50.f, "button_test");
 
     instantiate(std::move(button), canvas);
     instantiate(std::move(canvas));
