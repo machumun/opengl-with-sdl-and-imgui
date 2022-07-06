@@ -18,8 +18,6 @@ namespace hid
         static const std::size_t Type;
         virtual bool IsClassType(const std::size_t classType) const override;
 
-        const uint8_t *keyboardState;
-
         const float moveSpeed{5.0f};
         const float turnSpeed{120.0f};
 

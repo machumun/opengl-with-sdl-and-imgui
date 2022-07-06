@@ -39,8 +39,6 @@ void SceneMain::prepare()
                                              {"chara", "assets/textures/chara.png"},
                                              {"empty", "assets/textures/empty.png"}});
 
-    // assetManager->loadGLTFModels({hid::assets::GLTF::TestBox});
-
     // name {vert, frag}
     Application::assetManager->loadShader("lit", {"lit", "lit"});
     Application::assetManager->loadShader("animation", {"lit", "animation"});

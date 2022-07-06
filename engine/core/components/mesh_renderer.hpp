@@ -38,7 +38,7 @@ namespace hid
         }
 
         // for application update
-        void drawRuntime() override
+        void draw() override
         {
             shaderReference->useProgram();
 

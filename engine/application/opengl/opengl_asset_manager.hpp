@@ -6,7 +6,6 @@
 #include "opengl_mesh.hpp"
 #include "opengl_pipeline.hpp"
 #include "opengl_texture.hpp"
-#include "opengl_gltf.hpp"
 
 #include <unordered_map>
 
@@ -42,22 +41,6 @@ namespace hid
             }
         }
 
-        // void loadGLTFModels(const std::vector<hid::assets::GLTF> &gltfs) override
-        // {
-        //     for (const auto &gltf : gltfs)
-        //     {
-        //         hid::OpenGLGLTF openglGLTF = hid::OpenGLGLTF(hid::assets::loadGLTF(hid::assets::resolveGLTFModelPath(gltf)));
-        //         // loadTextures(openglGLTF.gltf.textures);
-
-        //         if (gltfCache.count(gltf) == 0)
-        //         {
-        //             gltfCache.insert(std::pair(
-        //                 gltf,
-        //                 &openglGLTF));
-        //         }
-        //     }
-        // }
-
         void loadShader(const std::string &key, const std::pair<std::string, std::string> &shader) override
         {
             static const std::string logTag{"hid::OpenGLAssetManager::loadShader"};
@@ -88,16 +71,9 @@ namespace hid
             return shaderCache.at(shader).get();
         }
 
-        // const hid::OpenGLGLTF *getGLTF(const hid::assets::GLTF &gltf) const
-        // {
-        //     return gltfCache.at(gltf);
-        // }
-
     private:
         std::unordered_map<std::string, std::unique_ptr<hid::OpenGLMesh>> staticMeshCache;
         std::unordered_map<std::string, std::unique_ptr<hid::OpenGLTexture>> textureCache;
         std::unordered_map<std::string, std::unique_ptr<hid::OpenGLShader>> shaderCache;
-
-        // std::unordered_map<hid::assets::GLTF, hid::OpenGLGLTF *> gltfCache;
     };
 }

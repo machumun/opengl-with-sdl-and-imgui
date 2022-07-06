@@ -34,8 +34,6 @@ namespace hid
 
         char text1[64] = "";
 
-        // std::vector<hid::assets::GLTF> gltfs;
-
         Layout(std::shared_ptr<hid::SceneData> &sceneData)
             : selectedObject{nullptr},
               counter{0},

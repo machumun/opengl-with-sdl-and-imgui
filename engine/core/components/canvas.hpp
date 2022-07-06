@@ -3,6 +3,7 @@
 #include "interface_component.hpp"
 
 #include "../wrapper/sdl_wrapper.hpp"
+#include "../wrapper/glm_wrapper.hpp"
 
 #include "../object.hpp"
 
@@ -28,6 +29,10 @@ namespace hid
         };
 
         RenderMode renderMode;
+
+        void graphicRaycaster();
+
+        // uint32_t x, y;
         // std::pair<uint32_t, uint32_t> hid::sdl::getDisplaySize();
         Canvas() : renderMode{RenderMode::SCREEN_SPACE} {}
 
@@ -37,7 +42,7 @@ namespace hid
             object->getComponent<RectTransform>().size = glm::vec2{displaySize.first, displaySize.second};
         }
 
-        void inspector()
+        void inspector() override
         {
             if (ImGui::TreeNodeEx((void *)Type,
                                   ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen,
@@ -50,6 +55,11 @@ namespace hid
                 // ImGui::Combo();
                 ImGui::TreePop();
             }
+        }
+
+        void update() override
+        {
+            graphicRaycaster();
         }
     };
 }

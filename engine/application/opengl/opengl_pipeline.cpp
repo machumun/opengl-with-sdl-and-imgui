@@ -203,9 +203,10 @@ void OpenGLPipeline::render()
     glDepthFunc(GL_LESS);
 
     // basecolor pass
+    // runtime pass
     for (auto &&object : sceneData->objects)
     {
-        object->drawRuntime();
+        object->draw();
     }
 
     // deffered shading pass

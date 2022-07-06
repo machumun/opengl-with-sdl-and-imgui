@@ -1,5 +1,7 @@
 #pragma once
 
+// #include ""
+
 namespace hid
 {
     struct FileManager
@@ -14,5 +16,9 @@ namespace hid
         void loadScene()
         {
         }
+
+        void importAsset() {}
+
+        void buildGame() {}
     };
 }

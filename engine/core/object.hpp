@@ -95,16 +95,16 @@ namespace hid
             return false;
         }
 
-        const void drawRuntime() const
+        const void draw() const
         {
             for (auto &&component : components)
             {
-                component->drawRuntime();
+                component->draw();
             }
 
             for (auto &&child : children)
             {
-                child->drawRuntime();
+                child->draw();
             }
         }
 

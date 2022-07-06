@@ -2,6 +2,7 @@
 
 #include "../../core/asset_manager.hpp"
 #include "../../core/file_manager.hpp"
+#include "../../core/input_manager.hpp"
 
 #include <memory>
 
@@ -27,6 +28,7 @@ namespace hid
         // for singletong
         static std::unique_ptr<hid::AssetManager> assetManager;
         static std::unique_ptr<hid::FileManager> fileManager;
+        static std::unique_ptr<hid::InputManager> inputManager;
 
     private:
         const float performanceFrequency;

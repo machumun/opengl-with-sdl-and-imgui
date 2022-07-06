@@ -82,6 +82,15 @@
         "valarray": "cpp",
         "any": "cpp",
         "codecvt": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "bitset": "cpp",
+        "complex": "cpp",
+        "condition_variable": "cpp",
+        "future": "cpp",
+        "mutex": "cpp",
+        "random": "cpp",
+        "regex": "cpp",
+        "typeindex": "cpp",
+        "variant": "cpp"
     }
 }

@@ -27,6 +27,7 @@ namespace
 
 std::unique_ptr<hid::AssetManager> Application::assetManager = nullptr;
 std::unique_ptr<hid::FileManager> Application::fileManager{std::make_unique<hid::FileManager>()};
+std::unique_ptr<hid::InputManager> Application::inputManager{std::make_unique<hid::InputManager>()};
 
 Application::Application() : performanceFrequency(static_cast<float>(SDL_GetPerformanceFrequency())),
                              currentTime(SDL_GetPerformanceCounter()),
@@ -77,15 +78,19 @@ bool Application::runMainLoop()
             }
             break;
         case SDL_MOUSEBUTTONDOWN:
-
+            // inputManager->mousePress();
             break;
         case SDL_MOUSEBUTTONUP:
-
+            // inputManager->mouseButtonReleased();
             break;
         default:
             break;
         }
     }
+
+    inputManager->updatePrevInput();
+    inputManager->update();
+
     update(timeStep());
 
     render();

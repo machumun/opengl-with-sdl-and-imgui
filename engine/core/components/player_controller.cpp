@@ -1,5 +1,8 @@
 #include "player_controller.hpp"
 
+#include "../../application/application.hpp"
+
+using hid::Application;
 using hid::PlayerController;
 
 const std::size_t PlayerController::Type = std::hash<std::string>()("PlayerController");
@@ -16,8 +19,7 @@ bool PlayerController::IsClassType(const std::size_t classType) const
 }
 
 PlayerController::PlayerController(float rotationDegrees)
-    : rotationDegrees{rotationDegrees},
-      keyboardState(SDL_GetKeyboardState(nullptr))
+    : rotationDegrees{rotationDegrees}
 {
 }
 
@@ -67,32 +69,32 @@ void PlayerController::rotate(const float &amount)
 
 void PlayerController::input(const float &delta)
 {
-    if (keyboardState[SDL_SCANCODE_UP])
+    if (Application::inputManager->keyDown(SDL_SCANCODE_UP))
     {
         moveForward(delta);
     }
 
-    if (keyboardState[SDL_SCANCODE_DOWN])
+    if (Application::inputManager->keyDown(SDL_SCANCODE_DOWN))
     {
         moveBackward(delta);
     }
 
-    if (keyboardState[SDL_SCANCODE_A])
+    if (Application::inputManager->keyDown(SDL_SCANCODE_A))
     {
         moveUp(delta);
     }
 
-    if (keyboardState[SDL_SCANCODE_Z])
+    if (Application::inputManager->keyDown(SDL_SCANCODE_Z))
     {
         moveDown(delta);
     }
 
-    if (keyboardState[SDL_SCANCODE_LEFT])
+    if (Application::inputManager->keyDown(SDL_SCANCODE_LEFT))
     {
         turnLeft(delta);
     }
 
-    if (keyboardState[SDL_SCANCODE_RIGHT])
+    if (Application::inputManager->keyDown(SDL_SCANCODE_RIGHT))
     {
         turnRight(delta);
     }
