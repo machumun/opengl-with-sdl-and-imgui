@@ -1,5 +1,5 @@
 // in
-uniform mat4 u_mvp;
+
 uniform mat4 u_projectionMatrix;
 uniform mat4 u_modelMatrix;
 

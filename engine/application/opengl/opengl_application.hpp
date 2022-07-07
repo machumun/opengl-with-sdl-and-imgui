@@ -16,7 +16,7 @@ namespace hid
 
         OpenGLApplication();
         ~OpenGLApplication();
-        void update(const float &delta) override;
+        void update() override;
         void render() override;
         void start() override;
         void setup() override;

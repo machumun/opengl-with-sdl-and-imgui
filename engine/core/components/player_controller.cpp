@@ -99,3 +99,27 @@ void PlayerController::input(const float &delta)
         turnRight(delta);
     }
 }
+
+void PlayerController::start()
+{
+    transform = object->transform;
+}
+
+void PlayerController::update()
+{
+    input(Application::timeStep());
+    transform->rotateBy(rotationDegrees);
+}
+
+void PlayerController::inspector()
+{
+    if (ImGui::TreeNodeEx((void *)Type,
+                          ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen,
+                          "Player Controller"))
+    {
+        ImGui::DragFloat("Move Speed", (float *)&moveSpeed, .0f, 10.f);
+        ImGui::DragFloat("Turn Speed", (float *)&turnSpeed, .0f, 240.f);
+        ImGui::DragFloat("Rotation Degrees", (float *)&turnSpeed, .0f, 240.f);
+        ImGui::TreePop();
+    }
+}

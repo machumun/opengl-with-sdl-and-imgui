@@ -23,5 +23,7 @@ namespace hid
         virtual hid::Shader *getShader(const std::string &shader) const = 0;
         virtual hid::Texture *getTexture(const std::string &texture) const = 0;
         virtual hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const = 0;
+
+        void loadStandardStaticMeshes();
     };
 }

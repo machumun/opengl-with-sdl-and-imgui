@@ -23,9 +23,13 @@ namespace hid
         RectTransform(const glm::vec2 &size = glm::vec2{160.f, 30.f},
                       const glm::vec2 &position = glm::vec2{.0f, .0f},
                       const glm::vec2 &anchor = glm::vec2{.5f, .5f})
-            : size{size},
+            : identity{glm::mat4{1.f}},
+              size{size},
               position{position},
-              anchor{anchor}
+              anchor{anchor},
+              scale{glm::vec2{1.0f, 1.0f}},
+              rotationAxis{glm::vec3{1.f, .0f, .0f}},
+              rotationDegrees{.0f}
         {
         }
 
@@ -34,21 +38,20 @@ namespace hid
             return anchor + position;
         }
 
-        void inspector() override
-        {
-            if (ImGui::TreeNodeEx((void *)Type,
-                                  ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen,
-                                  "Rect Transform"))
-            {
-                ImGui::DragFloat2("Position", (float *)&position);
-                ImGui::DragFloat2("Size", (float *)&size);
-                ImGui::DragFloat2("Anchor", (float *)&anchor, 1.f, .0f);
-                ImGui::TreePop();
-            }
-        }
+        void inspector() override;
+        void updateModelMatrix();
+        void update() override;
+        glm::mat4 getModelMatrix() const;
+        void start() override;
 
         glm::vec2 size;
+        static glm::vec2 unitPerDisplaySize;
         glm::vec2 position;
         glm::vec2 anchor;
+        glm::vec2 scale;
+        const glm::mat4 identity;
+        glm::mat4 modelMatrix;
+        const glm::vec3 rotationAxis;
+        float rotationDegrees;
     };
 }

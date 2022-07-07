@@ -20,10 +20,17 @@ void Canvas::graphicRaycaster()
 
     if (Application::inputManager->mouseButtonPressed(MouseButtons::LEFT))
     {
-        hid::log(logTag, "Plessed left mouse btn.");
+        // auto mousePosition = Application::inputManager->getMousePos();
+        // hid::log(logTag, "Plessed left mouse btn.X: " + std::to_string(mousePosition.x));
     }
     if (Application::inputManager->mouseButtonReleased(MouseButtons::LEFT))
     {
         hid::log(logTag, "Up mouse btn.");
     }
+}
+
+void Canvas::onAddComponent()
+{
+    auto &displaySize = hid::sdl::getDisplaySize();
+    object->getComponent<RectTransform>().size = glm::vec2{displaySize.first, displaySize.second};
 }

@@ -35,7 +35,7 @@ namespace hid
             : projectionMatrix{glm::mat4{1.f}},
               cameraSize{width, height},
               angleOfView{60.f},
-              nearfar{.01f, 100.f},
+              nearfar{.001f, 100.f},
               background{glm::vec3{
                   .3f,
                   .3f,
@@ -72,10 +72,11 @@ namespace hid
             }
         }
 
+        void onAddComponent() override;
+
         void start() override
         {
-            transform = object->transform;
-        }
+                }
 
         void update() override
         {

@@ -73,9 +73,9 @@ OpenGLApplication::OpenGLApplication() : Application(),
 {
 }
 
-void OpenGLApplication::update(const float &delta)
+void OpenGLApplication::update()
 {
-    scene->update(delta);
+    scene->update();
     imgui->update(window);
 }
 
@@ -92,7 +92,9 @@ void OpenGLApplication::render()
 void OpenGLApplication::setup()
 {
     // SDL_AddEventWatch(::resizingEventWatcher, window);
+    // SDL_GL_SetSwapInterval(0);
     Application::assetManager = std::make_unique<hid::OpenGLAssetManager>();
+    Application::assetManager->loadStandardStaticMeshes();
 }
 
 void OpenGLApplication::start()

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../application/application.hpp"
+
 #include "camera.hpp"
 
 #include "../wrapper/glm_wrapper.hpp"
@@ -38,27 +40,10 @@ namespace hid
 
         hid::Transform *transform;
 
-        void start() override
-        {
-            transform = object->transform;
-        }
+        void start() override;
 
-        void update() override
-        {
-            transform->rotateBy(rotationDegrees);
-        }
+        void update() override;
 
-        void inspector() override
-        {
-            if (ImGui::TreeNodeEx((void *)Type,
-                                  ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen,
-                                  "Player Controller"))
-            {
-                ImGui::DragFloat("Move Speed", (float *)&moveSpeed, .0f, 10.f);
-                ImGui::DragFloat("Turn Speed", (float *)&turnSpeed, .0f, 240.f);
-                ImGui::DragFloat("Rotation Degrees", (float *)&turnSpeed, .0f, 240.f);
-                ImGui::TreePop();
-            }
-        }
+        void inspector() override;
     };
 } // namespace hid

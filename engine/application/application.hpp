@@ -3,6 +3,7 @@
 #include "../../core/asset_manager.hpp"
 #include "../../core/file_manager.hpp"
 #include "../../core/input_manager.hpp"
+#include "../../core/time.hpp"
 
 #include <memory>
 
@@ -17,22 +18,23 @@ namespace hid
 
         void startApplication();
         bool runMainLoop();
-        float timeStep();
+        static float timeStep();
 
         virtual void setup() = 0;
 
         virtual void start() = 0;
-        virtual void update(const float &delta) = 0;
+        virtual void update() = 0;
         virtual void render() = 0;
 
         // for singletong
         static std::unique_ptr<hid::AssetManager> assetManager;
         static std::unique_ptr<hid::FileManager> fileManager;
         static std::unique_ptr<hid::InputManager> inputManager;
+        // static std::unique_ptr<hid::Time> time;
 
     private:
-        const float performanceFrequency;
-        uint64_t currentTime;
-        uint64_t previousTime;
+        static const float performanceFrequency;
+        static uint64_t currentTime;
+        static uint64_t previousTime;
     };
 }

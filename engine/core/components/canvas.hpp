@@ -13,6 +13,7 @@ namespace hid
     {
         SCREEN_SPACE
     };
+    // pixel perfect canvas.
     struct Canvas : public hid::IComponent
     {
         static const std::size_t Type;
@@ -38,10 +39,10 @@ namespace hid
         {
         }
 
+        void onAddComponent() override;
+
         void start() override
         {
-            auto &displaySize = hid::sdl::getDisplaySize();
-            object->getComponent<RectTransform>().size = glm::vec2{displaySize.first, displaySize.second};
         }
 
         void inspector() override

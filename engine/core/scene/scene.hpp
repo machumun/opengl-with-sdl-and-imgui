@@ -25,43 +25,28 @@ namespace hid
         std::shared_ptr<hid::SceneData> sceneData;
         hid::Camera *mainCameraReference;
 
-        hid::Camera *editorCameraRefernce;
-
         Scene() : sceneData{std::make_shared<hid::SceneData>()}
         {
-            auto mainCamera{std::make_unique<hid::Object>("Main Camera")};
+            auto mainCamera{createGameObject("Main Camera")};
             mainCamera->addComponent<Camera>(::displaySize.first, ::displaySize.second);
             mainCameraReference = &mainCamera->getComponent<Camera>();
             instantiate(std::move(mainCamera));
-
-            auto editorCamera{std::make_unique<hid::Object>("Editor Camera")};
-            editorCamera->addComponent<Camera>(::displaySize.first, ::displaySize.second);
-            editorCameraRefernce = &editorCamera->getComponent<Camera>();
-            instantiate(std::move(editorCamera));
         }
 
         virtual ~Scene() = default;
 
         virtual void prepare() = 0;
 
-        virtual void start()
-        {
-            for (auto &object : sceneData->objects)
-            {
-                object->start();
-            }
-        };
-
-        // runtime
-        virtual void update(const float &delta) = 0;
-
-        void updateEditor(const float &delta);
+        void start();
+        void update();
 
         virtual void render(const hid::Renderer &renderer) = 0;
 
         void instantiate(std::unique_ptr<hid::Object> &&object);
         void instantiate(std::unique_ptr<hid::Object> &&object, const std::unique_ptr<hid::Object> &parent);
 
+        std::unique_ptr<hid::Object> createGameObject(const std::string &name);
+        std::unique_ptr<hid::Object> createUI(const std::string &name);
         // void saveSceneData() {}
 
         // void loadSceneData() {}

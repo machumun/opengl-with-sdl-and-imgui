@@ -20,6 +20,7 @@ void InspectorPanel::contents()
     }
 
     ImGui::InputText("name", &layout->selectedObject->name);
+    ImGui::Checkbox("isActive", &layout->selectedObject->isActive);
     for (auto &component : layout->selectedObject->components)
     {
         component->inspector();

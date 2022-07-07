@@ -1,5 +1,6 @@
 #include "game_view_panel.hpp"
 #include "../log.hpp"
+#include "../wrapper/sdl_wrapper.hpp"
 
 using hid::GameViewPanel;
 
@@ -10,6 +11,7 @@ ImVec2 GameViewPanel::viewportBounds[2] = {{.0f, .0f}, {.0f, .0f}};
 
 void GameViewPanel::contents()
 {
+    static const auto displaySize = hid::sdl::getDisplaySize();
     isWindowFocused = ImGui::IsWindowFocused();
     isWindowHovered = ImGui::IsWindowHovered();
 
@@ -33,18 +35,18 @@ void GameViewPanel::contents()
     ImVec2 renderImageSize;
     // col or row ajustment
 
-    if (wsize.x != 1280 && wsize.y != 800)
+    if (wsize.x != displaySize.first && wsize.y != displaySize.second)
     {
         float aspectRatio = wsize.x / wsize.y;
 
         if (aspectRatio < 1.6f)
         {
             renderImageSize.x = wsize.x;
-            renderImageSize.y = 800 * (wsize.x / 1280.f);
+            renderImageSize.y = displaySize.second * (wsize.x / displaySize.first);
         }
         else
         {
-            renderImageSize.x = 1280.f * (wsize.y / 800.f);
+            renderImageSize.x = displaySize.first * (wsize.y / displaySize.second);
             renderImageSize.y = wsize.y;
         }
     }

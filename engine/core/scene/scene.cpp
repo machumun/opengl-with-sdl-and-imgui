@@ -61,6 +61,34 @@ void Scene::instantiate(std::unique_ptr<hid::Object> &&object, const std::unique
     }
 }
 
-void updateEditor(const float &delta)
+std::unique_ptr<hid::Object> Scene::createGameObject(const std::string &name)
 {
+    auto gameObject{std::make_unique<hid::Object>(name)};
+    gameObject->addComponent<Transform>();
+    gameObject->transform = &gameObject->getComponent<Transform>();
+    return std::move(gameObject);
+}
+
+std::unique_ptr<hid::Object> Scene::createUI(const std::string &name)
+{
+    auto gameObject{std::make_unique<hid::Object>(name)};
+    gameObject->addComponent<RectTransform>();
+    gameObject->rectTransform = &gameObject->getComponent<RectTransform>();
+    return std::move(gameObject);
+}
+
+void Scene::start()
+{
+    for (auto &object : sceneData->objects)
+    {
+        object->start();
+    }
+}
+
+void Scene::update()
+{
+    for (auto &object : sceneData->objects)
+    {
+        object->update();
+    }
 }

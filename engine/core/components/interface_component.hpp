@@ -20,6 +20,8 @@ namespace hid
         {
             return classType == Type;
         }
+
+        // Do not load &object in constructor.
         IComponent() = default;
         virtual ~IComponent() = default;
 
@@ -30,6 +32,8 @@ namespace hid
 
         virtual void drawEditor() {}
         virtual void draw() {}
+
+        virtual void onAddComponent() {}
 
         // virtual void draw() {}
 

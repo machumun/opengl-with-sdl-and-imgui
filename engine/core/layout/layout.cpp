@@ -14,22 +14,6 @@ void Layout::debugWindow(bool *p_open)
     ImGui::Checkbox("Is Active", &isActive); // Edit bools storing our window open/close state
 
     ImGui::SliderFloat("rotate speed", &rotateSpeed, 0.0f, 100.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-    // if (ImGui::TreeNode("point light"))
-    // {
-    //     ImGui::SliderFloat("intensity", &lightSettings.pointLight.intensity, 0.0f, 10.0f);
-    //     ImGui::SliderFloat3("position", (float *)&lightSettings.pointLight.position, -10.0f, 10.0f);
-    //     ImGui::ColorEdit3("color", (float *)&lightSettings.pointLight.color);
-    //     ImGui::TreePop();
-    // }
-
-    // if (ImGui::TreeNode("ambient light"))
-    // {
-    //     ImGui::SliderFloat("intensity", &lightSettings.ambientLight.intensity, 0.0f, 10.0f);
-    //     ImGui::ColorEdit3("color", (float *)&lightSettings.ambientLight.color);
-    //     ImGui::TreePop();
-    // }
-    // ImGui::Checkbox("Bloom", &lightSettings.bloom);
-    // ImGui::SliderFloat("blur intensity", &lightSettings.bloomIntensity, 0.0f, 10.0f);
 
     if (ImGui::Button("Button"))
     {
@@ -271,7 +255,7 @@ void Layout::viewport()
     inspectorPanel->showWindow(&showInspector);
     environmentalSettingsPanel->showWindow(&showEnvironmentalSettings);
 
-    // gameViewPanel->showWindowWithNoPadding(&showGameView);
+    gameViewPanel->showWindowWithNoPadding(&showGameView);
     // ImGui::ShowDemoWindow(&showDemoWindow);
 
     ImGui::End();

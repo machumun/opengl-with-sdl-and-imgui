@@ -274,8 +274,8 @@ void OpenGLPipeline::render()
     }
 
     // default framebuffer program
-    // glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
+    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
     framebufferProgram.useProgram();
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
@@ -292,7 +292,7 @@ void OpenGLPipeline::render()
     glBindVertexArray(framebufferVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
-    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     // glBindVertexArray(framebufferVAO);
     // glDrawArrays(GL_TRIANGLES, 0, 6);
 }

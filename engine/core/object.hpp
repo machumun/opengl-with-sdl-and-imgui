@@ -5,16 +5,21 @@
 
 #include "components/interface_component.hpp"
 
-// #include "log.hpp"
-
 namespace hid
 {
     struct Scene;
+
+    enum class ObjectType
+    {
+        GAME_OBJECT,
+        UI
+    };
 
     struct Object
     {
         std::string name;
         hid::Transform *transform;
+        hid::RectTransform *rectTransform;
 
         uint32_t id;
 
@@ -27,43 +32,19 @@ namespace hid
         hid::Scene *scene;
         std::vector<std::unique_ptr<hid::IComponent>>::iterator componentsIterator;
 
-        Object(const std::string &name)
-            : name{name.c_str()},
-              componentsIterator{components.begin()}
-        {
-            this->addComponent<hid::Transform>();
-            transform = &getComponent<Transform>();
-        }
+        bool isActive;
+        bool isStatic;
 
-        Object(const std::string &name, const bool &isCanvasSpace)
-            : name{name.c_str()},
-              componentsIterator{components.begin()}
-        {
-            if (isCanvasSpace)
-            {
-                this->addComponent<hid::RectTransform>();
-                // transform = &getComponent<RectTransform>();
-            }
-            else
-            {
-                this->addComponent<hid::Transform>();
-                transform = &getComponent<Transform>();
-            }
-        }
+        Object(const std::string &name);
 
-        ~Object()
-        {
-            // for (auto component : components)
-            // {
-            //     delete component;
-            // }
-        }
+        ~Object() = default;
 
         template <class T, typename... Args>
         void addComponent(Args &&...params)
         {
             std::unique_ptr<T> component = std::make_unique<T>(std::forward<Args>(params)...);
             component->object = this;
+            component->onAddComponent();
             components.emplace_back(std::move(component));
         }
 
@@ -95,57 +76,14 @@ namespace hid
             return false;
         }
 
-        const void draw() const
-        {
-            for (auto &&component : components)
-            {
-                component->draw();
-            }
+        const void draw() const;
 
-            for (auto &&child : children)
-            {
-                child->draw();
-            }
-        }
+        void update();
+        void start();
 
-        void update()
-        {
-            // const static std::string logTag{"component update"};
-            for (auto &&component : components)
-            {
-                component->update();
-            }
-            for (auto &&child : children)
-            {
-                child->update();
-            }
-        }
+        void addChild(std::unique_ptr<hid::Object> &&child);
 
-        void start()
-        {
-            for (auto &&component : components)
-            {
-                component->start();
-            }
-            for (auto &&child : children)
-            {
-                child->start();
-            }
-        }
-
-        void addChild(std::unique_ptr<hid::Object> &&child)
-        {
-            children.emplace_back(std::move(child));
-        }
-
-        void setId(const uint32_t &hash)
-        {
-            id = hash;
-        }
-
-        bool operator==(const Object &obj)
-        {
-            return id == obj.id;
-        }
+        void setId(const uint32_t &hash);
+        bool operator==(const Object &obj);
     };
 }

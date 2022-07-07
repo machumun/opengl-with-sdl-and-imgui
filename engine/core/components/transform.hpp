@@ -41,10 +41,6 @@ namespace hid
 
         glm::mat4 orientation;
 
-        bool isStatic;
-
-        // TransformComponent() = default;
-        // TransformComponent(const TransformComponent &) = default;
         Transform(const glm::vec3 &position = glm::vec3{.0f, .0f, .0f},
                   const glm::vec3 &scale = glm::vec3{1.f, 1.f, 1.f},
                   const glm::vec3 &rotationAxis = glm::vec3{.0f, 1.f, .0f},
@@ -56,7 +52,7 @@ namespace hid
               rotationDegrees{rotationDegrees},
               transformMatrix{identity},
               modelMatrix{identity},
-              isStatic{false},
+
               up{glm::vec3{.0f, 1.f, .0f}},
               right{glm::vec3{1.0f, 0.0f, 0.0f}},
               orientation{::computeOrientation(identity, .0f, up)},
@@ -64,70 +60,18 @@ namespace hid
         {
         }
 
-        void update()
-        {
-            const static std::string logTag{"hid::Transform::update"};
+        void update() override;
 
-            if (!isStatic)
-            {
-                // hid::log(logTag, "update matrix");
-                updateModelMatrix();
-            }
-        }
+        void updateModelMatrix();
+        void updateForward(const float &rotationDegrees);
 
-        void updateModelMatrix()
-        {
-            modelMatrix = glm::translate(identity, position) *
-                          glm::rotate(identity, glm::radians(rotationDegrees), rotationAxis) *
-                          glm::scale(identity, scale);
-        }
+        void inspector() override;
 
-        void updateForward(const float &rotationDegrees)
-        {
-        }
+        void rotateBy(const float &degrees);
 
-        void inspector()
-        {
-            if (ImGui::TreeNodeEx((void *)Type, ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
-            {
-                ImGui::DragFloat3("Position", (float *)&position, 10.f, -10.f);
-                ImGui::DragFloat3("Scale", (float *)&scale, 10.f, -10.f);
-                ImGui::TreePop();
-            }
-        }
+        void setPosition(const glm::vec3 &position);
 
-        void rotateBy(const float &degrees)
-        {
-            rotationDegrees = degrees;
-
-            if (rotationDegrees > 360.0f)
-            {
-                rotationDegrees -= 360.0f;
-            }
-            else if (rotationDegrees < -360.0f)
-            {
-                rotationDegrees += 360.0f;
-            }
-
-            orientation = ::computeOrientation(identity, rotationDegrees, up);
-            forward = ::computeForward(orientation);
-        }
-
-        void setPosition(const glm::vec3 &position)
-        {
-            this->position = position;
-        }
-
-        // void setProjectionMatrix(const ){}
-
-        glm::mat4 getTransformMatrix() const
-        {
-            return transformMatrix;
-        }
-
-        glm::mat4 getModelMatrix() const
-        {
-            return modelMatrix;
-        }
+        glm::mat4 getTransformMatrix() const;
+        glm::mat4 getModelMatrix() const;
     };
 }
