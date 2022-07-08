@@ -16,7 +16,18 @@ void main()
 {
     vec4 color =  texture2D(u_sampler, v_texCoord) * vec4(u_baseColor, 1.f);
     u_positionTexture = vec4(v_vertexPosition, color.a);
+
     u_normalTexture = vec4(normalize(v_normal), color.a);
+    
+    // u_normalTexture = vec4(normalize(v_normal), 0);
+    // u_normalTexture = vec4(.0f, .0f, .0f,  color.a);
+    // if(color.a > 0){
+    //     u_normalTexture = vec4(normalize(v_normal), color.a);
+    // }else{
+    //     u_normalTexture = vec4(normalize(v_normal), 0);
+    // }
+   
+
     u_albedoTexture = color;
     // u_albedoTexture = vec4(1.f, .0f, .0f, 1.f);
 

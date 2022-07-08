@@ -14,6 +14,19 @@
 // #include <typeinfo>
 // #include <iostream>
 
+namespace
+{
+    float packedMaterialFlags(uint32_t materialFlags)
+    {
+        return materialFlags * (1.f / 255.f);
+    }
+
+    uint32_t unpackMaterialFlags(float packedMaterialFlags)
+    {
+        return uint32_t((packedMaterialFlags * 255.0f) + 0.5f);
+    }
+}
+
 using hid::OpenGLPipeline;
 
 namespace
@@ -23,6 +36,7 @@ namespace
 
     GLuint createFramebufferTexture(const GLuint &fbo,
                                     const GLuint &internalFormat,
+                                    const GLuint &format,
                                     const GLuint &attachment)
     {
 
@@ -38,7 +52,7 @@ namespace
                      viewportWidth,
                      viewportHeight,
                      0,
-                     GL_RGBA,
+                     format,
                      GL_UNSIGNED_BYTE,
                      NULL);
 
@@ -122,23 +136,20 @@ OpenGLPipeline::OpenGLPipeline()
 
       framebufferVAO{::createFramebufferVAO()},
       renderFBO{::createFBO()},
-      renderTextureId(::createFramebufferTexture(renderFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT0)),
+      renderTextureId(::createFramebufferTexture(renderFBO, GL_RGBA16F, GL_RGBA, GL_COLOR_ATTACHMENT0)),
       baseFBO{::createFBO()},
-      positionTextureId{::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)},
-      normalTextureId{::createFramebufferTexture(baseFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)},
-      albedoTextureId{::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_COLOR_ATTACHMENT2)},
+      positionTextureId{::createFramebufferTexture(baseFBO, GL_RGB16F, GL_RGB, GL_COLOR_ATTACHMENT0)},
+      normalTextureId{::createFramebufferTexture(baseFBO, GL_RGB16F, GL_RGB, GL_COLOR_ATTACHMENT1)},
+      albedoTextureId{::createFramebufferTexture(baseFBO, GL_RGBA16F, GL_RGBA, GL_COLOR_ATTACHMENT2)},
+      //   lightingMaskTextureId{::createFramebufferTexture(baseFBO, GL_R8, GL_R, GL_COLOR_ATTACHMENT3)},
       depthRenderBufferId{::createRenderBuffer(baseFBO)},
 
       defferedLightingFBO{::createFBO()},
-      baseTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT0)},
-      bloomTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGB16F, GL_COLOR_ATTACHMENT1)},
+      baseTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGB16F, GL_RGB, GL_COLOR_ATTACHMENT0)},
+      bloomTextureId{::createFramebufferTexture(defferedLightingFBO, GL_RGB16F, GL_RGB, GL_COLOR_ATTACHMENT1)},
 
       pingpongAmount{8}
 {
-    // const GLuint renderAttatchments[1] = {GL_COLOR_ATTACHMENT0};
-    // glBindFramebuffer(GL_FRAMEBUFFER, renderFBO);
-    // glDrawBuffers(1, renderAttatchments);
-    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // tell opengl use this attachment
     const GLuint baseAttatchments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
@@ -151,6 +162,7 @@ OpenGLPipeline::OpenGLPipeline()
     defferedLightingProgram.setInt("u_positionTexture", 0);
     defferedLightingProgram.setInt("u_normalTexture", 1);
     defferedLightingProgram.setInt("u_albedoTexture", 2);
+    // defferedLightingProgram.setInt("u_lightingMask", 3);
 
     blurProgram.useProgram();
     blurProgram.setInt("u_bloomTexture", 0);
@@ -168,8 +180,8 @@ OpenGLPipeline::OpenGLPipeline()
     // pinpongFBO
     pingpongFBO[0] = ::createFBO();
     pingpongFBO[1] = ::createFBO();
-    pingpongBufferTexture[0] = ::createFramebufferTexture(pingpongFBO[0], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
-    pingpongBufferTexture[1] = ::createFramebufferTexture(pingpongFBO[1], GL_RGBA16F, GL_COLOR_ATTACHMENT0);
+    pingpongBufferTexture[0] = ::createFramebufferTexture(pingpongFBO[0], GL_RGBA16F, GL_RGBA, GL_COLOR_ATTACHMENT0);
+    pingpongBufferTexture[1] = ::createFramebufferTexture(pingpongFBO[1], GL_RGBA16F, GL_RGBA, GL_COLOR_ATTACHMENT0);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
@@ -195,9 +207,10 @@ void OpenGLPipeline::render()
                  0.f);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -209,9 +222,11 @@ void OpenGLPipeline::render()
     }
 
     // deffered lighting pass
+
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glBindFramebuffer(GL_FRAMEBUFFER, defferedLightingFBO);
+
     defferedLightingProgram.useProgram();
 
     const size_t &lightNum = pointLights.size();

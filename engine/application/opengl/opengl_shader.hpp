@@ -21,7 +21,10 @@ namespace hid
         void setVec3(const std::string &name, const float *value) const override;
         void setVec4(const std::string &name, const float *value) const override;
 
-        void setTexture(const std::string &texture) const override;
+        void setTexture(const std::string &texture) const override final;
+
+        void enableAlphaBlend() const override final;
+        void disableAlphaBlend() const override final;
 
         GLuint getShaderProgramId() const;
         GLuint resolveUniformLocation(const std::string &name) const;

@@ -141,3 +141,13 @@ void OpenGLShader::setTexture(const std::string &texture) const
     glActiveTexture(GL_TEXTURE0);
     Application::assetManager->getTexture(texture)->bind();
 }
+
+void OpenGLShader::enableAlphaBlend() const
+{
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+void OpenGLShader::disableAlphaBlend() const
+{
+    glDisable(GL_BLEND);
+}

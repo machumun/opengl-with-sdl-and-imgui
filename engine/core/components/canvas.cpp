@@ -18,15 +18,15 @@ void Canvas::graphicRaycaster()
     // hid::log(logTag, std::to_string(SDL_BUTTON_X1MASK));
     // hid::log(logTag, std::to_string(SDL_BUTTON_X2MASK));
 
-    if (Application::inputManager->mouseButtonPressed(MouseButtons::LEFT))
-    {
-        // auto mousePosition = Application::inputManager->getMousePos();
-        // hid::log(logTag, "Plessed left mouse btn.X: " + std::to_string(mousePosition.x));
-    }
-    if (Application::inputManager->mouseButtonReleased(MouseButtons::LEFT))
-    {
-        hid::log(logTag, "Up mouse btn.");
-    }
+    // if (Application::inputManager->mouseButtonPressed(MouseButtons::LEFT))
+    // {
+    //     auto mousePosition = Application::inputManager->getMousePos();
+    //     hid::log(logTag, "Plessed left mouse btn.X: " + std::to_string(mousePosition.x));
+    // }
+    // if (Application::inputManager->mouseButtonReleased(MouseButtons::LEFT))
+    // {
+    //     hid::log(logTag, "Up mouse btn.");
+    // }
 }
 
 void Canvas::onAddComponent()

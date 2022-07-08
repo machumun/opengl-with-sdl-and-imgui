@@ -49,7 +49,6 @@ namespace hid
         const hid::StaticMesh *staticMesh;
         glm::vec2 size;
         const hid::Shader *shaderReference;
-        // const hid::Material material;
         hid::RectTransform *rectTransfrom;
         hid::RectTransform *parentRectTransform;
         hid::Canvas *canvas;

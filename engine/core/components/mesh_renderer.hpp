@@ -40,15 +40,22 @@ namespace hid
         // for application update
         void draw() override
         {
+            if (material.alphaBlend)
+            {
+                shaderReference->enableAlphaBlend();
+            }
+
             shaderReference->useProgram();
-
-            // glActiveTexture(GL_TEXTURE0);
             shaderReference->setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
-
             shaderReference->setTexture(material.albedo);
             shaderReference->setVec3("u_baseColor", &material.baseColor[0]);
             shaderReference->setMat4("u_modelMatrix", &transform->getModelMatrix()[0][0]);
             staticMesh->draw();
+
+            if (material.alphaBlend)
+            {
+                shaderReference->disableAlphaBlend();
+            }
         }
 
         void inspector()

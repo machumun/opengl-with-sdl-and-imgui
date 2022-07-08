@@ -42,6 +42,7 @@ namespace hid
         const GLuint positionTextureId;
         const GLuint normalTextureId;
         const GLuint albedoTextureId;
+        // const GLuint lightingMaskTextureId;
         const GLuint depthRenderBufferId;
 
         // deffered lighting buffer

@@ -20,6 +20,7 @@ UIButton::UIButton(const std::string &texture = "empty")
           1.f,
           1.f}},
       shaderReference{Application::assetManager->getShader("ui")}
+
 {
     // rectTransfrom = &object->getComponent<hid::RectTransform>();
     // rectTransfrom->size = glm::vec2{width, height};
@@ -37,12 +38,13 @@ void UIButton::start()
 
 void UIButton::draw()
 {
+    shaderReference->enableAlphaBlend();
     shaderReference->useProgram();
-
     shaderReference->setTexture(texture);
     shaderReference->setVec3("u_baseColor", &pressedColor[0]);
     shaderReference->setMat4("u_modelMatrix", &rectTransfrom->getModelMatrix()[0][0]);
     staticMesh->draw();
+    shaderReference->disableAlphaBlend();
 }
 
 void UIButton::inspector()
@@ -56,7 +58,6 @@ void UIButton::inspector()
         ImGui::TreePop();
     }
 }
-
 
 void UIButton::onAddComponent()
 {

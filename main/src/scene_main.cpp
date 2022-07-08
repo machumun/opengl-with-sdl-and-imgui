@@ -34,21 +34,13 @@ void SceneMain::prepare()
 
     Application::assetManager->loadShader("ui", {"ui", "ui"});
 
-    hid::Material metalMaterial{
-        "lit",
-        "metal"};
+    hid::Material metalMaterial{"lit", "metal"};
+    hid::Material hamMaterial{"lit", "hamster"};
 
-    hid::Material hamMaterial{
-        "lit",
-        "hamster"};
+    hid::Material characterMaterial{"animation", "chara"};
+    characterMaterial.alphaBlend = true;
 
-    hid::Material characterMaterial{
-        "animation",
-        "chara"};
-
-    hid::Material uiMaterial{
-        "ui",
-        "button_test"};
+    hid::Material uiMaterial{"ui", "button_test"};
 
     auto obj1{createGameObject("GameObject 1")};
     obj1->addComponent<MeshRenderer>("hamster", hamMaterial);
@@ -102,6 +94,7 @@ void SceneMain::prepare()
 
     auto button{createUI("Test SDL Button")};
     button->addComponent<UIButton>("button_test");
+    button->rectTransform->size = glm::vec2{160.f, 80.f};
 
     instantiate(std::move(button), canvas);
     instantiate(std::move(canvas));

@@ -79,6 +79,11 @@ const glm::vec2 AnimationPlane::getSpriteUnits()
 
 void AnimationPlane::draw()
 {
+    if (material.alphaBlend)
+    {
+        shaderReference->enableAlphaBlend();
+    }
+
     shaderReference->useProgram();
     shaderReference->setMat4("u_projectionMatrix", &camera->getCameraMatrix()[0][0]);
     shaderReference->setTexture(material.albedo);
@@ -86,8 +91,12 @@ void AnimationPlane::draw()
     shaderReference->setMat4("u_modelMatrix", &transform->getModelMatrix()[0][0]);
     shaderReference->setVec2("u_currentOffsetUV", &getCurrentOffsetUV()[0]);
     shaderReference->setVec2("u_spliteNum", &getSpriteUnits()[0]);
-
     staticMesh->draw();
+
+    if (material.alphaBlend)
+    {
+        shaderReference->disableAlphaBlend();
+    }
 }
 
 void AnimationPlane::inspector()

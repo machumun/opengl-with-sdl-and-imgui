@@ -21,6 +21,9 @@ namespace hid
 
         virtual void setTexture(const std::string &texture) const = 0;
 
+        virtual void enableAlphaBlend() const = 0;
+        virtual void disableAlphaBlend() const = 0;
+
         virtual void release() const = 0;
 
         static Shader *create(const std::string &vertShaderName, const std::string &fragShaderName);
