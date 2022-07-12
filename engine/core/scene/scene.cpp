@@ -7,6 +7,8 @@ using hid::Scene;
 
 // staticMeshCache.count(staticMesh.first) == 0
 
+CEREAL_REGISTER_TYPE(hid::Scene);
+
 void Scene::instantiate(std::unique_ptr<hid::Object> &&object)
 {
     object->scene = this;
