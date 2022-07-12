@@ -1,10 +1,12 @@
 #include "layout.hpp"
 #include "../log.hpp"
 
-#include <nfd.h>
-
 #include <string>
 #include <iostream>
+
+#include "../../application/application.hpp"
+
+#include "ImGuiFileBrowser.h"
 
 using hid::Layout;
 
@@ -32,9 +34,13 @@ void Layout::debugWindow(bool *p_open)
     ImGui::End();
 }
 
+imgui_addons::ImGuiFileBrowser file_dialog; // As a class member or globally
 void Layout::viewport()
 {
     static const std::string logTag{"hid::Layout::viewport"};
+
+    // static const std::string defaultPath{""};
+
     static bool dockSpaceOpen = true;
     static bool opt_fullscreen = true;
     static bool opt_padding = false;
@@ -49,6 +55,9 @@ void Layout::viewport()
     static bool showGameView = true;
 
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
+
+    bool save = false;
+    bool open = false;
 
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
     if (opt_fullscreen)
@@ -97,6 +106,8 @@ void Layout::viewport()
             }
             if (ImGui::MenuItem("Open", "Ctrl+O"))
             {
+                open = true;
+                // Application::fileManager->runOpenProcess();
             }
             if (ImGui::BeginMenu("Open Recent"))
             {
@@ -118,22 +129,8 @@ void Layout::viewport()
             }
             if (ImGui::MenuItem("Save", "Ctrl+S"))
             {
-
-                nfdchar_t *outPath = new nfdchar_t;
-                nfdresult_t result = NFD_OpenDialog("png,jpg;pdf", NULL, &outPath);
-                if (result == NFD_OKAY)
-                {
-                    // hid::log(logTag, "NFD::Open" + outPath);
-                    std::cout << outPath << std::endl;
-                    delete outPath;
-                }
-                // do error handling
-
-                // if (ImGui::MenuItem("Save", "CTRL+S"))
-                // { /* do something */
-                // }
-
-                // ImGui::EndMenu();
+                // Application::fileManager->runSaveProcess();
+                save = true;
             }
             if (ImGui::MenuItem("Save As.."))
             {
@@ -247,6 +244,36 @@ void Layout::viewport()
         }
 
         ImGui::EndMenuBar();
+    }
+
+    // Remember the name to ImGui::OpenPopup() and showFileDialog() must be same...
+    if (open)
+    {
+        ImGui::OpenPopup("Open File");
+    }
+    if (save)
+    {
+        ImGui::OpenPopup("Save File");
+    }
+
+    /* Optional third parameter. Support opening only compressed rar/zip files.
+     * Opening any other file will show error, return false and won't close the dialog.
+     */
+    if (file_dialog.showFileDialog("Open File", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(700, 310), ".rar,.zip,.7z"))
+    {
+        std::cout << file_dialog.selected_fn << std::endl;   // The name of the selected file or directory in case of Select Directory dialog mode
+        std::cout << file_dialog.selected_path << std::endl; // The absolute path to the selected file
+    }
+    if (file_dialog.showFileDialog("Save File",
+                                   imgui_addons::ImGuiFileBrowser::DialogMode::SAVE,
+                                   ImVec2(700, 310),
+                                   ".scene"))
+    {
+        std::cout << file_dialog.selected_fn << std::endl;   // The name of the selected file or directory in case of Select Directory dialog mode
+        std::cout << file_dialog.selected_path << std::endl; // The absolute path to the selected file
+        std::cout << file_dialog.ext << std::endl;           // Access ext separately (For SAVE mode)
+        Application::fileManager->saveScene(*Application::currentScene, file_dialog.selected_path);
+        // Do writing of files based on extension here
     }
 
     debugWindow(&showDebug);

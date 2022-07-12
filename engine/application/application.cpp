@@ -34,6 +34,9 @@ const float Application::performanceFrequency{static_cast<float>(SDL_GetPerforma
 uint64_t Application::currentTime{SDL_GetPerformanceCounter()};
 uint64_t Application::previousTime{currentTime};
 
+std::unique_ptr<hid::Scene> Application::currentScene = nullptr;
+std::unique_ptr<hid::Layout> Application::layout = nullptr;
+
 Application::Application()
 {
 }

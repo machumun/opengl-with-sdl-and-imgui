@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../../core/asset_manager.hpp"
-#include "../../core/file_manager.hpp"
-#include "../../core/input_manager.hpp"
-#include "../../core/time.hpp"
+#include "../core/asset_manager.hpp"
+#include "../core/file_manager.hpp"
+#include "../core/input_manager.hpp"
+#include "../core/time.hpp"
+
+#include "../core/layout/layout.hpp"
 
 #include <memory>
 
@@ -30,7 +32,11 @@ namespace hid
         static std::unique_ptr<hid::AssetManager> assetManager;
         static std::unique_ptr<hid::FileManager> fileManager;
         static std::unique_ptr<hid::InputManager> inputManager;
+        // static;
         // static std::unique_ptr<hid::Time> time;
+
+        static std::unique_ptr<hid::Scene> currentScene;
+        static std::unique_ptr<hid::Layout> layout;
 
     private:
         static const float performanceFrequency;

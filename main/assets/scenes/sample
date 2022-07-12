@@ -1,0 +1,27 @@
+{
+    "value0": {
+        "SceneData": {
+            "object": {
+                "name": "Main Camera"
+            },
+            "object": {
+                "name": "GameObject 1"
+            },
+            "object": {
+                "name": "Plane"
+            },
+            "object": {
+                "name": "Point Light"
+            },
+            "object": {
+                "name": "Charactor"
+            },
+            "object": {
+                "name": "Canvas"
+            },
+            "environmentalSettings": {
+                "fps": 60
+            }
+        }
+    }
+}

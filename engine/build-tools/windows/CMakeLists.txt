@@ -16,16 +16,13 @@ set(IMGUI_BACKENDS_SOURCE_DIR ${THIRD_PARTY_DIR}/imgui/backends)
 
 set(NFD_SOURCE_DIR ${THIRD_PARTY_DIR}/nfd/src)
 
-set(LIB_NFD ${THIRD_PARTY_DIR}/nfd/build/lib/Release/x64/nfd.lib)
-
-
 set(LIB_SDL2 ${THIRD_PARTY_DIR}/sdl-windows/lib/x64/SDL2.lib)
 set(LIB_SDL2_MAIN ${THIRD_PARTY_DIR}/sdl-windows/lib/x64/SDL2main.lib)
 set(LIB_GLEW ${THIRD_PARTY_DIR}/glew/lib/Release/x64/glew32s.lib)
 set(LIB_SDL2_IMAGE ${THIRD_PARTY_DIR}/sdl-image-windows/lib/x64/SDL2_image.lib)
 set(LIB_VULKAN ${THIRD_PARTY_DIR}/vulkan-windows/Lib/vulkan-1.lib)
 
-include_directories(${NFD_SOURCE_DIR}/include)
+include_directories(${THIRD_PARTY_DIR}/include)
 
 include_directories(${IMGUI_SOURCE_DIR})
 include_directories(${IMGUI_BACKENDS_SOURCE_DIR})
@@ -37,8 +34,8 @@ include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/json)
 include_directories(${THIRD_PARTY_DIR}/sdl-image-windows/include)
 include_directories(${THIRD_PARTY_DIR}/vulkan-windows/Include)
-include_directories(${THIRD_PARTY_DIR}cereal/include)
-
+include_directories(${THIRD_PARTY_DIR}/cereal/include)
+include_directories(${THIRD_PARTY_DIR}/imgui_addons/FileBrowser)
 
 file(GLOB_RECURSE MAIN_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
 file(GLOB_RECURSE MAIN_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
@@ -50,9 +47,7 @@ file(GLOB_RECURSE APPLICATION_HEADERS ${APPLICATION_SOURCE_DIR}/*.hpp)
 file(GLOB_RECURSE APPLICATION_SOURCES ${APPLICATION_SOURCE_DIR}/*.cpp)
 
 
-file(GLOB_RECURSE NFD_CPPS ${NFD_SOURCE_DIR}/*.cpp)
-file(GLOB_RECURSE NFD_HS ${NFD_SOURCE_DIR}/*.h)
-file(GLOB_RECURSE NFD_CS ${NFD_SOURCE_DIR}/*.c)
+
 
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
@@ -69,10 +64,9 @@ add_executable(
     ${APPLICATION_HEADERS}
     ${APPLICATION_SOURCES}
 
-    # ${NFD_SOURCE_DIR}/
+    ${THIRD_PARTY_DIR}/imgui_addons/FileBrowser/ImGuiFileBrowser.cpp
+    ${THIRD_PARTY_DIR}/imgui_addons/FileBrowser/ImGuiFileBrowser.h
 
-
-    ${NFD_SOURCE_DIR}/include/nfd.h
     ${IMGUI_SOURCE_DIR}/imgui.cpp
     ${IMGUI_SOURCE_DIR}/imgui.h
     ${IMGUI_SOURCE_DIR}/imgui_draw.cpp

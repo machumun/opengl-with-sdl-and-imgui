@@ -70,15 +70,13 @@ OpenGLApplication::OpenGLApplication() : Application(),
                                          window{hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)},
                                          context{::createContext(window)},
                                          renderer{std::make_unique<hid::OpenGLRenderer>()},
-                                         scene{std::make_unique<hid::SceneMain>()},
-                                         layout{std::make_unique<hid::Layout>(scene->sceneData)},
                                          imgui{std::make_unique<hid::OpenGLImGui>()}
 {
 }
 
 void OpenGLApplication::update()
 {
-    scene->update();
+    currentScene->update();
     imgui->update(window);
 }
 
@@ -96,24 +94,26 @@ void OpenGLApplication::setup()
 {
     // SDL_AddEventWatch(::resizingEventWatcher, window);
     // SDL_GL_SetSwapInterval(0);
-    Application::assetManager = std::make_unique<hid::OpenGLAssetManager>();
-    Application::assetManager->loadStandardStaticMeshes();
+    assetManager = std::make_unique<hid::OpenGLAssetManager>();
+    assetManager->loadStandardStaticMeshes();
+    currentScene = std::make_unique<hid::SceneMain>();
+    layout = std::make_unique<hid::Layout>(currentScene->sceneData);
 }
 
 void OpenGLApplication::start()
 {
     // use to load assets
-    scene->prepare();
+    currentScene->prepare();
 
     // pointer delivery
-    renderer->setup(scene->sceneData);
+    renderer->setup(currentScene->sceneData);
     std::function<void()> viewport = [&]() -> void
     { return layout->viewport(); };
 
     imgui->setup(window, context);
     imgui->setViewport(viewport);
 
-    scene->start();
+    currentScene->start();
 }
 
 OpenGLApplication::~OpenGLApplication()

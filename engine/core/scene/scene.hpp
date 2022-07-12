@@ -1,14 +1,19 @@
 #pragma once
 
 #include "scene_data.hpp"
-
 #include "../renderer.hpp"
-
 #include "../object.hpp"
-
 #include "../components/camera.hpp"
-
 #include "../wrapper/sdl_wrapper.hpp"
+
+#include <cereal/cereal.hpp>
+#include <cereal/types/map.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/archives/json.hpp>
+
+#include <cereal/types/base_class.hpp>
+#include <cereal/types/memory.hpp>
 
 namespace
 {
@@ -18,14 +23,17 @@ namespace
 
 namespace hid
 {
-
     struct Scene
     {
 
         std::shared_ptr<hid::SceneData> sceneData;
         hid::Camera *mainCameraReference;
 
-        Scene() : sceneData{std::make_shared<hid::SceneData>()}
+        std::string sceneName;
+
+        Scene()
+            : sceneData{std::make_shared<hid::SceneData>()},
+              sceneName{"mainscene"}
         {
             auto mainCamera{createGameObject("Main Camera")};
             mainCamera->addComponent<Camera>(::displaySize.first, ::displaySize.second);
@@ -50,5 +58,12 @@ namespace hid
         // void saveSceneData() {}
 
         // void loadSceneData() {}
+
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            archive(cereal::make_nvp("SceneData", *sceneData));
+            archive.serializeDeferments();
+        }
     };
 } // namespace usr

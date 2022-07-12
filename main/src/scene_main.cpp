@@ -11,6 +11,9 @@ using hid::SceneMain;
 
 #include <iostream>
 
+CEREAL_REGISTER_TYPE(hid::SceneMain)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::Scene, hid::SceneMain)
+
 void SceneMain::render(const hid::Renderer& renderer)
 {
     renderer.render();

@@ -1,6 +1,10 @@
 #pragma once
 
-// #include ""
+#include "scene/scene.hpp"
+
+#include <fstream>
+#include <iostream>
+#include <string>
 
 namespace hid
 {
@@ -9,13 +13,13 @@ namespace hid
         FileManager() = default;
         ~FileManager() = default;
 
-        void saveScene()
-        {
-        }
+        void saveScene(const hid::Scene &scene, const std::string &path);
 
-        void loadScene()
-        {
-        }
+        void openScene(const std::string &path);
+
+        // bool openFile(std::string *sSelectedFile, std::string *sFilePath);
+        // void runOpenProcess();
+        void saveFile(const std::string &filter);
 
         void importAsset() {}
 

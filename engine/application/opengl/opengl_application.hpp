@@ -7,8 +7,6 @@
 #include "../../../main/src/scene_main.hpp"
 #include "../application.hpp"
 
-#include "../../core/layout/layout.hpp"
-
 namespace hid
 {
     struct OpenGLApplication : public hid::Application
@@ -25,8 +23,6 @@ namespace hid
         SDL_Window *window;
         SDL_GLContext context;
 
-        std::unique_ptr<hid::Scene> scene;
-        std::unique_ptr<hid::Layout> layout;
         std::unique_ptr<hid::OpenGLRenderer> renderer;
         std::unique_ptr<hid::OpenGLImGui> imgui;
     };

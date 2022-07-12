@@ -11,6 +11,7 @@ namespace hid
     struct SceneMain : public hid::Scene
     {
         SceneMain() = default;
+        ~SceneMain() = default;
 
         void prepare() override;
 

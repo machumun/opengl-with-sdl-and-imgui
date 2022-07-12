@@ -98,20 +98,20 @@ if (!(Test-Path "..\..\third-party\imgui")) {
 }
 
 # NFD
-if (!(Test-Path "..\..\third-party\nfd")) {
-    Write-Host "Downloading native file dialog library into third party folder nfd ..."
+# if (!(Test-Path "..\..\third-party\nfd")) {
+#     Write-Host "Downloading native file dialog library into third party folder nfd ..."
    
-    Invoke-WebRequest -Uri "https://github.com/mlabbe/nativefiledialog/archive/refs/tags/release_116.zip" -OutFile "..\..\third-party\nfd.zip"
-    Push-Location -Path "..\..\third-party"
-        Write-Host "Unzipping native file dialog library into third-party\nfd ..."
-        cmd.exe /c 'tar -xf nfd.zip'
-        Move-Item -Path nativefiledialog-release_116 -Destination nfd
-        Remove-Item -Path nfd.zip
-    Pop-Location
-}
+#     Invoke-WebRequest -Uri "https://github.com/mlabbe/nativefiledialog/archive/refs/tags/release_116.zip" -OutFile "..\..\third-party\nfd.zip"
+#     Push-Location -Path "..\..\third-party"
+#         Write-Host "Unzipping native file dialog library into third-party\nfd ..."
+#         cmd.exe /c 'tar -xf nfd.zip'
+#         Move-Item -Path nativefiledialog-release_116 -Destination nfd
+#         Remove-Item -Path nfd.zip
+#     Pop-Location
+# }
 
 #cerial
-if (!(Test-Path "..\..\third-party\cerial")) {
+if (!(Test-Path "..\..\third-party\cereal")) {
     Write-Host "Downloading cereal into third party folder cereal ..."
    
     Invoke-WebRequest -Uri "https://github.com/USCiLab/cereal/archive/v1.3.2.zip" -OutFile "..\..\third-party\cereal.zip"
@@ -120,6 +120,20 @@ if (!(Test-Path "..\..\third-party\cerial")) {
         cmd.exe /c 'tar -xf cereal.zip'
         Move-Item -Path "cereal-1.3.2" -Destination cereal
         Remove-Item -Path cereal.zip
+    Pop-Location
+}
+
+
+# ImGui FileBrowser Addon
+if (!(Test-Path "..\..\third-party\imgui_addons")) {
+    Write-Host "Downloading Imgui addons library into third party folder imgui_addons ..."
+   
+    Invoke-WebRequest -Uri "https://github.com/gallickgunner/ImGui-Addons/archive/refs/heads/master.zip" -OutFile "..\..\third-party\imgui-addons.zip"
+    Push-Location -Path "..\..\third-party"
+        Write-Host "Unzipping native file dialog library into third-party\nfd ..."
+        cmd.exe /c 'tar -xf imgui-addons.zip'
+        Move-Item -Path ImGui-Addons-master -Destination imgui_addons
+        Remove-Item -Path imgui-addons.zip
     Pop-Location
 }
 

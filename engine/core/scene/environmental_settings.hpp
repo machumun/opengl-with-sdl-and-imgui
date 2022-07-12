@@ -2,6 +2,9 @@
 
 #include "../wrapper/glm_wrapper.hpp"
 
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
+
 namespace hid
 {
     struct EnvironmentalSettings
@@ -25,6 +28,12 @@ namespace hid
               bloomStrength{1.f},
               bloomThreshold{.0f}
         {
+        }
+
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            archive(cereal::make_nvp("fps", fps));
         }
     };
 }

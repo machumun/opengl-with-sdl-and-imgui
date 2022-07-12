@@ -5,6 +5,12 @@
 
 #include "components/interface_component.hpp"
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/map.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/archives/json.hpp>
+
 namespace hid
 {
     struct Scene;
@@ -85,5 +91,11 @@ namespace hid
 
         void setId(const uint32_t &hash);
         bool operator==(const Object &obj);
+
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            archive(cereal::make_nvp("name", name));
+        }
     };
 }
