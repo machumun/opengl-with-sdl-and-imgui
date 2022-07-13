@@ -83,6 +83,7 @@ void SceneMain::prepare()
         10,
         6,
         4);
+
     character->transform->rotationAxis = glm::vec3{1.f, .0f, .0f};
     character->transform->rotationDegrees = 90.f;
     character->transform->scale = glm::vec3{
@@ -98,6 +99,7 @@ void SceneMain::prepare()
     auto button{createUI("Test SDL Button")};
     button->addComponent<UIButton>("button_test");
     button->rectTransform->size = glm::vec2{160.f, 80.f};
+    button->rectTransform->position = glm::vec2{-0.7f, 0.7f};
 
     instantiate(std::move(button), canvas);
     instantiate(std::move(canvas));
