@@ -5,12 +5,16 @@ Unityを触ってアプリを作る機会があったのですが、レンダリ
 
 # Development Environment
 
-``Windows10 Home``
+``Windows10 Home``  
 ``OpenGL 3.3``  
-``VisualStudio 2022``
+``VisualStudio 2022``  
+``SDL2``  
+``glew``  
+``ImGui``  
+``TinyObjLoader``
 
 # DEMO
-## ・Component System  
+## ・Entity Component System  
 ![result](https://github.com/machumun/opengl-with-sdl-and-imgui/blob/main/engine_sample.gif)
 
 ## ・Deffered Lighting  
