@@ -1,0 +1,60 @@
+{
+    "value0": {
+        "SceneName": "mainscene",
+        "SceneData": {
+            "objects": [
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Main Camera"
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "GameObject 1"
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Plane"
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Point Light"
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Charactor"
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Canvas"
+                        }
+                    }
+                }
+            ],
+            "environmentalSettings": {
+                "fps": 60
+            }
+        }
+    }
+}

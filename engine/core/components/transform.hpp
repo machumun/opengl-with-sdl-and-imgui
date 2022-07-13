@@ -73,5 +73,16 @@ namespace hid
 
         glm::mat4 getTransformMatrix() const;
         glm::mat4 getModelMatrix() const;
+
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            archive(cereal::base_class<IComponent>(this));
+            // archive(cereal::make_nvp("position", position));
+            return;
+        }
     };
 }
+
+CEREAL_REGISTER_TYPE(hid::Transform)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::Transform)

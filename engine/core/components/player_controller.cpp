@@ -5,6 +5,8 @@
 using hid::Application;
 using hid::PlayerController;
 
+// CEREAL_REGISTER_TYPE(PlayerController);
+
 const std::size_t PlayerController::Type = std::hash<std::string>()("PlayerController");
 bool PlayerController::IsClassType(const std::size_t classType) const
 {

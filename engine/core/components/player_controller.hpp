@@ -25,6 +25,7 @@ namespace hid
 
         float rotationDegrees;
 
+        PlayerController() = default;
         PlayerController(float rotationDegree);
 
         void rotate(const float &amount);
@@ -47,3 +48,6 @@ namespace hid
         void inspector() override;
     };
 } // namespace hid
+
+CEREAL_REGISTER_TYPE(hid::PlayerController)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::PlayerController)

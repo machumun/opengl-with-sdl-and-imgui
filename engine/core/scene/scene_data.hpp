@@ -27,10 +27,12 @@ namespace hid
         template <class Archive>
         void serialize(Archive &archive)
         {
-            for (auto &object : objects)
-            {
-                archive(cereal::make_nvp("object", *object));
-            }
+            // for (auto &object : objects)
+            // {
+            //     archive(cereal::make_nvp("object", *object));
+            // }
+
+            archive(cereal::make_nvp("objects", objects));
 
             archive(cereal::make_nvp("environmentalSettings", *environmentalSettings));
         }

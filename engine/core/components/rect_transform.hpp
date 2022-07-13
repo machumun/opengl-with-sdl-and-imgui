@@ -55,3 +55,6 @@ namespace hid
         float rotationDegrees;
     };
 }
+
+CEREAL_REGISTER_TYPE(hid::RectTransform)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::RectTransform)

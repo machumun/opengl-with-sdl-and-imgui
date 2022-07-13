@@ -3,6 +3,7 @@
 using hid::MeshRenderer;
 
 const std::size_t MeshRenderer::Type = std::hash<std::string>()("MeshRenderer");
+
 bool MeshRenderer::IsClassType(const std::size_t classType) const
 {
     if (classType == MeshRenderer::Type)

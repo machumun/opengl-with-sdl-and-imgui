@@ -8,11 +8,13 @@
 using hid::Application;
 using hid::UIButton;
 
+// CEREAL_REGISTER_TYPE(UIButton);
+
 const std::size_t UIButton::Type = std::hash<std::string>()("UIButton");
 
-UIButton::UIButton(const std::string &texture = "empty")
+UIButton::UIButton()
     : isSelected{false},
-      texture{texture},
+      texture{"empty"},
       staticMesh{Application::assetManager->getStaticMesh("ui_plane")},
       callback{nullptr},
       pressedColor{glm::vec3{
@@ -22,8 +24,6 @@ UIButton::UIButton(const std::string &texture = "empty")
       shaderReference{Application::assetManager->getShader("ui")}
 
 {
-    // rectTransfrom = &object->getComponent<hid::RectTransform>();
-    // rectTransfrom->size = glm::vec2{width, height};
 }
 
 void UIButton::update()

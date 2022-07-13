@@ -7,6 +7,9 @@
 #include <memory>
 #include <vector>
 
+#include <cereal/types/base_class.hpp>
+#include <cereal/types/memory.hpp>
+
 namespace hid
 {
     struct Object;
@@ -23,7 +26,7 @@ namespace hid
 
         // Do not load &object in constructor.
         IComponent() = default;
-        virtual ~IComponent() = default;
+        ~IComponent() = default;
 
         virtual void updateEditor() {}
 
@@ -38,5 +41,11 @@ namespace hid
         // virtual void draw() {}
 
         virtual void inspector() {}
+
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            return;
+        }
     };
 }

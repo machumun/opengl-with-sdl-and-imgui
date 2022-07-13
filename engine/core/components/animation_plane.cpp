@@ -3,6 +3,10 @@
 #include "../log.hpp"
 
 using hid::AnimationPlane;
+// using hid::IComponent;
+
+// CEREAL_REGISTER_TYPE(AnimationPlane)
+// CEREAL_REGISTER_POLYMORPHIC_RELATION(IComponent, AnimationPlane)
 
 const std::size_t AnimationPlane::Type = std::hash<std::string>()("AnimationPlane");
 
@@ -22,7 +26,7 @@ AnimationPlane::AnimationPlane(
       frameCount{0},
       animationCount{0},
       spriteUnitsWidth{1 / (float)spriteUnitsU},
-      spriteUnitsHeight{1 / (float)spriteUnitsV} {};
+      spriteUnitsHeight{1 / (float)spriteUnitsV} {}
 
 void AnimationPlane::update()
 {

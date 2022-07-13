@@ -31,17 +31,8 @@ namespace hid
 
         hid::Transform *transform;
 
-        Camera(const float &width, const float &height)
-            : projectionMatrix{glm::mat4{1.f}},
-              cameraSize{width, height},
-              angleOfView{60.f},
-              nearfar{.001f, 100.f},
-              background{glm::vec3{
-                  .3f,
-                  .3f,
-                  .3f}}
-        {
-        }
+        Camera() = default;
+        Camera(const float &width, const float &height);
 
         glm::mat4 Camera::getProjectionMatrix() const
         {
@@ -76,11 +67,22 @@ namespace hid
 
         void start() override
         {
-                }
+        }
 
         void update() override
         {
             projectionMatrix = glm::perspective(glm::radians(angleOfView), cameraSize[0] / cameraSize[1], nearfar[0], nearfar[1]);
         }
+
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            archive(cereal::base_class<IComponent>(this));
+            archive(cereal::make_nvp("angleOfView", angleOfView));
+            return;
+        }
     };
 }
+
+CEREAL_REGISTER_TYPE(hid::Camera)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::Camera)

@@ -38,13 +38,11 @@ namespace hid
 
         hid::Transform *transform;
 
+        Light() = default;
         Light(
             const LightType &lightType,
-            const glm::vec3 &color = glm::vec3{1.0f, 1.0f, 1.0f},
-            const float &intensity = 1.0f)
-            : lightType{lightType},
-              color{color},
-              intensity{intensity} {};
+            const glm::vec3 &color,
+            const float &intensity);
 
         void setColor(const glm::vec3 &color) { this->color = color; }
         void setIntensity(float &intensity) { this->intensity = intensity; }
@@ -68,3 +66,6 @@ namespace hid
         }
     };
 }
+
+CEREAL_REGISTER_TYPE(hid::Light)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::Light)

@@ -97,7 +97,8 @@ void SceneMain::prepare()
     canvas->addComponent<Canvas>();
 
     auto button{createUI("Test SDL Button")};
-    button->addComponent<UIButton>("button_test");
+    button->addComponent<UIButton>();
+    button->getComponent<UIButton>().texture = "button_test";
     button->rectTransform->size = glm::vec2{160.f, 80.f};
     button->rectTransform->position = glm::vec2{-0.7f, 0.7f};
 

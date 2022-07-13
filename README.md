@@ -1,7 +1,7 @@
 # OpenGL With SDL and ImGui
 
 OpenGLとSDL、imguiを使ったグラフィクスエンジンです。  
-Unityを触ってアプリを作る機会があったのですが、レンダリングについてわからないことが多すぎたので勉強も兼ねて自作することにしました。
+シーンエディターの機能を備えています。
 
 # Development Environment
 

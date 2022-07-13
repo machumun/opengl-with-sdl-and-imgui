@@ -87,6 +87,15 @@ namespace hid
             staticMesh = Application::assetManager->getStaticMesh(mesh);
         }
 
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            // archive(cereal::base_class<IComponent>(this));
+            // test
+            archive(cereal::make_nvp("mesh", mesh));
+            return;
+        }
+
         // caches
     private:
         std::string mesh;
@@ -96,5 +105,7 @@ namespace hid
         hid::Camera *camera;
         hid::Transform *transform;
     };
-
 }
+
+CEREAL_REGISTER_TYPE(hid::MeshRenderer)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::MeshRenderer)

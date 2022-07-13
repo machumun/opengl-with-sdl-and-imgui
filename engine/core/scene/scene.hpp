@@ -62,7 +62,9 @@ namespace hid
         template <class Archive>
         void serialize(Archive &archive)
         {
+            archive(cereal::make_nvp("SceneName", sceneName));
             archive(cereal::make_nvp("SceneData", *sceneData));
+            // archive(cereal::make_nvp("MainCameraReference", mainCameraReference));
             archive.serializeDeferments();
         }
     };

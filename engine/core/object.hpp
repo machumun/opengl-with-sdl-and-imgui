@@ -6,7 +6,7 @@
 #include "components/interface_component.hpp"
 
 #include <cereal/cereal.hpp>
-#include <cereal/types/map.hpp>
+
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/archives/json.hpp>
@@ -41,6 +41,7 @@ namespace hid
         bool isActive;
         bool isStatic;
 
+        Object() = default;
         Object(const std::string &name);
 
         ~Object() = default;
@@ -96,6 +97,17 @@ namespace hid
         void serialize(Archive &archive)
         {
             archive(cereal::make_nvp("name", name));
+            archive(cereal::make_nvp("isActive", isActive));
+            archive(cereal::make_nvp("isStatic", isStatic));
+
+            // for (auto &component : components)
+            // {
+            //     archive(cereal::make_nvp("component", *component));
+            // }
+
+            archive(cereal::make_nvp("components", components));
+
+            archive(cereal::make_nvp("children", children));
         }
     };
 }

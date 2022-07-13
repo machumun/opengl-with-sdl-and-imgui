@@ -21,3 +21,6 @@ namespace hid
         };
     };
 }
+
+CEREAL_REGISTER_TYPE(hid::UIImage)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::UIImage)

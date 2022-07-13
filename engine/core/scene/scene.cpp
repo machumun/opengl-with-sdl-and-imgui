@@ -1,4 +1,5 @@
 #include "scene.hpp"
+#include "../../application/application.hpp"
 
 #include <ctime>
 #include <cstdlib>
@@ -89,8 +90,11 @@ void Scene::start()
 
 void Scene::update()
 {
+    // if (Application::sceneManager->isGameViewFocused)
+    // {
     for (auto &object : sceneData->objects)
     {
         object->update();
     }
+    // }
 }

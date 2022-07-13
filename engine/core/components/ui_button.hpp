@@ -29,7 +29,7 @@ namespace hid
             }
         };
 
-        UIButton(const std::string &texture);
+        UIButton();
 
         void draw() override;
 
@@ -45,7 +45,14 @@ namespace hid
 
         void inspector() override;
 
-    private:
+        template <class Archive>
+        void serialize(Archive &archive)
+        {
+            archive(cereal::base_class<IComponent>(this));
+            archive(cereal::make_nvp("texture", texture));
+            return;
+        }
+
         const hid::StaticMesh *staticMesh;
         glm::vec2 size;
         const hid::Shader *shaderReference;
@@ -60,3 +67,6 @@ namespace hid
         hid::Camera *camera;
     };
 }
+
+CEREAL_REGISTER_TYPE(hid::UIButton)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(hid::IComponent, hid::UIButton)

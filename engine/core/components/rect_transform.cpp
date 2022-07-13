@@ -4,6 +4,7 @@
 #include "../log.hpp"
 
 using hid::RectTransform;
+// CEREAL_REGISTER_TYPE(RectTransform);
 
 const std::size_t RectTransform::Type = std::hash<std::string>()("RectTransform");
 

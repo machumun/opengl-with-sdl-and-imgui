@@ -1,5 +1,6 @@
 #include "transform.hpp"
 
+using hid::IComponent;
 using hid::Transform;
 
 const std::size_t Transform::Type{std::hash<std::string>()("Transform")};

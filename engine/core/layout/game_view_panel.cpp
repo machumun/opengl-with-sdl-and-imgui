@@ -17,8 +17,9 @@ void GameViewPanel::contents()
     static const auto displaySize = hid::sdl::getDisplaySize();
     static const std::string logTag{"hid::GameViewPanel::contents"};
 
-    isWindowFocused = ImGui::IsWindowFocused();
-    isWindowHovered = ImGui::IsWindowHovered();
+    Application::sceneManager->isGameViewFocused = ImGui::IsWindowFocused();
+    // isWindowFocused = ImGui::IsWindowFocused();
+    // isWindowHovered = ImGui::IsWindowHovered();
 
     ImGui::SliderInt("Texture ID", &textureId, 1, 10);
 
@@ -50,7 +51,7 @@ void GameViewPanel::contents()
         }
     }
 
-    if (isWindowFocused)
+    if (Application::sceneManager->isGameViewFocused)
     {
         if (Application::inputManager->mouseButtonPressed(MouseButtons::LEFT))
         {

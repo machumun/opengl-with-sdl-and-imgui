@@ -28,6 +28,8 @@ namespace
 std::unique_ptr<hid::AssetManager> Application::assetManager = nullptr;
 std::unique_ptr<hid::FileManager> Application::fileManager{std::make_unique<hid::FileManager>()};
 std::unique_ptr<hid::InputManager> Application::inputManager{std::make_unique<hid::InputManager>()};
+std::unique_ptr<hid::SceneManager> Application::sceneManager{std::make_unique<hid::SceneManager>()};
+
 // std::unique_ptr<hid::Time> Application::time{std::make_unique<hid::Time>()};
 
 const float Application::performanceFrequency{static_cast<float>(SDL_GetPerformanceFrequency())};

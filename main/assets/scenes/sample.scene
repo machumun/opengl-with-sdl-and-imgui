@@ -1,24 +1,270 @@
 {
     "value0": {
+        "SceneName": "mainscene",
         "SceneData": {
-            "object": {
-                "name": "Main Camera"
-            },
-            "object": {
-                "name": "GameObject 1"
-            },
-            "object": {
-                "name": "Plane"
-            },
-            "object": {
-                "name": "Point Light"
-            },
-            "object": {
-                "name": "Charactor"
-            },
-            "object": {
-                "name": "Canvas"
-            },
+            "objects": [
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Main Camera",
+                            "isActive": true,
+                            "isStatic": false,
+                            "components": [
+                                {
+                                    "polymorphic_id": 2147483649,
+                                    "polymorphic_name": "hid::Transform",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {}
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 2147483650,
+                                    "polymorphic_name": "hid::Camera",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "angleOfView": 60.0
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 2147483651,
+                                    "polymorphic_name": "hid::PlayerController",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {}
+                                    }
+                                }
+                            ],
+                            "children": []
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "GameObject 1",
+                            "isActive": true,
+                            "isStatic": false,
+                            "components": [
+                                {
+                                    "polymorphic_id": 1,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {}
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 2147483652,
+                                    "polymorphic_name": "hid::MeshRenderer",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "mesh": "hamster"
+                                        }
+                                    }
+                                }
+                            ],
+                            "children": []
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Plane",
+                            "isActive": true,
+                            "isStatic": false,
+                            "components": [
+                                {
+                                    "polymorphic_id": 1,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {}
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 4,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "mesh": "plane"
+                                        }
+                                    }
+                                }
+                            ],
+                            "children": [
+                                {
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "name": "Plane Child",
+                                            "isActive": true,
+                                            "isStatic": false,
+                                            "components": [
+                                                {
+                                                    "polymorphic_id": 1,
+                                                    "ptr_wrapper": {
+                                                        "valid": 1,
+                                                        "data": {
+                                                            "value0": {}
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "polymorphic_id": 4,
+                                                    "ptr_wrapper": {
+                                                        "valid": 1,
+                                                        "data": {
+                                                            "mesh": "plane"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "children": []
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Point Light",
+                            "isActive": true,
+                            "isStatic": false,
+                            "components": [
+                                {
+                                    "polymorphic_id": 1,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {}
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 2147483653,
+                                    "polymorphic_name": "hid::Light",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {}
+                                    }
+                                }
+                            ],
+                            "children": []
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Charactor",
+                            "isActive": true,
+                            "isStatic": false,
+                            "components": [
+                                {
+                                    "polymorphic_id": 1,
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {}
+                                        }
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 2147483654,
+                                    "polymorphic_name": "hid::AnimationPlane",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "value0": {},
+                                            "mesh": "plane"
+                                        }
+                                    }
+                                }
+                            ],
+                            "children": []
+                        }
+                    }
+                },
+                {
+                    "ptr_wrapper": {
+                        "valid": 1,
+                        "data": {
+                            "name": "Canvas",
+                            "isActive": true,
+                            "isStatic": false,
+                            "components": [
+                                {
+                                    "polymorphic_id": 2147483655,
+                                    "polymorphic_name": "hid::RectTransform",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {}
+                                    }
+                                },
+                                {
+                                    "polymorphic_id": 2147483656,
+                                    "polymorphic_name": "hid::Canvas",
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {}
+                                    }
+                                }
+                            ],
+                            "children": [
+                                {
+                                    "ptr_wrapper": {
+                                        "valid": 1,
+                                        "data": {
+                                            "name": "Test SDL Button",
+                                            "isActive": true,
+                                            "isStatic": false,
+                                            "components": [
+                                                {
+                                                    "polymorphic_id": 7,
+                                                    "ptr_wrapper": {
+                                                        "valid": 1,
+                                                        "data": {}
+                                                    }
+                                                },
+                                                {
+                                                    "polymorphic_id": 2147483657,
+                                                    "polymorphic_name": "hid::UIButton",
+                                                    "ptr_wrapper": {
+                                                        "valid": 1,
+                                                        "data": {
+                                                            "value0": {},
+                                                            "texture": "button_test"
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "children": []
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
             "environmentalSettings": {
                 "fps": 60
             }

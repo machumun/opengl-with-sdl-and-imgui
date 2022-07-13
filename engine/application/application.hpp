@@ -3,6 +3,8 @@
 #include "../core/asset_manager.hpp"
 #include "../core/file_manager.hpp"
 #include "../core/input_manager.hpp"
+#include "../core/scene_manager.hpp"
+
 #include "../core/time.hpp"
 
 #include "../core/layout/layout.hpp"
@@ -32,6 +34,7 @@ namespace hid
         static std::unique_ptr<hid::AssetManager> assetManager;
         static std::unique_ptr<hid::FileManager> fileManager;
         static std::unique_ptr<hid::InputManager> inputManager;
+        static std::unique_ptr<hid::SceneManager> sceneManager;
         // static;
         // static std::unique_ptr<hid::Time> time;
 
