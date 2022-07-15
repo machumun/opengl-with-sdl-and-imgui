@@ -15,6 +15,6 @@ namespace hid
         const vk::SurfaceKHR &getSurface() const;
 
     private:
-        vk::SurfaceKHR surface;
+        vk::UniqueSurfaceKHR surface;
     };
 }

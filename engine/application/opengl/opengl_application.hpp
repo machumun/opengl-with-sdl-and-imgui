@@ -22,7 +22,6 @@ namespace hid
         void setup() override;
 
     private:
-        // SDL_Window *window;
         hid::SDLWindow window;
         SDL_GLContext context;
 

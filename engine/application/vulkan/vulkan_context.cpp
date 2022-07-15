@@ -84,8 +84,10 @@ namespace
 
 VulkanContext::VulkanContext()
     : instance{::createInstance()},
-    window{hid::SDLWindow(SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)},
-    physicalDevice{hid::VulkanPhysicalDevice(*instance)}
+      window{hid::SDLWindow(SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)},
+      physicalDevice{hid::VulkanPhysicalDevice(*instance)},
+      surface(hid::VulkanSurface(*instance, physicalDevice, window)),
+      device(hid::VulkanDevice(physicalDevice, surface))
 {
     static const std::string logTag{"hid::VulkanContext"};
     hid::log(logTag, "Initialized Vulkan context successfully.");
