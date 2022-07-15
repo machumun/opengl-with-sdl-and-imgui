@@ -7,6 +7,8 @@
 #include "../../../main/src/scene_main.hpp"
 #include "../application.hpp"
 
+#include "../../core/sdl_window.hpp"
+
 namespace hid
 {
     struct OpenGLApplication : public hid::Application
@@ -20,7 +22,8 @@ namespace hid
         void setup() override;
 
     private:
-        SDL_Window *window;
+        // SDL_Window *window;
+        hid::SDLWindow window;
         SDL_GLContext context;
 
         std::unique_ptr<hid::OpenGLRenderer> renderer;

@@ -20,7 +20,11 @@ set(LIB_SDL2 ${THIRD_PARTY_DIR}/sdl-windows/lib/x64/SDL2.lib)
 set(LIB_SDL2_MAIN ${THIRD_PARTY_DIR}/sdl-windows/lib/x64/SDL2main.lib)
 set(LIB_GLEW ${THIRD_PARTY_DIR}/glew/lib/Release/x64/glew32s.lib)
 set(LIB_SDL2_IMAGE ${THIRD_PARTY_DIR}/sdl-image-windows/lib/x64/SDL2_image.lib)
-set(LIB_VULKAN ${THIRD_PARTY_DIR}/vulkan-windows/Lib/vulkan-1.lib)
+set(LIB_VULKAN ${THIRD_PARTY_DIR}/vulkan_windows/1.3.216.0/Lib/vulkan-1.lib)
+
+# set(ENV{VK_LAYER_PATH} ${THIRD_PARTY_DIR}/vulkan_windows/1.3.216.0/Bin)
+# set(ENV{VK_SDK_PATH} ${THIRD_PARTY_DIR}/vulkan_windows/1.3.216.0)
+# set(ENV{VULKAN_SDK} ${THIRD_PARTY_DIR}/vulkan_windows/1.3.216.0)
 
 include_directories(${THIRD_PARTY_DIR}/include)
 
@@ -33,7 +37,7 @@ include_directories(${THIRD_PARTY_DIR}/glm)
 include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/json)
 include_directories(${THIRD_PARTY_DIR}/sdl-image-windows/include)
-include_directories(${THIRD_PARTY_DIR}/vulkan-windows/Include)
+include_directories(${THIRD_PARTY_DIR}/vulkan_windows/1.3.216.0/Include)
 include_directories(${THIRD_PARTY_DIR}/cereal/include)
 include_directories(${THIRD_PARTY_DIR}/imgui_addons/FileBrowser)
 
@@ -92,7 +96,7 @@ target_link_libraries(
     ${LIB_SDL2_IMAGE}
     ${LIB_NFD}
 
-	# ${LIB_VULKAN}
+	${LIB_VULKAN}
 )
 
 add_custom_command(

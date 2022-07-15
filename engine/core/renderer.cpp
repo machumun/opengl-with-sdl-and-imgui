@@ -3,4 +3,4 @@
 using hid::Renderer;
 using hid::RendererAPI;
 
-RendererAPI::API RendererAPI::api = RendererAPI::API::OpenGL;
+// RendererAPI::API RendererAPI::api = RendererAPI::API::OpenGL;

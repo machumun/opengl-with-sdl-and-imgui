@@ -72,7 +72,7 @@ bool Application::runMainLoop()
 
     while (SDL_PollEvent(&event))
     {
-        ImGui_ImplSDL2_ProcessEvent(&event);
+        // ImGui_ImplSDL2_ProcessEvent(&event);
 
         switch (event.type)
         {

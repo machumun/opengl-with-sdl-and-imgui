@@ -2,7 +2,10 @@
 
 #include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/log.hpp"
+
 #include "../../core/wrapper/sdl_wrapper.hpp"
+#include "../../core/sdl_window.hpp"
+
 #include "../../core/scene/scene_data.hpp"
 
 #include "../../core/layout/layout.hpp"
@@ -48,27 +51,11 @@ namespace
         return context;
     }
 
-    int32_t resizingEventWatcher(void *data, SDL_Event *event)
-    {
-        static const std::string logTag{"hid::OpenGLApplication::resizingEventWatcher"};
-
-        if (event->type == SDL_WINDOWEVENT &&
-            event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-        {
-            SDL_Window *win = SDL_GetWindowFromID(event->window.windowID);
-            if (win == (SDL_Window *)data)
-            {
-                hid::log(logTag, "Window size was Changed.");
-            }
-        }
-
-        return 0;
-    }
 } // namespace
 
 OpenGLApplication::OpenGLApplication() : Application(),
-                                         window{hid::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)},
-                                         context{::createContext(window)},
+                                         window{hid::SDLWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE)},
+                                         context{::createContext(window.getWindow())},
                                          renderer{std::make_unique<hid::OpenGLRenderer>()},
                                          imgui{std::make_unique<hid::OpenGLImGui>()}
 {
@@ -77,26 +64,30 @@ OpenGLApplication::OpenGLApplication() : Application(),
 void OpenGLApplication::update()
 {
     currentScene->update();
-    imgui->update(window);
+    imgui->update(window.getWindow());
 }
 
 void OpenGLApplication::render()
 {
-    SDL_GL_MakeCurrent(window, context);
+    SDL_GL_MakeCurrent(window.getWindow(), context);
 
     renderer->render();
     imgui->render();
 
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(window.getWindow());
 }
 
 void OpenGLApplication::setup()
 {
-    // SDL_AddEventWatch(::resizingEventWatcher, window);
+
     // SDL_GL_SetSwapInterval(0);
     assetManager = std::make_unique<hid::OpenGLAssetManager>();
     assetManager->loadStandardStaticMeshes();
+
+    ////
     currentScene = std::make_unique<hid::SceneMain>();
+    ////
+
     layout = std::make_unique<hid::Layout>(currentScene->sceneData);
 }
 
@@ -110,7 +101,7 @@ void OpenGLApplication::start()
     std::function<void()> viewport = [&]() -> void
     { return layout->viewport(); };
 
-    imgui->setup(window, context);
+    imgui->setup(window.getWindow(), context);
     imgui->setViewport(viewport);
 
     currentScene->start();
@@ -120,5 +111,5 @@ OpenGLApplication::~OpenGLApplication()
 {
     imgui->cleanUp();
     SDL_GL_DeleteContext(context);
-    SDL_DestroyWindow(window);
+    SDL_DestroyWindow(window.getWindow());
 }

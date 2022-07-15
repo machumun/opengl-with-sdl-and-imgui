@@ -16,12 +16,13 @@ using hid::FileManager;
 
 void FileManager::saveScene(const hid::Scene &scene, const std::string &path)
 {
-    // std::stringstream ss;
+
     {
+        // std::stringstream ss;
         std::ofstream os(path, std::ios::out);
         // cereal::JSONOutputArchive archive(ss);
-        cereal::JSONOutputArchive archive(os);
-        archive(scene);
+        cereal::JSONOutputArchive archive_out(os);
+        archive_out(scene);
     }
 
     // std::cout << ss.str() << std::endl;
@@ -30,8 +31,17 @@ void FileManager::saveScene(const hid::Scene &scene, const std::string &path)
     // #endif
 }
 
-void FileManager::openScene(const std::string &path)
+std::unique_ptr<hid::Scene> FileManager::openScene(const std::string &path)
 {
+    {
+        std::ifstream is(path, std::ios::in);
+        cereal::JSONInputArchive archive_in(is);
+
+        std::unique_ptr<hid::Scene> openedScene;
+        archive_in(openedScene);
+
+        return openedScene;
+    }
 }
 
 void FileManager::saveFile(const std::string &filter)

@@ -1,5 +1,7 @@
 #pragma once
 
+// #define WIN32
+
 #if defined(__EMSCRIPTEN__)
 #include <GLES2/gl2.h>
 #elif __APPLE__
@@ -15,4 +17,7 @@
 #elif WIN32
 #define GLEW_STATIC
 #include <GL/glew.h>
+
 #endif
+
+#include <vulkan/vulkan.hpp>

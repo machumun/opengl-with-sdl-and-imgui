@@ -259,10 +259,13 @@ void Layout::viewport()
     /* Optional third parameter. Support opening only compressed rar/zip files.
      * Opening any other file will show error, return false and won't close the dialog.
      */
-    if (file_dialog.showFileDialog("Open File", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(700, 310), ".rar,.zip,.7z"))
+    if (file_dialog.showFileDialog("Open File",
+                                   imgui_addons::ImGuiFileBrowser::DialogMode::OPEN,
+                                   ImVec2(700, 310), ".scene"))
     {
         std::cout << file_dialog.selected_fn << std::endl;   // The name of the selected file or directory in case of Select Directory dialog mode
         std::cout << file_dialog.selected_path << std::endl; // The absolute path to the selected file
+        Application::currentScene = Application::fileManager->openScene(file_dialog.selected_path);
     }
     if (file_dialog.showFileDialog("Save File",
                                    imgui_addons::ImGuiFileBrowser::DialogMode::SAVE,
