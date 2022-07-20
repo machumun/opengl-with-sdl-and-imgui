@@ -161,23 +161,23 @@ namespace
         return device.getDevice().createSwapchainKHRUnique(createInfo);
     }
 
-    std::vector<hid::VulkanImageView> createImageViews(const hid::VulkanDevice &device,
-                                                       const vk::SwapchainKHR &swapChain,
-                                                       const VulkanSwapchainFormat &format)
+    std::vector<std::unique_ptr<hid::VulkanImageView>> createImageViews(const hid::VulkanDevice &device,
+                                                                        const vk::SwapchainKHR &swapChain,
+                                                                        const VulkanSwapchainFormat &format)
     {
-        std::vector<hid::VulkanImageView> imageViews;
+        std::vector<std::unique_ptr<hid::VulkanImageView>> imageViews;
 
         // For each of the images in the swap chain, we need to create a new 'image view'.
         for (const vk::Image &image : device.getDevice().getSwapchainImagesKHR(swapChain))
         {
-            hid::VulkanImageView imageView{
+            std::unique_ptr<hid::VulkanImageView> imageView = std::make_unique<hid::VulkanImageView>(
                 device.getDevice(),
                 image,
                 format.colorFormat,
                 vk::ImageAspectFlagBits::eColor,
-                1};
+                1);
 
-            imageViews.push_back(std::move(imageView));
+            imageViews.emplace_back(std::move(imageView));
         }
 
         return imageViews;
@@ -203,7 +203,7 @@ VulkanSwapchain::VulkanSwapchain(const hid::SDLWindow &window,
 {
 }
 
-const std::vector<hid::VulkanImageView> &VulkanSwapchain::getImageViews() const
+const std::vector<std::unique_ptr<hid::VulkanImageView>> &VulkanSwapchain::getImageViews() const
 {
     return imageViews;
 }

@@ -6,6 +6,7 @@
 #include "vulkan_image_view.hpp"
 
 #include <vector>
+#include <memory>
 
 #include "../../core/wrapper/graphics_wrapper.hpp"
 #include "../../core/sdl_window.hpp"
@@ -29,7 +30,7 @@ namespace hid
                         const hid::VulkanSurface &surface);
 
         const vk::SwapchainKHR &getSwapchain() const;
-        const std::vector<hid::VulkanImageView> &getImageViews() const;
+        const std::vector<std::unique_ptr<hid::VulkanImageView>> &getImageViews() const;
 
     private:
         const VulkanSwapchainFormat format;
@@ -37,6 +38,6 @@ namespace hid
         const vk::Extent2D extent;
         const vk::SurfaceTransformFlagBitsKHR transform;
         const vk::UniqueSwapchainKHR swapchain;
-        const std::vector<hid::VulkanImageView> imageViews;
+        const std::vector<std::unique_ptr<hid::VulkanImageView>> imageViews;
     };
 }
