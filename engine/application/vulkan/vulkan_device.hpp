@@ -22,13 +22,20 @@ namespace hid
                      const hid::VulkanSurface &surface);
 
         const vk::Device &getDevice() const;
+        const vk::Queue &getGraphicsQueue() const;
+        const vk::Queue &getPresentationQueue() const;
 
         uint32_t getGraphicsQueueIndex() const;
         uint32_t getPresentationQueueIndex() const;
         bool hasDiscretePresentationQueue() const;
 
+        std::vector<vk::UniqueSemaphore> createSemaphores(const uint32_t &count) const;
+        std::vector<vk::UniqueFence> createFences(const uint32_t &count) const;
+
     private:
         const QueueConfig queueConfig;
         const vk::UniqueDevice device;
+        const vk::Queue graphicsQueue;
+        const vk::Queue presentationQueue;
     };
 }

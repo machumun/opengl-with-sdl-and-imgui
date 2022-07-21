@@ -182,6 +182,7 @@ namespace
 
         return imageViews;
     }
+
 }
 
 VulkanSwapchain::VulkanSwapchain(const hid::SDLWindow &window,
@@ -206,4 +207,19 @@ VulkanSwapchain::VulkanSwapchain(const hid::SDLWindow &window,
 const std::vector<std::unique_ptr<hid::VulkanImageView>> &VulkanSwapchain::getImageViews() const
 {
     return imageViews;
+}
+
+const vk::Format &VulkanSwapchain::getColorFormat() const
+{
+    return format.colorFormat;
+}
+
+const vk::Extent2D &VulkanSwapchain::getExtent() const
+{
+    return extent;
+}
+
+uint32_t VulkanSwapchain::getImageCount() const
+{
+    return static_cast<uint32_t>(imageViews.size());
 }

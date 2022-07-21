@@ -1,5 +1,9 @@
 #include "vulkan_device.hpp"
 
+// #include "../../core/log.hpp"
+
+#include <iostream>
+
 using hid::VulkanDevice;
 
 namespace
@@ -22,6 +26,19 @@ namespace
         for (size_t i = 0; i < queueFamilies.size(); i++)
         {
             vk::QueueFamilyProperties properties{queueFamilies[i]};
+
+            // hid::log(logTag, "queue family index: " + std::to_string(i));
+            // hid::log(logTag, "queue count: " + std::to_string(properties.queueCount);
+            // hid::log(logTag, "graphic support: " + (properties.queueFlags & vk::QueueFlagBits::eGraphics ? "True" : "False"));
+            // hid::log(logTag, "compute support: " + std::to_string(i));
+            // hid::log(logTag, "transfer support: " + std::to_string(i));
+
+            std::cout << "queue family index: " << i << std::endl;
+            std::cout << "  queue count: " << properties.queueCount << std::endl;
+            std::cout << "  graphic support: " << (properties.queueFlags & vk::QueueFlagBits::eGraphics ? "True" : "False") << std::endl;
+            std::cout << "  compute support: " << (properties.queueFlags & vk::QueueFlagBits::eCompute ? "True" : "False") << std::endl;
+            std::cout << "  transfer support: " << (properties.queueFlags & vk::QueueFlagBits::eTransfer ? "True" : "False") << std::endl;
+            std::cout << std::endl;
 
             // If the current queue family has graphics capability we will evaluate it as a
             // candidate for both the graphics queue and the presentation queue.
@@ -136,12 +153,46 @@ namespace
         // Create a logical device with all the configuration we collated.
         return physicalDevice.getPhysicalDevice().createDeviceUnique(deviceCreateInfo);
     }
+
+    vk::Queue getQueue(const vk::Device &device, const uint32_t &queueIndex)
+    {
+        return device.getQueue(queueIndex, 0);
+    }
+
+    std::vector<vk::UniqueSemaphore> createSemaphores(const vk::Device &device,
+                                                      const uint32_t &count)
+    {
+        std::vector<vk::UniqueSemaphore> semaphores;
+        vk::SemaphoreCreateInfo info;
+
+        for (uint32_t i = 0; i < count; i++)
+        {
+            semaphores.push_back(device.createSemaphoreUnique(info));
+        }
+
+        return semaphores;
+    }
+
+    std::vector<vk::UniqueFence> createFences(const vk::Device &device, const uint32_t &count)
+    {
+        std::vector<vk::UniqueFence> fences;
+        vk::FenceCreateInfo info{vk::FenceCreateFlagBits::eSignaled};
+
+        for (uint32_t i = 0; i < count; i++)
+        {
+            fences.emplace_back(device.createFenceUnique(info));
+        }
+
+        return fences;
+    }
 }
 
 VulkanDevice::VulkanDevice(const hid::VulkanPhysicalDevice &physicalDevice,
                            const hid::VulkanSurface &surface)
     : queueConfig{::getQueueConfig(physicalDevice.getPhysicalDevice(), surface.getSurface())},
-      device{::createDevice(physicalDevice, queueConfig)} {}
+      device{::createDevice(physicalDevice, queueConfig)},
+      graphicsQueue{::getQueue(device.get(), queueConfig.graphicsQueueIndex)},
+      presentationQueue{::getQueue(device.get(), queueConfig.presentationQueueIndex)} {}
 
 const vk::Device &VulkanDevice::getDevice() const
 {
@@ -161,4 +212,24 @@ uint32_t VulkanDevice::getPresentationQueueIndex() const
 bool VulkanDevice::hasDiscretePresentationQueue() const
 {
     return queueConfig.hasDiscretePresentationQueue;
+}
+
+const vk::Queue &VulkanDevice::getGraphicsQueue() const
+{
+    return graphicsQueue;
+}
+
+std::vector<vk::UniqueSemaphore> VulkanDevice::createSemaphores(const uint32_t &count) const
+{
+    return ::createSemaphores(device.get(), count);
+}
+
+std::vector<vk::UniqueFence> VulkanDevice::createFences(const uint32_t &count) const
+{
+    return ::createFences(device.get(), count);
+}
+
+const vk::Queue &VulkanDevice::getPresentationQueue() const
+{
+    return presentationQueue;
 }

@@ -31,6 +31,9 @@ namespace hid
 
         const vk::SwapchainKHR &getSwapchain() const;
         const std::vector<std::unique_ptr<hid::VulkanImageView>> &getImageViews() const;
+        const vk::Format &getColorFormat() const;
+        const vk::Extent2D &getExtent() const;
+        uint32_t getImageCount() const;
 
     private:
         const VulkanSwapchainFormat format;
