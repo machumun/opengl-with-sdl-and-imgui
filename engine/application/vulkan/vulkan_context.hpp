@@ -24,6 +24,7 @@ namespace hid
 
         bool renderBegin();
         void renderEnd();
+        void recreateRenderContext();
 
     private:
         const vk::UniqueInstance instance;
@@ -32,6 +33,9 @@ namespace hid
         const hid::VulkanSurface surface;
         const hid::VulkanDevice device;
         const hid::VulkanCommandPool commandPool;
-        const hid::VulkanRenderContext renderContext;
+
+        // hid::VulkanRenderContext renderContext;
+
+        std::unique_ptr<hid::VulkanRenderContext> renderContext;
     };
 }

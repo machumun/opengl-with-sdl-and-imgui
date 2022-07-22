@@ -84,19 +84,43 @@ namespace
 
 VulkanContext::VulkanContext()
     : instance{::createInstance()},
-      window{hid::SDLWindow(SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)},
-      physicalDevice{hid::VulkanPhysicalDevice(*instance)},
-      surface{hid::VulkanSurface(*instance, physicalDevice, window)},
-      device(hid::VulkanDevice(physicalDevice, surface)),
-      commandPool{hid::VulkanCommandPool(device)},
-      renderContext{hid::VulkanRenderContext(window, physicalDevice, device, surface, commandPool)}
+      window{hid::SDLWindow{SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI}},
+      physicalDevice{hid::VulkanPhysicalDevice{*instance}},
+      surface{hid::VulkanSurface{*instance, physicalDevice, window}},
+      device{hid::VulkanDevice{physicalDevice, surface}},
+      commandPool{hid::VulkanCommandPool{device}},
+      renderContext{std::make_unique<hid::VulkanRenderContext>(window, physicalDevice, device, surface, commandPool)}
 {
     static const std::string logTag{"hid::VulkanContext"};
     hid::log(logTag, "Initialized Vulkan context successfully.");
 }
 
-const void VulkanContext::render() const {}
+const void VulkanContext::render() const
+{
+    // TODO: pipeline->render
+}
 
 void VulkanContext::setup(std::shared_ptr<hid::SceneData> sceneData)
 {
+}
+
+void VulkanContext::recreateRenderContext()
+{
+    device.getDevice().waitIdle();
+    renderContext = std::make_unique<hid::VulkanRenderContext>(window, physicalDevice, device, surface, commandPool);
+}
+
+bool VulkanContext::renderBegin()
+{
+    if (!renderContext->renderBegin(device))
+    {
+        recreateRenderContext();
+        return false;
+    }
+    return true;
+}
+
+void VulkanContext::renderEnd()
+{
+    // TODO: Implement me
 }

@@ -21,6 +21,5 @@ namespace hid
 
     private:
         const vk::UniqueCommandPool commandPool;
-        const std::vector<vk::UniqueCommandBuffer> commandBuffers;
     };
 }

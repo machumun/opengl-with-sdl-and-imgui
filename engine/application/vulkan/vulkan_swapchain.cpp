@@ -204,6 +204,11 @@ VulkanSwapchain::VulkanSwapchain(const hid::SDLWindow &window,
 {
 }
 
+const vk::SwapchainKHR &VulkanSwapchain::getSwapchain() const
+{
+    return swapchain.get();
+}
+
 const std::vector<std::unique_ptr<hid::VulkanImageView>> &VulkanSwapchain::getImageViews() const
 {
     return imageViews;

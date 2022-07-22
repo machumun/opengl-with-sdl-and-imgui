@@ -25,6 +25,6 @@ namespace hid
         void setup() override;
 
     private:
-        const hid::VulkanContext context;
+        hid::VulkanContext context;
     };
 }

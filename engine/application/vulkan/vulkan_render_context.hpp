@@ -20,6 +20,15 @@ namespace hid
             const hid::VulkanSurface &surface,
             const hid::VulkanCommandPool &commandPool);
 
+        bool renderBegin(const hid::VulkanDevice &device);
+
+        bool renderEnd(const hid::VulkanDevice &device);
+
+        // void operator=(VulkanRenderContext *_renderContext)
+        // {
+
+        // }
+
     private:
         const hid::VulkanSwapchain swapchain;
         const hid::VulkanRenderPass renderPass;
@@ -34,6 +43,8 @@ namespace hid
 
         const uint32_t maxRenderFrames{2};
 
+        const std::vector<vk::UniqueCommandBuffer> commandBuffers;
+
         const std::vector<vk::UniqueSemaphore> graphicsSemaphores;
         const std::vector<vk::UniqueSemaphore> presentationSemaphores;
 
@@ -43,5 +54,8 @@ namespace hid
         const vk::Viewport viewport;
 
         const std::array<vk::ClearValue, 2> clearValues;
+
+        uint32_t currentFrameIndex{0};
+        uint32_t currentSwapchainImageIndex{0};
     };
 }

@@ -6,10 +6,10 @@ namespace hid
 {
     struct VulkanAssetManager : public hid::AssetManager
     {
-        VulkanAssetManager();
+        // VulkanAssetManager();
 
-        void loadStaticMeshes(const std::vector<std::pair<std::string, std::string>> &staticMeshPair) override;
-        void loadTextures(const std::vector<std::pair<std::string, std::string>> &texturePairs) override;
+        void loadStaticMeshes(const std::vector<std::pair<std::string, std::string>> &staticMeshPair) override {}
+        void loadTextures(const std::vector<std::pair<std::string, std::string>> &texturePairs) override {}
         void loadShader(const std::string &key, const std::pair<std::string, std::string> &shader) override
         {
             // static const std::string logTag{"hid::OpenGLAssetManager::loadShader"};
@@ -25,19 +25,22 @@ namespace hid
             // }
         }
 
-        // hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const override
-        // {
-        //     return staticMeshCache.at(staticMesh).get();
-        // }
+        hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const override
+        {
+            // return staticMeshCache.at(staticMesh).get();
+            return nullptr;
+        }
 
-        // hid::Texture *getTexture(const std::string &texture) const override
-        // {
-        //     return textureCache.at(texture).get();
-        // }
+        hid::Texture *getTexture(const std::string &texture) const override
+        {
+            // return textureCache.at(texture).get();
+            return nullptr;
+        }
 
-        // hid::Shader *getShader(const std::string &shader) const override
-        // {
-        //     return shaderCache.at(shader).get();
-        // }
+        hid::Shader *getShader(const std::string &shader) const override
+        {
+            // return shaderCache.at(shader).get();
+            return nullptr;
+        }
     };
 }
