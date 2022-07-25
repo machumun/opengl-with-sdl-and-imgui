@@ -50,15 +50,15 @@ OpenGLとSDL、imguiを使ったグラフィクスエンジンです。
 # Installation
 
 ## windows
-① 必要な構成を``/engine/third-party``フォルダにインストールします。
+① 必要な構成を``/engine/third_party``フォルダにインストールします。
 ```powershell
-$ cd ${PROJECT_ROOT}/engine/build-tools/windows/
+$ cd ${PROJECT_ROOT}/engine/build_tools/windows/
 
 $ ./setup.ps1
 ```
   
 ②
-Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build-tools/windows``フォルダを開き、CMakeターゲットビューからキャッシュを構成します。  
+Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build_tools/windows``フォルダを開き、CMakeターゲットビューからキャッシュを構成します。  
 
 ③　必要なライブラリを.exeフォルダと同じ階層にコピーして、アセットフォルダのシンボリックリンクを作成してセットアップは完了です。
 ```powershell

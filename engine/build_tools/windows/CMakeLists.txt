@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.4.1)
 
 project(opengl-with-sdl-and-imgui)
 
-set(THIRD_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../third-party")
+set(THIRD_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../third_party")
 set(MAIN_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../main/src")
 set(CORE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../core")
 set(APPLICATION_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../application")
-# set(BUILD_TOOLS_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../build-tools")
+# set(BUILD_TOOLS_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../build_tools")
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/out)
