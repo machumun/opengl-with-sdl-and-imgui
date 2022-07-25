@@ -108,7 +108,8 @@ namespace
         const VulkanSwapchainFormat &format,
         const vk::PresentModeKHR &presentationMode,
         const vk::Extent2D &extent,
-        const vk::SurfaceTransformFlagBitsKHR &transform)
+        const vk::SurfaceTransformFlagBitsKHR &transform,
+        const vk::SwapchainKHR &oldSwapchain)
     {
         // Grab the capabilities of the current physical device in relation to the surface.
         vk::SurfaceCapabilitiesKHR surfaceCapabilities{
@@ -142,7 +143,7 @@ namespace
             vk::CompositeAlphaFlagBitsKHR::eOpaque,   // Composite alpha
             presentationMode,                         // Present mode
             VK_TRUE,                                  // Clipped
-            vk::SwapchainKHR()};                      // Old swapchain
+            oldSwapchain};                            // Old swapchain
 
         // If our device has a discrete presentation queue, we must specify
         // that swapchain images are permitted to be shared between both
@@ -188,7 +189,8 @@ namespace
 VulkanSwapchain::VulkanSwapchain(const hid::SDLWindow &window,
                                  const hid::VulkanPhysicalDevice &physicalDevice,
                                  const hid::VulkanDevice &device,
-                                 const hid::VulkanSurface &surface)
+                                 const hid::VulkanSurface &surface,
+                                 const vk::SwapchainKHR &oldSwapchain)
     : format{::getFormat(physicalDevice, surface)},
       presentationMode{::getPresentationMode(physicalDevice, surface)},
       extent{::getExtent(window)},
@@ -199,7 +201,8 @@ VulkanSwapchain::VulkanSwapchain(const hid::SDLWindow &window,
                                   format,
                                   presentationMode,
                                   extent,
-                                  transform)},
+                                  transform,
+                                  oldSwapchain)},
       imageViews{::createImageViews(device, swapchain.get(), format)}
 {
 }

@@ -9,6 +9,8 @@
 #include "vulkan_command_pool.hpp"
 #include "vulkan_image.hpp"
 
+#include <memory>
+
 namespace hid
 {
     struct VulkanRenderContext
@@ -18,16 +20,18 @@ namespace hid
             const hid::VulkanPhysicalDevice &physicalDevice,
             const hid::VulkanDevice &device,
             const hid::VulkanSurface &surface,
-            const hid::VulkanCommandPool &commandPool);
+            const hid::VulkanCommandPool &commandPool,
+            const vk::SwapchainKHR &oldSwapchain = vk::SwapchainKHR());
 
         bool renderBegin(const hid::VulkanDevice &device);
 
         bool renderEnd(const hid::VulkanDevice &device);
 
-        // void operator=(VulkanRenderContext *_renderContext)
-        // {
-
-        // }
+        std::unique_ptr<hid::VulkanRenderContext> recreate(const hid::SDLWindow &window,
+                                                           const hid::VulkanPhysicalDevice &physicalDevice,
+                                                           const hid::VulkanDevice &device,
+                                                           const hid::VulkanSurface &surface,
+                                                           const hid::VulkanCommandPool &commandPool);
 
     private:
         const hid::VulkanSwapchain swapchain;

@@ -27,7 +27,8 @@ namespace hid
         VulkanSwapchain(const hid::SDLWindow &window,
                         const hid::VulkanPhysicalDevice &physicalDevice,
                         const hid::VulkanDevice &device,
-                        const hid::VulkanSurface &surface);
+                        const hid::VulkanSurface &surface,
+                        const vk::SwapchainKHR &oldSwapchain);
 
         const vk::SwapchainKHR &getSwapchain() const;
         const std::vector<std::unique_ptr<hid::VulkanImageView>> &getImageViews() const;

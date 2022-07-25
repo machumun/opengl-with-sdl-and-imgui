@@ -89,7 +89,11 @@ VulkanContext::VulkanContext()
       surface{hid::VulkanSurface{*instance, physicalDevice, window}},
       device{hid::VulkanDevice{physicalDevice, surface}},
       commandPool{hid::VulkanCommandPool{device}},
-      renderContext{std::make_unique<hid::VulkanRenderContext>(window, physicalDevice, device, surface, commandPool)}
+      renderContext{std::make_unique<hid::VulkanRenderContext>(window,
+                                                               physicalDevice,
+                                                               device,
+                                                               surface,
+                                                               commandPool)}
 {
     static const std::string logTag{"hid::VulkanContext"};
     hid::log(logTag, "Initialized Vulkan context successfully.");
@@ -107,7 +111,7 @@ void VulkanContext::setup(std::shared_ptr<hid::SceneData> sceneData)
 void VulkanContext::recreateRenderContext()
 {
     device.getDevice().waitIdle();
-    renderContext = std::make_unique<hid::VulkanRenderContext>(window, physicalDevice, device, surface, commandPool);
+    renderContext = renderContext->recreate(window, physicalDevice, device, surface, commandPool);
 }
 
 bool VulkanContext::renderBegin()
@@ -122,5 +126,9 @@ bool VulkanContext::renderBegin()
 
 void VulkanContext::renderEnd()
 {
-    // TODO: Implement me
+
+    if (!renderContext->renderEnd(device))
+    {
+        recreateRenderContext();
+    }
 }

@@ -165,8 +165,9 @@ VulkanRenderContext::VulkanRenderContext(
     const hid::VulkanPhysicalDevice &physicalDevice,
     const hid::VulkanDevice &device,
     const hid::VulkanSurface &surface,
-    const hid::VulkanCommandPool &commandPool)
-    : swapchain{hid::VulkanSwapchain(window, physicalDevice, device, surface)},
+    const hid::VulkanCommandPool &commandPool,
+    const vk::SwapchainKHR &oldSwapchain)
+    : swapchain{hid::VulkanSwapchain(window, physicalDevice, device, surface, oldSwapchain)},
       renderPass{hid::VulkanRenderPass(physicalDevice, device, swapchain)},
       multiSampleImage{::createMultiSampleImage(commandPool, physicalDevice, device, swapchain)},
       multiSampleImageView{::createImageView(device,
@@ -241,4 +242,77 @@ bool VulkanRenderContext::renderBegin(const hid::VulkanDevice &device)
   // Record the begin render pass command.
   commandBuffer.beginRenderPass(&renderPassBeginInfo, vk::SubpassContents::eInline);
   return true;
+}
+
+bool VulkanRenderContext::renderEnd(const hid::VulkanDevice &device)
+{
+  // Grab the command buffer to use for the current swapchain image index.
+  const vk::CommandBuffer &commandBuffer{commandBuffers[currentSwapchainImageIndex].get()};
+
+  // Request the command buffer to end its recording phase.
+  commandBuffer.endRenderPass();
+  commandBuffer.end();
+
+  const vk::Fence &graphicsFence{graphicsFences[currentFrameIndex].get()};
+  const vk::Semaphore &graphicsSemaphore{graphicsSemaphores[currentFrameIndex].get()};
+  const vk::Semaphore &presentationSemaphore{presentationSemaphores[currentFrameIndex].get()};
+  const vk::PipelineStageFlags pipelineStageFlags{vk::PipelineStageFlagBits::eColorAttachmentOutput};
+
+  // Build a submission object for the graphics queue to process.
+  vk::SubmitInfo submitInfo{
+      1,                       // Wait semaphore count
+      &graphicsSemaphore,      // Wait semaphores
+      &pipelineStageFlags,     // Pipeline stage flags
+      1,                       // Command buffer count
+      &commandBuffer,          // Command buffer
+      1,                       // Signal semaphore count
+      &presentationSemaphore}; // Signal semaphores
+
+  // Submit our command buffer and configuration to the graphics queue.
+  device.getGraphicsQueue().submit(1, &submitInfo, graphicsFence);
+
+  // Construct an info object to describe what to present to the screen.
+  vk::PresentInfoKHR presentationInfo{
+      1,                           // Semaphore count
+      &presentationSemaphore,      // Wait semaphore
+      1,                           // Swapchain count
+      &swapchain.getSwapchain(),   // Swapchain
+      &currentSwapchainImageIndex, // Image indices
+      nullptr};                    // Results
+
+  try
+  {
+    // Attempt to submit our graphics output to the presentation queue for display.
+    // If we receive an out of date error, or the result comes back as sub optimal
+    // we will return false as it indicates our swapchain should be recreated.
+    if (device.getPresentationQueue().presentKHR(presentationInfo) == vk::Result::eSuboptimalKHR)
+    {
+      return false;
+    }
+  }
+  catch (vk::OutOfDateKHRError outOfDateError)
+  {
+    return false;
+  }
+
+  device.getPresentationQueue().waitIdle();
+
+  // Increment our current frame index, wrapping it when it hits our maximum.
+  currentFrameIndex = (currentFrameIndex + 1) % maxRenderFrames;
+
+  return true;
+}
+
+std::unique_ptr<hid::VulkanRenderContext> VulkanRenderContext::recreate(const hid::SDLWindow &window,
+                                                                        const hid::VulkanPhysicalDevice &physicalDevice,
+                                                                        const hid::VulkanDevice &device,
+                                                                        const hid::VulkanSurface &surface,
+                                                                        const hid::VulkanCommandPool &commandPool)
+{
+  return std::make_unique<hid::VulkanRenderContext>(window,
+                                                    physicalDevice,
+                                                    device,
+                                                    surface,
+                                                    commandPool,
+                                                    swapchain.getSwapchain());
 }
