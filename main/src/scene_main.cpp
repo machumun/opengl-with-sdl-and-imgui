@@ -23,20 +23,6 @@ void SceneMain::render(const hid::Renderer& renderer)
 
 void SceneMain::prepare()
 {
-    Application::assetManager->loadStaticMeshes({{"hamster", "assets/models/hamster.obj"}});
-
-    Application::assetManager->loadTextures({{"hamster", "assets/textures/hamster.png"},
-                                             {"metal", "assets/textures/metal.png"},
-                                             {"chara", "assets/textures/chara.png"},
-                                             {"empty", "assets/textures/empty.png"},
-                                             {"button_test", "assets/textures/button_art.png"}});
-
-    // name {vert, frag}
-    Application::assetManager->loadShader("lit", {"lit", "lit"});
-    Application::assetManager->loadShader("animation", {"lit", "animation"});
-
-    Application::assetManager->loadShader("ui", {"ui", "ui"});
-
     hid::Material metalMaterial{"lit", "metal"};
     hid::Material hamMaterial{"lit", "hamster"};
 
@@ -104,4 +90,24 @@ void SceneMain::prepare()
 
     instantiate(std::move(button), canvas);
     instantiate(std::move(canvas));
+}
+
+hid::AssetManifest SceneMain::getAssetManifest()
+{
+    return hid::AssetManifest{
+        {{{"hamster", "assets/models/hamster.obj"}}},
+        {{"hamster", "assets/textures/hamster.png"},
+         {"metal", "assets/textures/metal.png"},
+         {"chara", "assets/textures/chara.png"},
+         {"empty", "assets/textures/empty.png"},
+         {"button_test", "assets/textures/button_art.png"}},
+        {{"lit",
+          {"assets/shaders/opengl/lit.vert",
+           "assets/shaders/opengl/lit.frag"}},
+         {"animation",
+          {"assets/shaders/opengl/lit.vert",
+           "assets/shaders/opengl/animation.frag"}},
+         {"ui",
+          {"assets/shaders/opengl/ui.vert",
+           "assets/shaders/opengl/ui.frag"}}}};
 }

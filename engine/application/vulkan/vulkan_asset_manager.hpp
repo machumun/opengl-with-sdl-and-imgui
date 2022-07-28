@@ -10,7 +10,7 @@ namespace hid
 
         void loadStaticMeshes(const std::vector<std::pair<std::string, std::string>> &staticMeshPair) override {}
         void loadTextures(const std::vector<std::pair<std::string, std::string>> &texturePairs) override {}
-        void loadShader(const std::string &key, const std::pair<std::string, std::string> &shader) override
+        void loadShaders(const std::vector<std::pair<std::string, std::pair<std::string, std::string>>> &shaderPairs) override
         {
             // static const std::string logTag{"hid::OpenGLAssetManager::loadShader"};
             // if (shaderCache.count(key) == 0)
@@ -23,6 +23,23 @@ namespace hid
             // {
             //     hid::log(logTag, "This shader has already been loaded.");
             // }
+        }
+
+        void loadAssetManifest(const hid::AssetManifest &assetManifest) override {}
+
+        void loadAssetManifest(const hid::VulkanPhysicalDevice &physicalDevice,
+                               const hid::VulkanDevice &device,
+                               const hid::VulkanRenderContext &renderContext,
+                               const hid::AssetManifest &assetManifest)
+        {
+            // TODO: Load everything in the asset manifest.
+        }
+
+        void reloadContextualAssets(const hid::VulkanPhysicalDevice &physicalDevice,
+                                    const hid::VulkanDevice &device,
+                                    const hid::VulkanRenderContext &renderContext)
+        {
+            // TODO: Reload any context sensitive assets that are already cached.
         }
 
         hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const override

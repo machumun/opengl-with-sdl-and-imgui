@@ -86,6 +86,7 @@ void OpenGLApplication::setup()
 
     ////
     currentScene = std::make_unique<hid::SceneMain>();
+    assetManager->loadAssetManifest(currentScene->getAssetManifest());
     ////
 
     layout = std::make_unique<hid::Layout>(currentScene->sceneData);

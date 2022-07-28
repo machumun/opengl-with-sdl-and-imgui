@@ -14,7 +14,7 @@
 
 #include "json.hpp"
 
-using nlohmann::json;
+// using nlohmann::json;
 
 std::string hid::assets::loadTextFile(const std::string &path, const std::string &mode)
 {
@@ -133,32 +133,32 @@ hid::Bitmap hid::assets::loadBitmap(const std::string &path)
 }
 
 // after this work, we made path to "std::pair path{root, filename}"
-hid::GLTF hid::assets::loadGLTF(const std::string &path)
-{
+// hid::GLTF hid::assets::loadGLTF(const std::string &path)
+// {
 
-    static const std::string logTag{"hid::assets::loadGLTF"};
+//     static const std::string logTag{"hid::assets::loadGLTF"};
 
-    hid::GLTF gltf;
+//     hid::GLTF gltf;
 
-    // make json object
-    std::string fileStr{hid::assets::loadTextFile(path)};
+//     // make json object
+//     std::string fileStr{hid::assets::loadTextFile(path)};
 
-    gltf.file = fileStr.c_str();
-    gltf.JSON = json::parse(gltf.file);
+//     gltf.file = fileStr.c_str();
+//     gltf.JSON = json::parse(gltf.file);
 
-    // load binary data
-    std::string bytesText;
-    std::string uri = gltf.JSON["buffers"][0]["uri"];
-    // std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
-    gltf.fileDirectory = "assets/gltfs/testbox_reverse/";
-    bytesText = hid::assets::loadTextFile(gltf.fileDirectory + uri, "rb");
+//     // load binary data
+//     std::string bytesText;
+//     std::string uri = gltf.JSON["buffers"][0]["uri"];
+//     // std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
+//     gltf.fileDirectory = "assets/gltfs/testbox_reverse/";
+//     bytesText = hid::assets::loadTextFile(gltf.fileDirectory + uri, "rb");
 
-    gltf.data = std::vector<unsigned char>(bytesText.begin(), bytesText.end());
+//     gltf.data = std::vector<unsigned char>(bytesText.begin(), bytesText.end());
 
-    gltf.traverseNode(0);
+//     gltf.traverseNode(0);
 
-    return gltf;
-}
+//     return gltf;
+// }
 
 std::vector<char> hid::assets::loadBinaryFile(const std::string &path)
 {

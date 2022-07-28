@@ -127,12 +127,18 @@ namespace
         // If no memory type could be found that meets our criteria we can't proceed.
         throw std::runtime_error("ast::VulkanImage::getMemoryTypeIndex: Failed to find suitable memory type.");
     }
+
+    bool getShaderMultiSamplingSupport(const vk::PhysicalDevice &physicalDevice)
+    {
+        return physicalDevice.getFeatures().sampleRateShading;
+    }
 }
 
 VulkanPhysicalDevice::VulkanPhysicalDevice(const vk::Instance &instance)
     : physicalDevice{::createPhysicalDevice(instance)},
       multiSamplingLevel{::getMultiSamplingLevel(physicalDevice)},
-      depthFormat{::getDepthFormat(physicalDevice)} {}
+      depthFormat{::getDepthFormat(physicalDevice)},
+      shaderMultiSamplingSupported{::getShaderMultiSamplingSupport(physicalDevice)} {}
 
 const vk::PhysicalDevice &VulkanPhysicalDevice::getPhysicalDevice() const
 {
@@ -153,4 +159,9 @@ uint32_t VulkanPhysicalDevice::getMemoryTypeIndex(const uint32_t &filter,
                                                   const vk::MemoryPropertyFlags &flags) const
 {
     return ::getMemoryTypeIndex(physicalDevice, filter, flags);
+}
+
+bool VulkanPhysicalDevice::isShaderMultiSamplingSupported() const
+{
+    return shaderMultiSamplingSupported;
 }

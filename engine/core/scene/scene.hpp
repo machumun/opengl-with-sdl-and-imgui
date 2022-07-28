@@ -6,6 +6,8 @@
 #include "../components/camera.hpp"
 #include "../wrapper/sdl_wrapper.hpp"
 
+#include "../asset_manifest.hpp"
+
 #include <cereal/cereal.hpp>
 #include <cereal/types/map.hpp>
 #include <cereal/types/string.hpp>
@@ -49,6 +51,8 @@ namespace hid
         void update();
 
         virtual void render(const hid::Renderer &renderer) = 0;
+
+        virtual hid::AssetManifest getAssetManifest() = 0;
 
         void instantiate(std::unique_ptr<hid::Object> &&object);
         void instantiate(std::unique_ptr<hid::Object> &&object, const std::unique_ptr<hid::Object> &parent);

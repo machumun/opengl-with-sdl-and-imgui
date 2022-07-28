@@ -3,6 +3,8 @@
 #include "../../core/asset_manager.hpp"
 #include "../../core/asset_loader.hpp"
 
+#include "../../core/asset_manifest.hpp"
+
 #include "opengl_mesh.hpp"
 #include "opengl_pipeline.hpp"
 #include "opengl_texture.hpp"
@@ -41,19 +43,33 @@ namespace hid
             }
         }
 
-        void loadShader(const std::string &key, const std::pair<std::string, std::string> &shader) override
+        void loadShaders(const std::vector<std::pair<std::string, std::pair<std::string, std::string>>> &shaderPairs) override
         {
             static const std::string logTag{"hid::OpenGLAssetManager::loadShader"};
-            if (shaderCache.count(key) == 0)
+            for (const auto &shaderKey : shaderPairs)
             {
-                shaderCache.insert(std::pair(
-                    key,
-                    std::make_unique<hid::OpenGLShader>(shader.first, shader.second)));
+                const std::string key = shaderKey.first;
+                const std::string vert = shaderKey.second.first;
+                const std::string frag = shaderKey.second.second;
+
+                if (shaderCache.count(key) == 0)
+                {
+                    shaderCache.insert(std::pair(
+                        key,
+                        std::make_unique<hid::OpenGLShader>(vert, frag)));
+                }
+                else
+                {
+                    hid::log(logTag, "This shader has already been loaded.");
+                }
             }
-            else
-            {
-                hid::log(logTag, "This shader has already been loaded.");
-            }
+        }
+
+        void loadAssetManifest(const hid::AssetManifest &assetManifest) override
+        {
+            loadStaticMeshes(assetManifest.staticMeshs);
+            loadTextures(assetManifest.textures);
+            loadShaders(assetManifest.shaders);
         }
 
         hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const override

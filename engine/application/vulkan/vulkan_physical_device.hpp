@@ -12,9 +12,12 @@ namespace hid
         vk::SampleCountFlagBits getMultiSamplingLevel() const;
         uint32_t getMemoryTypeIndex(const uint32_t &filter, const vk::MemoryPropertyFlags &flags) const;
 
+        bool isShaderMultiSamplingSupported() const;
+
     private:
         const vk::PhysicalDevice physicalDevice;
         const vk::SampleCountFlagBits multiSamplingLevel;
         const vk::Format depthFormat;
+        const bool shaderMultiSamplingSupported;
     };
 }

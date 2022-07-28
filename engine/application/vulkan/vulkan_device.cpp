@@ -138,6 +138,14 @@ namespace
         // We also need to request the swapchain extension be activated as we will need to use a swapchain
         std::vector<const char *> extensionNames{VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
+        vk::PhysicalDeviceFeatures physicalDeviceFeatures;
+
+        // If shader based multisampling is available we will activate it.
+        if (physicalDevice.isShaderMultiSamplingSupported())
+        {
+            physicalDeviceFeatures.sampleRateShading = true;
+        }
+
         // Take the queue and extension name configurations and form the device creation definition.
         vk::DeviceCreateInfo deviceCreateInfo{
             vk::DeviceCreateFlags(),                        // Flags
@@ -147,7 +155,7 @@ namespace
             nullptr,                                        // Enabled layer names
             static_cast<uint32_t>(extensionNames.size()),   // Enabled extension count
             extensionNames.data(),                          // Enabled extension names
-            nullptr                                         // Physical device features
+            &physicalDeviceFeatures                         // Physical device features
         };
 
         // Create a logical device with all the configuration we collated.

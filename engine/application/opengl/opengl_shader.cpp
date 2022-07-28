@@ -45,8 +45,8 @@ namespace
         const std::string logTag("hid::OpenGLShader::createShaderProgram");
         hid::log(logTag, "Creating shader program for '" + vertShaderName + "->" + fragShaderName + "'");
 
-        const std::string vertexShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + vertShaderName + ".vert")};
-        const std::string fragmentShaderCode{hid::assets::loadTextFile("assets/shaders/opengl/" + fragShaderName + ".frag")};
+        const std::string vertexShaderCode{hid::assets::loadTextFile(vertShaderName)};
+        const std::string fragmentShaderCode{hid::assets::loadTextFile(fragShaderName)};
 
 #ifdef USING_GLES
         std::string vertexShaderSource{"#version 100\n" + vertexShaderCode};

@@ -130,9 +130,9 @@ namespace
 
 OpenGLPipeline::OpenGLPipeline()
 
-    : defferedLightingProgram{hid::OpenGLShader("framebuffer", "deffered_lighting")},
-      blurProgram{hid::OpenGLShader("framebuffer", "blur")},
-      framebufferProgram{hid::OpenGLShader("framebuffer", "framebuffer")},
+    : defferedLightingProgram{hid::OpenGLShader("assets/shaders/opengl/framebuffer.vert", "assets/shaders/opengl/deffered_lighting.frag")},
+      blurProgram{hid::OpenGLShader("assets/shaders/opengl/framebuffer.vert", "assets/shaders/opengl/blur.frag")},
+      framebufferProgram{hid::OpenGLShader("assets/shaders/opengl/framebuffer.vert", "assets/shaders/opengl/framebuffer.frag")},
 
       framebufferVAO{::createFramebufferVAO()},
       renderFBO{::createFBO()},

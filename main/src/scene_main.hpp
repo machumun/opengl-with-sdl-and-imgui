@@ -16,5 +16,7 @@ namespace hid
         void prepare() override;
 
         void render(const hid::Renderer& renderer) override;
+
+        hid::AssetManifest getAssetManifest() override;
     };
 } // namespace hid

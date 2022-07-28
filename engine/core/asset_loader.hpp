@@ -14,5 +14,5 @@ namespace hid::assets
     hid::Bitmap loadBitmap(const std::string &path);
     std::vector<char> loadBinaryFile(const std::string &path);
 
-    hid::GLTF loadGLTF(const std::string &path);
+    // hid::GLTF loadGLTF(const std::string &path);
 }

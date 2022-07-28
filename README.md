@@ -1,12 +1,15 @@
 # OpenGL With SDL and ImGui
 
-OpenGLとSDL、imguiを使ったグラフィクスエンジンです。  
+OpenGL(Vulkan)とSDL、imguiを使ったグラフィクスエンジンです。  
 シーンエディターの機能を備えています。
+
+Vulkanの動作が保証されていない物理デバイスではOpenGLでレンダリングされます。
 
 # Development Environment
 
 ``Windows10 Home``  
-``OpenGL 3.3``  
+``OpenGL 3.3``
+``Vulkan SDK 1.3.216.0``  
 ``VisualStudio 2022``  
 ``SDL2``  
 ``glew``  
