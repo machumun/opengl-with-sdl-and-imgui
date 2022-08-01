@@ -1,5 +1,9 @@
 #pragma once
 
+#include "vulkan_physical_device.hpp"
+#include "vulkan_device.hpp"
+#include "vulkan_render_context.hpp"
+
 #include "../../core/asset_manager.hpp"
 
 namespace hid
@@ -25,22 +29,14 @@ namespace hid
             // }
         }
 
-        void loadAssetManifest(const hid::AssetManifest &assetManifest) override {}
-
         void loadAssetManifest(const hid::VulkanPhysicalDevice &physicalDevice,
                                const hid::VulkanDevice &device,
-                               const hid::VulkanRenderContext &renderContext,
-                               const hid::AssetManifest &assetManifest)
-        {
-            // TODO: Load everything in the asset manifest.
-        }
+                               const std::unique_ptr<hid::VulkanRenderContext> &renderContext,
+                               const hid::AssetManifest &assetManifest);
 
         void reloadContextualAssets(const hid::VulkanPhysicalDevice &physicalDevice,
                                     const hid::VulkanDevice &device,
-                                    const hid::VulkanRenderContext &renderContext)
-        {
-            // TODO: Reload any context sensitive assets that are already cached.
-        }
+                                    const std::unique_ptr<hid::VulkanRenderContext> &renderContext);
 
         hid::StaticMesh *getStaticMesh(const std::string &staticMesh) const override
         {

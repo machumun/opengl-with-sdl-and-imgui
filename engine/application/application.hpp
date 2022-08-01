@@ -31,7 +31,7 @@ namespace hid
         virtual void render() = 0;
 
         // for singletong
-        static std::unique_ptr<hid::AssetManager> assetManager;
+        static hid::AssetManager *assetManager;
         static std::unique_ptr<hid::FileManager> fileManager;
         static std::unique_ptr<hid::InputManager> inputManager;
         static std::unique_ptr<hid::SceneManager> sceneManager;

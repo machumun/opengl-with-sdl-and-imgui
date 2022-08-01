@@ -23,7 +23,7 @@ namespace hid
         // virtual void loadShaders(const std::string &key, const std::pair<std::string, std::string> &shader) = 0;
         virtual void loadShaders(const std::vector<std::pair<std::string, std::pair<std::string, std::string>>> &shaderPairs) = 0;
 
-        virtual void loadAssetManifest(const hid::AssetManifest &assetManifest) = 0;
+        // virtual void loadAssetManifest(const hid::AssetManifest &assetManifest) = 0;
 
         virtual hid::Shader *getShader(const std::string &shader) const = 0;
         virtual hid::Texture *getTexture(const std::string &texture) const = 0;

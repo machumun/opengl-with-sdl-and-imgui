@@ -65,7 +65,7 @@ namespace hid
             }
         }
 
-        void loadAssetManifest(const hid::AssetManifest &assetManifest) override
+        void loadAssetManifest(const hid::AssetManifest &assetManifest)
         {
             loadStaticMeshes(assetManifest.staticMeshs);
             loadTextures(assetManifest.textures);

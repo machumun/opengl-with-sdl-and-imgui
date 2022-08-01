@@ -1,12 +1,15 @@
 #include "vulkan_context.hpp"
 #include "vulkan_common.hpp"
 
+#include "vulkan_application.hpp"
+
 #include "../../core/log.hpp"
 
 #include <string>
 #include <vector>
 #include <set>
 
+using hid::VulkanApplication;
 using hid::VulkanContext;
 
 namespace
@@ -16,20 +19,16 @@ namespace
         std::vector<std::string> result;
 
 #ifndef NDEBUG
-        // If we are in a debug build we will cultivate a list of validation layers.
         static const std::string logTag{"hid::VulkanContext::getDesiredValidationLayers"};
 
-        // Collate which validations layers we are interested in applying if they are available.
         std::set<std::string> desiredLayers{"VK_LAYER_KHRONOS_validation"};
 
-        // Iterate all the available layers for the current device.
         for (auto const &properties : vk::enumerateInstanceLayerProperties())
         {
             std::string layerName = properties.layerName;
 
             hid::log(logTag, "Available layer: " + layerName);
 
-            // If we are interested in this layer, add it to the result list.
             if (desiredLayers.count(layerName))
             {
                 hid::log(logTag, "*** Found desired layer: " + layerName);
@@ -111,7 +110,12 @@ void VulkanContext::setup(std::shared_ptr<hid::SceneData> sceneData)
 void VulkanContext::recreateRenderContext()
 {
     device.getDevice().waitIdle();
+
     renderContext = renderContext->recreate(window, physicalDevice, device, surface, commandPool);
+
+    VulkanApplication::vulkanAssetManager->reloadContextualAssets(physicalDevice,
+                                                                  device,
+                                                                  renderContext);
 }
 
 bool VulkanContext::renderBegin()
@@ -131,4 +135,12 @@ void VulkanContext::renderEnd()
     {
         recreateRenderContext();
     }
+}
+
+void VulkanContext::loadAssetManifest(const hid::AssetManifest &assetManifest)
+{
+    VulkanApplication::vulkanAssetManager->loadAssetManifest(physicalDevice,
+                                                             device,
+                                                             renderContext,
+                                                             assetManifest);
 }

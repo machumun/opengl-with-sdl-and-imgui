@@ -42,24 +42,18 @@ namespace
                                                const vk::Image &image,
                                                const vk::MemoryPropertyFlags &memoryFlags)
     {
-        // Discover what the memory requirements are for the specified image configuration.
         vk::MemoryRequirements memoryRequirements{device.getImageMemoryRequirements(image)};
 
-        // Query the physical device to determine where to find the memory type the image requires.
         uint32_t memoryTypeIndex{physicalDevice.getMemoryTypeIndex(memoryRequirements.memoryTypeBits, memoryFlags)};
 
-        // Form a configuration to model what kind of memory to allocate.
         vk::MemoryAllocateInfo info{
             memoryRequirements.size, // Allocation size
             memoryTypeIndex};        // Memory type index
 
-        // Request that the logical device allocate memory for our configuration.
         vk::UniqueDeviceMemory deviceMemory{device.allocateMemoryUnique(info)};
 
-        // Bind the image to the allocated memory to associate them with each other.
         device.bindImageMemory(image, deviceMemory.get(), 0);
 
-        // Give back the allocated memory.
         return deviceMemory;
     }
 
@@ -69,12 +63,9 @@ namespace
                                       const vk::PipelineStageFlags &destinationStageFlags,
                                       const vk::ImageMemoryBarrier &barrier)
     {
-        // Obtain a new command buffer than has been started.
+
         vk::UniqueCommandBuffer commandBuffer{commandPool.beginCommandBuffer(device)};
 
-        // Issue a 'pipeline barrier' command, using the image memory barrier as configuration
-        // and the source / destination stage flags to determine where in the graphics pipeline
-        // to apply the command.
         commandBuffer->pipelineBarrier(
             sourceStageFlags,
             destinationStageFlags,
@@ -83,7 +74,6 @@ namespace
             0, nullptr,
             1, &barrier);
 
-        // End the command buffer, causing it to be run.
         commandPool.endCommandBuffer(commandBuffer.get(), device);
     }
 
@@ -95,8 +85,6 @@ namespace
                           const vk::ImageLayout &oldLayout,
                           const vk::ImageLayout &newLayout)
     {
-        // Create a barrier with sensible defaults - some properties will change
-        // depending on the old -> new layout combinations.
         vk::ImageMemoryBarrier barrier;
         barrier.image = image;
         barrier.oldLayout = oldLayout;
@@ -107,7 +95,6 @@ namespace
         barrier.subresourceRange.baseArrayLayer = 0;
         barrier.subresourceRange.layerCount = 1;
 
-        // Scenario: undefined -> color attachment optimal
         if (oldLayout == vk::ImageLayout::eUndefined && newLayout == vk::ImageLayout::eColorAttachmentOptimal)
         {
             barrier.dstAccessMask = vk::AccessFlagBits::eDepthStencilAttachmentRead | vk::AccessFlagBits::eDepthStencilAttachmentWrite;
@@ -120,7 +107,6 @@ namespace
                                                   barrier);
         }
 
-        // An unknown combination might mean we need to add a new scenario to handle it.
         throw std::runtime_error("hid::VulkanImage::transitionLayout: Unsupported 'old' and 'new' image layout combination.");
     }
 

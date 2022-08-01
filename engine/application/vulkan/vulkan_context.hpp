@@ -13,6 +13,8 @@
 
 #include "../../core/renderer.hpp"
 
+#include "../../core/asset_manifest.hpp"
+
 namespace hid
 {
     struct VulkanContext : public hid::Renderer
@@ -25,6 +27,8 @@ namespace hid
         bool renderBegin();
         void renderEnd();
         void recreateRenderContext();
+
+        void loadAssetManifest(const hid::AssetManifest &assetManifest);
 
     private:
         const vk::UniqueInstance instance;

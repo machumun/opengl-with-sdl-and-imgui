@@ -27,5 +27,7 @@ namespace hid
 
         std::unique_ptr<hid::OpenGLRenderer> renderer;
         std::unique_ptr<hid::OpenGLImGui> imgui;
+
+        static std::unique_ptr<hid::OpenGLAssetManager> openglAssetManager;
     };
 }

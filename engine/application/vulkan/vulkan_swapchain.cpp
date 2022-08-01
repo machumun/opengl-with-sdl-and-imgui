@@ -13,7 +13,6 @@ namespace
     {
         static const std::string logTag{"hid::VulkanSwapchain::getFormat"};
 
-        // We need to make sure that there is at least one surface format compatible with our surface.
         std::vector<vk::SurfaceFormatKHR> availableSurfaceFormats{
             physicalDevice.getPhysicalDevice().getSurfaceFormatsKHR(surface.getSurface())};
 
@@ -24,17 +23,14 @@ namespace
             throw std::runtime_error(logTag + ": No compatible surface formats found.");
         }
 
-        // Take the first format as a 'default'.
         vk::SurfaceFormatKHR defaultFormat{availableSurfaceFormats[0]};
 
-        // If there is only one surface with an undefined format, we will manually choose one.
         if (availableFormatCount == 1 && defaultFormat.format == vk::Format::eUndefined)
         {
             hid::log(logTag, "Surface format is undefined: defaulting to eSrgbNonlinear + eR8G8B8Unorm.");
             return VulkanSwapchainFormat{vk::ColorSpaceKHR::eSrgbNonlinear, vk::Format::eR8G8B8Unorm};
         }
 
-        // We will look through the available formats, attempting to prefer the eR8G8B8Unorm type.
         for (const auto &availableFormat : availableSurfaceFormats)
         {
             if (availableFormat.format == vk::Format::eR8G8B8Unorm)
@@ -44,7 +40,6 @@ namespace
             }
         }
 
-        // Otherwise we will just have to use the first available format.
         hid::log(logTag, "Surface format eR8G8B8Unorm not found, using default available format.");
         return VulkanSwapchainFormat{defaultFormat.colorSpace, defaultFormat.format};
     }
@@ -54,7 +49,6 @@ namespace
     {
         static const std::string logTag{"hid::VulkanSwapchain::getPresentationMode"};
 
-        // We need to make sure that there is at least one presentation mode compatible with our surface.
         std::vector<vk::PresentModeKHR> availableModes{
             physicalDevice.getPhysicalDevice().getSurfacePresentModesKHR(surface.getSurface())};
 
@@ -63,8 +57,6 @@ namespace
             throw std::runtime_error(logTag + ": No compatible present modes found.");
         }
 
-        // Load up the presentation modes into a stack so they are popped
-        // in our preferred order for evaluation.
         std::stack<vk::PresentModeKHR> preferredModes;
         preferredModes.push(vk::PresentModeKHR::eImmediate);
         preferredModes.push(vk::PresentModeKHR::eFifoRelaxed);
@@ -73,20 +65,16 @@ namespace
 
         while (!preferredModes.empty())
         {
-            // Take the mode at the top of the stack and see if the list of available modes contains it.
             vk::PresentModeKHR mode{preferredModes.top()};
 
             if (std::find(availableModes.begin(), availableModes.end(), mode) != availableModes.end())
             {
-                // If we find the current preferred presentation mode, we are done.
                 return mode;
             }
 
-            // If our preferred mode is not found, pop the stack ready for the next iteration.
             preferredModes.pop();
         }
 
-        // None of our preferred presentation modes were found, can't go further...
         throw std::runtime_error(logTag + ": No compatible presentation modes found.");
     }
 
@@ -111,17 +99,12 @@ namespace
         const vk::SurfaceTransformFlagBitsKHR &transform,
         const vk::SwapchainKHR &oldSwapchain)
     {
-        // Grab the capabilities of the current physical device in relation to the surface.
         vk::SurfaceCapabilitiesKHR surfaceCapabilities{
             physicalDevice.getPhysicalDevice().getSurfaceCapabilitiesKHR(surface.getSurface())};
 
-        // We will pick a minimum image count of +1 to the minimum supported on the device.
         uint32_t minimumImageCount{surfaceCapabilities.minImageCount + 1};
         uint32_t maxImageCount{surfaceCapabilities.maxImageCount};
 
-        // Make sure our image count doesn't exceed any maximum if there is one.
-        // Note: The Vulkan docs state that a value of 0 doesn't mean there is
-        // a limit of 0, it means there there is no limit.
         if (maxImageCount > 0 && minimumImageCount > maxImageCount)
         {
             minimumImageCount = maxImageCount;
@@ -145,9 +128,6 @@ namespace
             VK_TRUE,                                  // Clipped
             oldSwapchain};                            // Old swapchain
 
-        // If our device has a discrete presentation queue, we must specify
-        // that swapchain images are permitted to be shared between both
-        // the graphics and presentation queues.
         if (device.hasDiscretePresentationQueue())
         {
             std::array<uint32_t, 2> queueIndices{

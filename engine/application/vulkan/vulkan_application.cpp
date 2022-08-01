@@ -24,13 +24,17 @@ void VulkanApplication::render()
 
 void VulkanApplication::start() {}
 
+std::unique_ptr<hid::VulkanAssetManager> VulkanApplication::vulkanAssetManager = nullptr;
+
 void VulkanApplication::setup()
 {
-
     // SDL_GL_SetSwapInterval(0);
-    assetManager = std::make_unique<hid::VulkanAssetManager>();
-    assetManager->loadStandardStaticMeshes();
+    vulkanAssetManager = std::make_unique<hid::VulkanAssetManager>();
+    Application::assetManager = vulkanAssetManager.get();
+
+    vulkanAssetManager->loadStandardStaticMeshes();
 
     ////
     currentScene = std::make_unique<hid::SceneMain>();
+    context.loadAssetManifest(Application::currentScene->getAssetManifest());
 }

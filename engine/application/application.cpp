@@ -16,16 +16,14 @@ using hid::Application;
 namespace
 {
 #ifdef EMSCRIPTEN
-
     void emscriptenMainLoop(hid::Application *application)
     {
         application->runMainLoop();
     }
-
 #endif
 } // namespace
 
-std::unique_ptr<hid::AssetManager> Application::assetManager = nullptr;
+hid::AssetManager *Application::assetManager = nullptr;
 std::unique_ptr<hid::FileManager> Application::fileManager{std::make_unique<hid::FileManager>()};
 std::unique_ptr<hid::InputManager> Application::inputManager{std::make_unique<hid::InputManager>()};
 std::unique_ptr<hid::SceneManager> Application::sceneManager{std::make_unique<hid::SceneManager>()};

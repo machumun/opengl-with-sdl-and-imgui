@@ -192,13 +192,11 @@ VulkanRenderContext::VulkanRenderContext(
 
 bool VulkanRenderContext::renderBegin(const hid::VulkanDevice &device)
 {
-  // Get the appropriate graphics fence and semaphore for the current render frame.
   const vk::Fence &graphicsFence{graphicsFences[currentFrameIndex].get()};
   const vk::Semaphore &graphicsSemaphore{graphicsSemaphores[currentFrameIndex].get()};
 
   try
   {
-    // Attempt to acquire the next swapchain image index to target.
     currentSwapchainImageIndex = ::acquireNextImageIndex(device.getDevice(),
                                                          swapchain.getSwapchain(),
                                                          graphicsFence,
@@ -206,27 +204,21 @@ bool VulkanRenderContext::renderBegin(const hid::VulkanDevice &device)
   }
   catch (vk::OutOfDateKHRError outOfDateError)
   {
-    // We cannot render with the current swapchain - it needs to be recreated.
     return false;
   }
 
-  // Grab the command buffer to use for the current swapchain image index.
   const vk::CommandBuffer &commandBuffer{commandBuffers[currentSwapchainImageIndex].get()};
 
-  // Reset the command buffer to a fresh state.
   commandBuffer.reset(vk::CommandBufferResetFlagBits::eReleaseResources);
 
-  // Begin the command buffer.
   vk::CommandBufferBeginInfo commandBufferBeginInfo{vk::CommandBufferUsageFlagBits::eOneTimeSubmit, nullptr};
   commandBuffer.begin(&commandBufferBeginInfo);
 
-  // Configure the scissor.
   commandBuffer.setScissor(
       0,         // Which scissor to start at
       1,         // How many scissors to apply
       &scissor); // Scissor data
 
-  // Configure the viewport.
   commandBuffer.setViewport(
       0,          // Which viewport to start at
       1,          // How many viewports to apply
@@ -239,17 +231,14 @@ bool VulkanRenderContext::renderBegin(const hid::VulkanDevice &device)
       2,                                              // Clear value count
       clearValues.data()};                            // Clear values
 
-  // Record the begin render pass command.
   commandBuffer.beginRenderPass(&renderPassBeginInfo, vk::SubpassContents::eInline);
   return true;
 }
 
 bool VulkanRenderContext::renderEnd(const hid::VulkanDevice &device)
 {
-  // Grab the command buffer to use for the current swapchain image index.
   const vk::CommandBuffer &commandBuffer{commandBuffers[currentSwapchainImageIndex].get()};
 
-  // Request the command buffer to end its recording phase.
   commandBuffer.endRenderPass();
   commandBuffer.end();
 
@@ -258,7 +247,6 @@ bool VulkanRenderContext::renderEnd(const hid::VulkanDevice &device)
   const vk::Semaphore &presentationSemaphore{presentationSemaphores[currentFrameIndex].get()};
   const vk::PipelineStageFlags pipelineStageFlags{vk::PipelineStageFlagBits::eColorAttachmentOutput};
 
-  // Build a submission object for the graphics queue to process.
   vk::SubmitInfo submitInfo{
       1,                       // Wait semaphore count
       &graphicsSemaphore,      // Wait semaphores
@@ -268,10 +256,8 @@ bool VulkanRenderContext::renderEnd(const hid::VulkanDevice &device)
       1,                       // Signal semaphore count
       &presentationSemaphore}; // Signal semaphores
 
-  // Submit our command buffer and configuration to the graphics queue.
   device.getGraphicsQueue().submit(1, &submitInfo, graphicsFence);
 
-  // Construct an info object to describe what to present to the screen.
   vk::PresentInfoKHR presentationInfo{
       1,                           // Semaphore count
       &presentationSemaphore,      // Wait semaphore
@@ -282,9 +268,7 @@ bool VulkanRenderContext::renderEnd(const hid::VulkanDevice &device)
 
   try
   {
-    // Attempt to submit our graphics output to the presentation queue for display.
-    // If we receive an out of date error, or the result comes back as sub optimal
-    // we will return false as it indicates our swapchain should be recreated.
+
     if (device.getPresentationQueue().presentKHR(presentationInfo) == vk::Result::eSuboptimalKHR)
     {
       return false;
@@ -297,7 +281,6 @@ bool VulkanRenderContext::renderEnd(const hid::VulkanDevice &device)
 
   device.getPresentationQueue().waitIdle();
 
-  // Increment our current frame index, wrapping it when it hits our maximum.
   currentFrameIndex = (currentFrameIndex + 1) % maxRenderFrames;
 
   return true;

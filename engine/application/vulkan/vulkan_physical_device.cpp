@@ -28,7 +28,6 @@ namespace
                 vk::PhysicalDevice &nextDevice{devices[i]};
                 vk::PhysicalDeviceProperties nextProperties{nextDevice.getProperties()};
 
-                // If we find a device with a discrete GPU, then choose it and we are done.
                 if (nextProperties.deviceType == vk::PhysicalDeviceType::eDiscreteGpu)
                 {
                     selectedDevice = nextDevice;
@@ -76,7 +75,6 @@ namespace
 
         while (!preferredSampleCounts.empty())
         {
-            // Take the sample count at the top of the stack and see if it is supported.
             vk::SampleCountFlagBits sampleCount{preferredSampleCounts.top()};
 
             if (supportedSampleCounts & sampleCount)
@@ -84,11 +82,9 @@ namespace
                 return sampleCount;
             }
 
-            // If our preferred sample count is not found, pop the stack ready for the next iteration.
             preferredSampleCounts.pop();
         }
 
-        // If none of our sample counts is found, multi sampling is not supported on this device ...
         throw std::runtime_error(logTag + ": Multi sampling not supported.");
     }
 
@@ -110,21 +106,17 @@ namespace
                                 const uint32_t &filter,
                                 const vk::MemoryPropertyFlags &flags)
     {
-        // Fetch all the memory properties of the physical device.
         vk::PhysicalDeviceMemoryProperties memoryProperties{physicalDevice.getMemoryProperties()};
 
-        // Loop through each of the memory type fields in the properties.
         for (uint32_t index = 0; index < memoryProperties.memoryTypeCount; index++)
         {
-            // If the current memory type is available and has all the property flags required, we
-            // have found a position in the physical device memory indices that is compatible.
+
             if ((filter & (1 << index)) && (memoryProperties.memoryTypes[index].propertyFlags & flags) == flags)
             {
                 return index;
             }
         }
 
-        // If no memory type could be found that meets our criteria we can't proceed.
         throw std::runtime_error("ast::VulkanImage::getMemoryTypeIndex: Failed to find suitable memory type.");
     }
 

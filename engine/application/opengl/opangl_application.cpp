@@ -77,18 +77,22 @@ void OpenGLApplication::render()
     SDL_GL_SwapWindow(window.getWindow());
 }
 
+std::unique_ptr<hid::OpenGLAssetManager> OpenGLApplication::openglAssetManager = nullptr;
+
 void OpenGLApplication::setup()
 {
 
     // SDL_GL_SetSwapInterval(0);
-    assetManager = std::make_unique<hid::OpenGLAssetManager>();
-    assetManager->loadStandardStaticMeshes();
+    openglAssetManager = std::make_unique<hid::OpenGLAssetManager>();
+    Application::assetManager = openglAssetManager.get();
+
+    openglAssetManager->loadStandardStaticMeshes();
 
     ////
     currentScene = std::make_unique<hid::SceneMain>();
-    assetManager->loadAssetManifest(currentScene->getAssetManifest());
     ////
 
+    openglAssetManager->loadAssetManifest(currentScene->getAssetManifest());
     layout = std::make_unique<hid::Layout>(currentScene->sceneData);
 }
 

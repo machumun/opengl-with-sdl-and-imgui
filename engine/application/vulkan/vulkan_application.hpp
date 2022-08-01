@@ -24,6 +24,8 @@ namespace hid
         void render() override;
         void setup() override;
 
+        static std::unique_ptr<hid::VulkanAssetManager> vulkanAssetManager;
+
     private:
         hid::VulkanContext context;
     };
