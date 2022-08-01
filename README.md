@@ -40,10 +40,10 @@ Vulkanの動作が保証されていない物理デバイスではOpenGLでレ�
 # Feature And Plan
 
 * クロスプラットフォーム
-  * Windows10, macOS, iOS, Android, Webをビルドターゲットとして想定しているので、SDL2とOpenGLの組み合わせを用いています。
+  * Windows10, macOS, iOS, Android, Webをビルドターゲットとして想定しているので、SDL2とOpenGL(Vulkan)の組み合わせを用いています。
 * 設計
   * ゲームを作る段階で困らないように、明快なAPI、抽象化を心がけています。
-* 今後やりたいこと
+* 今後実装予定のこと
   * ゲームシーンの保存
   * シャドウマップの実装。
   * バッチレンダリングの実装。

@@ -27,7 +27,20 @@ namespace
     vk::UniquePipelineLayout createPipelineLayout(const hid::VulkanDevice &device,
                                                   const vk::DescriptorSetLayout &descriptorSetLayout)
     {
-        // TODO: Implement me.
+        vk::PushConstantRange pushConstantRange{
+            vk::ShaderStageFlagBits::eAllGraphics, // Flags
+            0,                                     // Offset
+            sizeof(glm::mat4)};                    // Size
+
+        vk::PipelineLayoutCreateInfo info{
+            vk::PipelineLayoutCreateFlags(), // Flags
+            1,                               // Layout count
+            &descriptorSetLayout,            // Layouts,
+            1,                               // Push constant range count,
+            &pushConstantRange               // Push constant ranges
+        };
+
+        return device.getDevice().createPipelineLayoutUnique(info);
     }
 
     vk::UniquePipeline createPipeline(const hid::VulkanPhysicalDevice &physicalDevice,
