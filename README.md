@@ -50,7 +50,7 @@ Vulkanの動作が保証されていない物理デバイスではOpenGLでレ�
 * 課題
   * モデルをレンダリングするプロセスが最善ではないので、設計を模索しています。
 
-# Installation
+<!-- # Installation
 
 ## windows
 ① 必要な構成を``/engine/third_party``フォルダにインストールします。
@@ -66,4 +66,4 @@ Visual Studioで  ``${プロジェクトのルートフォルダ}/engine/build_t
 ③　必要なライブラリを.exeフォルダと同じ階層にコピーして、アセットフォルダのシンボリックリンクを作成してセットアップは完了です。
 ```powershell
 $ ./cmake-post-build.ps1
-```
+``` -->
