@@ -299,3 +299,18 @@ std::unique_ptr<hid::VulkanRenderContext> VulkanRenderContext::recreate(const hi
                                                     commandPool,
                                                     swapchain.getSwapchain());
 }
+
+const vk::Viewport &VulkanRenderContext::getViewport() const
+{
+  return viewport;
+}
+
+const vk::Rect2D &VulkanRenderContext::getScissor() const
+{
+  return scissor;
+}
+
+const vk::RenderPass &VulkanRenderContext::getRenderPass() const
+{
+  return renderPass.getRenderPass();
+}

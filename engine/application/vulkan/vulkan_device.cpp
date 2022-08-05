@@ -162,6 +162,16 @@ namespace
 
         return fences;
     }
+
+    vk::UniqueShaderModule createShaderModule(const vk::Device &device, const std::vector<char> &shaderCode)
+    {
+        vk::ShaderModuleCreateInfo info{
+            vk::ShaderModuleCreateFlags(),
+            shaderCode.size(),
+            reinterpret_cast<const uint32_t *>(shaderCode.data())};
+
+        return device.createShaderModuleUnique(info);
+    }
 }
 
 VulkanDevice::VulkanDevice(const hid::VulkanPhysicalDevice &physicalDevice,
@@ -209,4 +219,9 @@ std::vector<vk::UniqueFence> VulkanDevice::createFences(const uint32_t &count) c
 const vk::Queue &VulkanDevice::getPresentationQueue() const
 {
     return presentationQueue;
+}
+
+vk::UniqueShaderModule VulkanDevice::createShaderModule(const std::vector<char> &shaderCode) const
+{
+    return ::createShaderModule(device.get(), shaderCode);
 }

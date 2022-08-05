@@ -33,6 +33,12 @@ namespace hid
                                                            const hid::VulkanSurface &surface,
                                                            const hid::VulkanCommandPool &commandPool);
 
+        const vk::Viewport &getViewport() const;
+
+        const vk::Rect2D &getScissor() const;
+
+        const vk::RenderPass &getRenderPass() const;
+
     private:
         const hid::VulkanSwapchain swapchain;
         const hid::VulkanRenderPass renderPass;
