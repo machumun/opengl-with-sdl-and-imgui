@@ -3,6 +3,9 @@
 #include "vulkan_physical_device.hpp"
 #include "vulkan_device.hpp"
 #include "vulkan_render_context.hpp"
+#include "vulkan_pipeline.hpp"
+
+#include <unordered_map>
 
 #include "../../core/asset_manager.hpp"
 
@@ -55,5 +58,8 @@ namespace hid
             // return shaderCache.at(shader).get();
             return nullptr;
         }
+        
+        private:
+        std
     };
 }
