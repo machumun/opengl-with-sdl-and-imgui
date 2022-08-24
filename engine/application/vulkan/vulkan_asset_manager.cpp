@@ -31,9 +31,7 @@ void VulkanAssetManager::loadAssetManifest(const hid::VulkanPhysicalDevice &phys
 {
     for (const auto &shader : assetManifest.shaders)
     {
-        // if ()
-        // {
-        // }
+
     }
 }
 
